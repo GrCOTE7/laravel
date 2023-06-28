@@ -35,5 +35,7 @@
     {{-- @foreach ($data as $user)
         {{ $user->name }}<br>
     @endforeach --}}
+    <br><br>
 
+    <button>Send Email</button>
 @endsection
