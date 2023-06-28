@@ -1,1 +1,46 @@
-body{font-size:1.2rem;font-family:'Comic Sans MS',arial,serif;background-color:beige}hr{color:red;background-color:#00f;margin:3px 0;padding:0}footer,nav{width:97%;padding:5px 0;margin:0 auto}main{padding:10px 20px 20px}.is-active,.nav-menu{transition:all 1s ease-in-out 1s;background-color:red}.red{color:red}mark{padding:0 3px;border-radius:4px}button,input{font-size:16px;margin:3px 0;padding:5px 8px;border-radius:4px}
+body {
+    font-size: 1.2rem;
+    font-family: 'Comic Sans MS', arial, serif;
+    background-color: beige
+}
+
+hr {
+    color: red;
+    background-color: #00f;
+    margin: 3px 0;
+    padding: 0
+}
+
+footer,
+nav {
+    width: 97%;
+    padding: 5px 0;
+    margin: 0 auto
+}
+
+main {
+    padding: 10px 20px 20px
+}
+
+.is-active,
+.nav-menu {
+    transition: all 1s ease-in-out 1s;
+    background-color: red
+}
+
+.red {
+    color: red
+}
+
+mark {
+    padding: 0 3px;
+    border-radius: 4px
+}
+
+button,
+input {
+    font-size: 16px;
+    margin: 3px 0;
+    padding: 5px 8px;
+    border-radius: 4px
+}

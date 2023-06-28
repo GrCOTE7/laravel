@@ -14,7 +14,8 @@ class MyController extends Controller {
 		// Storage::disk('public')->put('recettes2.txt', 'Contenu du fichier');
 		date_default_timezone_set('Europe/Paris');
 
-        $date= Carbon::now()->locale('fr_FR');
+        // $date= Carbon::now()->locale('fr_FR');
+        $date= Carbon::now()->locale('de');
 
 		define('DATA', $data ?? ucfirst($date->isoFormat('LLLL')));
 		return view('test')->withDataSend(DATA);
