@@ -14,7 +14,7 @@
         <div class="field">
             <label class="label">Email</label>
             <div class="control">
-                <input class="input" type="email" placeholder="e.g. alex@example.com">
+                <input class="input" type="email" placeholder="my@example.com">
             </div>
         </div>
 
