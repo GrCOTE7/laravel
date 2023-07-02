@@ -23,6 +23,6 @@ class MyController extends Controller {
 
 	public function users($id = null) {
 		$users = User::all();
-		return view('test', ['data'=> $users]);
+		return view('test', ['dataSend'=> $users]);
 	}
 }
