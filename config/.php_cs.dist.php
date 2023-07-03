@@ -22,7 +22,7 @@ return (new PhpCsFixer\Config())
 		'braces'                   => true,
 		'indentation_type'         => true,
 
-		'no_blank_lines_before_namespace'    => true,
+		'no_blank_lines_before_namespace'    => false,
 		'no_blank_lines_after_class_opening' => true,
 		'no_blank_lines_after_phpdoc'        => true,
 		'no_extra_blank_lines'               => [
