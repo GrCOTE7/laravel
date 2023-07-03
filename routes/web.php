@@ -14,3 +14,4 @@ Route::get('mail', [MailController::class, 'index'])
 Route::post('mail', [MailController::class, 'send']);
 Route::get('test', [TestController::class, 'index'])
 ->name('test.index');
+Route::post('test', [TestController::class, 'store']);

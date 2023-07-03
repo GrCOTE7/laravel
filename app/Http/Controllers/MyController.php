@@ -8,6 +8,7 @@ use Illuminate\View\View;
 class MyController extends Controller {
 
 	public function index(mixed $data = null): View {
+        session(['maVar'=> null]);
 		$var = config('app.name');
 		// var_dump($var);
 
