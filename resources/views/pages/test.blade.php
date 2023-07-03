@@ -5,6 +5,5 @@
 
 @section('main')
     <h1>Test</h1>
-
-    {{ $maVar ?? 'maVar is empty' }}
+    <p>maVar = {{ $maVar ?? 'Empty' }}</p>
 @endsection

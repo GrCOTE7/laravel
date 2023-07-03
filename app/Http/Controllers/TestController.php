@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class TestController extends Controller
 {
     public function index(){
-        $maVar = 'Oki';
+        $maVar = null;
         return view('pages.test', compact ('maVar'));
     }
 }
