@@ -15,6 +15,9 @@ Route::post('mail', [MailController::class, 'send']);
 Route::get('test', [TestController::class, 'index'])
 	->name('test.index');
 Route::post('test', [TestController::class, 'store']);
+// Route::get('test2', function(){
+//     return response('Un test', 206)->header('Content-Type', 'text/plain');
+// });
 
 use Illuminate\Support\Facades\Route;
 
