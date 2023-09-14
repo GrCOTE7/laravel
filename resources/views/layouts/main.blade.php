@@ -8,7 +8,7 @@
     <title>@yield('title') | L10Vite</title>
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
     @vite([
-        './resources/css/app.css',
+        './resources/css/app.scss',
         // './public/assets/css/semantic.min.css',
         // './public/assets/js/jquery363.min.js',
         // './public/assets/js/semantic.min.js',

@@ -9,10 +9,10 @@ class ImagesRequest extends FormRequest
 	/**
 	 * Determine if the user is authorized to make this request.
 	 */
-	public function authorize(): bool
-	{
-		return true;
-	}
+	// public function authorize(): bool
+	// {
+	// 	return true;
+	// }
 
 	/**
 	 * Get the validation rules that apply to the request.
@@ -22,7 +22,7 @@ class ImagesRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-            'image' => 'required|image|dimensions:min_width=100,min_height=100'
-        ];
+			'image' => 'required|image|dimensions:min_width=100,min_height=100',
+		];
 	}
 }
