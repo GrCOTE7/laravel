@@ -1,1 +1,2 @@
-import"./bootstrap";document.addEventListener("DOMContentLoaded",()=>{});
+import "./bootstrap";
+document.addEventListener("DOMContentLoaded", () => { });

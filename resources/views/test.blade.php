@@ -11,6 +11,14 @@
         I'm in <mark>a box</mark>.
     </div><br>
 
+    @auth
+    // The user is authenticated...
+    @endauth
+
+    @guest
+    // The user is not authenticated...
+    @endguest
+
     <form class="box">
         <div class="field">
             <label class="label">Email</label>
