@@ -4,9 +4,9 @@ Test
 @endsection
 
 @section('main')
-<br>
+
 <div class="container">
-    @php
+    {{-- @php
         use App\Models\User;
         use App\Models\Location;
 
@@ -17,8 +17,8 @@ Test
         foreach ($locations as $location) {
             echo $location->name.'<br>';
         }
-    @endphp
+    @endphp --}}
 
-        <h1>Import: {{ $rep }}</h1>
+        <h1>Import: {!! $data !!}</h1>
     </div>
 @endsection

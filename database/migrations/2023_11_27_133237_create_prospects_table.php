@@ -12,12 +12,18 @@ return new class() extends Migration {
 	{
 		Schema::create('prospects', function (Blueprint $table) {
 			$table->engine = 'InnoDB';
+
 			$table->bigIncrements('id')->unsigned();
 			$table->string('location')->nullable();
 			$table->string('source')->nullable();
-            $table->timestamp('publish_at')->nullable();
-			$table->string('owner')->nullable();
+            $table->timestamp('published_at')->nullable();
+			$table->string('add_links')->nullable();
+			$table->string('add_image')->nullable();
+
+            $table->string('owner')->nullable();
+
 			$table->string('phone')->nullable();
+
 			$table->integer('property_price')->nullable()->unsigned();
 			$table->smallInteger('property_pieces')->nullable()->unsigned();
 			$table->smallInteger('property_bedrooms')->nullable()->unsigned();
@@ -26,9 +32,9 @@ return new class() extends Migration {
 			$table->integer('land')->nullable()->unsigned();
 			$table->string('dpe')->nullable();
 			$table->text('details')->nullable();
+
 			$table->text('exchanges')->nullable();
 			$table->dateTime('last_contact')->nullable();
-			$table->dateTime('inbound')->nullable();
 			$table->timestamp('deleted_at')->nullable();
 			$table->timestamp('created_at')->default(now());
 			$table->timestamp('updated_at')->default(now());

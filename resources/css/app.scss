@@ -1,5 +1,5 @@
 body {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-family: 'Comic Sans MS', arial, serif;
     background-color: beige
 }
@@ -60,4 +60,14 @@ button {
 
 .justify {
     text-align: justify
+}
+
+td {
+    font-family: arial;
+    font-size: 1rem;
+    // text-align: right;
+    padding-right: 10px;
+    & a {
+        text-decoration: none;
+    }
 }

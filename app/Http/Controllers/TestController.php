@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\importOwnerManagerController;
+
 class TestController extends Controller
 {
 	public function index()
 	{
-		$maVar = session('maVar');
+        // $newDates = new importDateManagerController;
+        // $newDates->index();
+        $newOwner = new importOwnerManagerController;
+        $myVar = $newOwner->index();
 
-		return view('pages.test', compact('maVar'));
-	}
-
-	public function store()
-	{
-		session(['maVar' => 123]);
-
-		// return to_route('test.index');
-		return back();
+		return view('pages.test', compact('myVar'));
 	}
 }
