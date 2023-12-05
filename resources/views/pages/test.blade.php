@@ -5,7 +5,7 @@
 
 @section('main')
     <h1>Test</h1>
-    <p>{!! $myVar ?? 'Empty' !!}</p>
+    <p>{!! $data ?? '$data is empty' !!}</p>
     {{-- <form action="" method="POST">
         @csrf
         <button>Set Session Var</button>
