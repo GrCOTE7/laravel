@@ -6,11 +6,93 @@ class TestIA
 {
 	private $apiKey;
 
-	private $test = 1;
+	private $ad;
+
+	private $realAskAI;
+
+	private $aff;
+
+	public function __construct(array $ad, ?int $realAskAI = 0, ?int $aff = 0)
+	{
+		$this->ad        = $ad;
+		$this->realAskAI = $realAskAI;
+		$this->aff       = $aff;
+	}
 
 	public function index()
 	{
-		return $this->whatIsEncens();
+		// return $this->realPrompt();
+		// return $this->whatIsCompletion();
+		return $this->getProperty();
+		// return $this->answerAnalysis();
+	}
+
+	public function getProperty()
+	{
+		$prompt = $this->realPrompt($this->ad);
+
+		// Gc7::aff($prompt);
+		// Gc7::aff($this->ad);
+
+		// $this->askAI($prompt);
+		$propertyString = $this->askAI($prompt);
+		// Gc7::aff($propertyString);
+        return $this->answerAnalysis($propertyString);
+	}
+
+	private function answerAnalysis($propertyString)
+	{
+		// Réc réponse
+		// $answer = json_decode(file_get_contents('./../storage/app/ia/adAnswerAIExemple.json')); // Object
+
+		// Gc7::aff($answer);
+		// Rec champs de rép
+		// $response2 = [$answer->choices[0]->message->content][0];
+
+		// Extrait info exploitable
+		// Gc7::aff($response2, '$response');
+		// echo '<hr>';
+
+		eval($propertyString);
+
+		$vars = get_defined_vars();
+
+		// Gc7::aff($vars, '$vars');
+
+		$result = 1;
+		$result *= 7;
+
+		// $result = $vars['answer']->choices[0]->message->content;
+		// Gc7::aff(gettype($vars['response2']));
+		// Gc7::aff($vars['response2']);
+
+		$p = [
+			'property_location'           => $property_location,
+			'ad_published_at'             => $ad_published_at,
+			'ad_title'                    => $ad_title,
+			'ad_link'                     => $ad_link,
+			'property_owner'              => $property_owner,
+			'property_price'              => $property_price,
+			'property_number_of_pieces'   => $property_number_of_pieces,
+			'property_number_of_bedrooms' => $property_number_of_bedrooms,
+			'property_building_surface'   => $property_building_surface,
+			'property_ground_surface'     => $property_ground_surface,
+			'property_number_of_levels'   => $property_number_of_levels,
+			'property_description'        => $property_description,
+		];
+
+		// Gc7::aff($p, 'Property');
+
+		return $p;
+		// return $result;
+	}
+
+	private function whatIsCompletion()
+	{
+		$prompt = $this->prompt("Qu'est-ce que la completion?");
+
+		// die($answer);
+		return $this->askAI($prompt);
 	}
 
 	private function getApiKey()
@@ -18,21 +100,21 @@ class TestIA
 		return env('IA_KEY', 'No IA Key found');
 	}
 
-	private function getPrompt()
+	private function exemplePrompt()
 	{
-		// Peux-tu remplacer dans le code suivant, les  '???' par la valeur adaptée ?
+		// Peux-tu remplacer dans le code suivant, les  'xxx' par la valeur adaptée ?
 		// Attention: Si tu ne trouves pas de valeur, laisse le champs à null, si c'est explicitement indiqué qu'il n'y en as pas, affecte 0.
-		$location           = '???';
-		$published_date     = '???'; // Ici on veut le format Y-m-d h:i
-		$add_title          = '???';
-		$add_link           = '???';
-		$price              = '???';
-		$number_of_pieces   = '???';
-		$number_of_bedrooms = '???'; // Ici, tu peux déduire l'information aussi avec la description fournie
-		$building_surface   = '???';
-		$ground_surface     = '???';
-		$number_of_levels   = '???';
-		$description        = '???';
+		$location           = 'xxx';
+		$published_date     = 'xxx'; // 2do: simplifier pour ne gérer que le jour
+		$add_title          = 'xxx';
+		$add_link           = 'xxx';
+		$price              = 'xxx';
+		$number_of_pieces   = 'xxx';
+		$number_of_bedrooms = 'xxx'; // Ici, tu peux déduire l'information aussi avec la description fournie
+		$building_surface   = 'xxx';
+		$ground_surface     = 'xxx';
+		$number_of_levels   = 'xxx';
+		$description        = 'xxx';
 		// N'explique pas du tout ta réponse, juste donne le code que tu obtiens!
 	}
 
@@ -77,4 +159,89 @@ class TestIA
 		// print_r($result);
 		return $result['choices'][0]['message']['content'];
 	}
+
+	private function prompt(string $prompt): string
+	{
+		$data = [
+			'model'    => 'gpt-3.5-turbo',
+			'messages' => [[
+				'role'    => 'user',
+				'content' => $prompt,
+			]],
+		];
+		// exit($data);
+
+		return json_encode($data);
+	}
+
+	private function askAI(string $prompt): string
+	{
+		if ($this->realAskAI) {
+			Gc7::aff($prompt);
+			// exit;
+			$ch = curl_init('https://api.openai.com/v1/chat/completions');
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $prompt);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, [
+				'Content-Type: application/json',
+				'Content-Length: ' . strlen($prompt),
+				'Authorization: Bearer ' . $this->getApiKey(),
+			]);
+
+			// Gc7::aff($ch, 'ch');
+			$fullAnswer = curl_exec($ch); // Complete Json Response
+
+			// Gc7::aff($fullAnswer);
+		// exit;
+		} else {
+			$fullAnswer = $this->fakeAnswerAI();
+		}
+
+		$answer = json_decode($fullAnswer, true);
+		// Gc7::aff($answer, 'Answer');
+
+		// exit;
+
+		return $answer['choices'][0]['message']['content'];
+	}
+
+	private function fakeAnswerAI()
+	{
+		return file_get_contents('./../storage/app/ia/adAnswerAiExemple.json');
+	}
+
+	private function realPrompt($ad = null)
+	{
+		$ad ??= ['Description: Petite maison de 50m² sur 2 étages avec 5 chambres avec un terrain de 500m²'];
+
+		// Gc7::aff($ad);
+		// $ad = implode(' ',$ad);
+		$ad = json_encode($ad);
+		// Gc7::aff($ad);
+
+		$prompt = <<<'EOD'
+Remplace dans le code suivant, les  'xxx' par la valeur appropriée.<br>
+Attention: Si tu ne trouves pas de valeur, laisse le champs à null, et si c'est explicitement indiqué qu'il n'y en as pas, affecte 0.<br>
+Pour le champ property_description, recopie intégralement la valeur.
+$property_location           = 'xxx';<br>
+$ad_published_at             = 'xxx'; // Simplifier pour ne générer que le jour<br>
+$ad_title                    = 'xxx';<br>
+$ad_link                     = 'xxx';<br>
+$property_owner              = 'xxx';<br>
+$property_price              = 'xxx';<br>
+$property_number_of_pieces   = 'xxx';<br> // Supérieur ou égal au nombre de chambres
+$property_number_of_bedrooms = 'xxx'; // Ici, tu peux déduire l'information aussi avec la description fournie<br>
+$property_building_surface   = 'xxx';<br>
+$property_ground_surface     = 'xxx';<br>
+$property_number_of_levels   = 'xxx';<br>
+$property_description        = 'xxx';<br>
+N'explique pas du tout ta réponse, juste renvoie le code que tu obtiens!
+EOD;
+		$p = $ad . json_encode($prompt);
+
+		// die($p);
+		return $this->prompt($ad . $prompt);
+	}
+
 }

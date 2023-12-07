@@ -1,12 +1,11 @@
 @extends ('layouts.main')
 @section('title')
-Test
+    Test
 @endsection
 
 @section('main')
-
-<div class="container">
-    {{-- @php
+    <div class="container">
+        {{-- @php
         use App\Models\User;
         use App\Models\Location;
 
@@ -19,6 +18,6 @@ Test
         }
     @endphp --}}
 
-        <h1>Import: {!! $data !!}</h1>
+        <h1>Import: {!! $data ?? '$data is empty' !!}</h1>
     </div>
 @endsection

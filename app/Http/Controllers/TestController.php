@@ -4,27 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Http\Tools\Gc7;
 use App\Http\Tools\TestIA;
+use index;
 
 class TestController extends Controller
 {
-	public $datas;
-
+	/**
+	 * index.
+	 */
 	public function index()
 	{
-		$data = 'Ready.';
-		// $data = $this->fields();
-		// $property = $datas[2];
-		// $this->getPropertiesFromJson();
-		// echo implode(' <br> ', $this->datas[2]);
+		// 2see CHOIX du Fichier & reel IA
+		$nFile  = 2;
+		$IAMode = 1;
 
-		$data = (new TestIA())->index();
+		$ads    = ( new importController($nFile, 1))->getAdsFromFile();
+
+		// Gc7::aff($ads[0]);
+		$property = (new TestIA($ads[2], $IAMode))->getProperty();
+		Gc7::aff($property, 'Property');
+
+		$data = 'The file #' . $nFile . ' has ' . count($ads) . ' ads.';
 
 		return view('pages.test', compact('data'));
 	}
 
 	public function fields()
 	{
-		$data = 'Ready.';
 		// $newDates = new importDateManagerController;
 		// $newDates->index();
 		// $newOwner = new importOwnerManagerController;
@@ -36,17 +41,17 @@ class TestController extends Controller
 		// // exit();
 		// $data=$import;
 
-		$jsonData = file_get_contents('./../storage/app/exports/fullleboncoin.fr.json');
-		$jsonData = file_get_contents('./../storage/app/exports/231204-17_sjdl20.json');
+		// $jsonData = file_get_contents('./../storage/app/exports/fullleboncoin.fr.json');
+		// $jsonData = file_get_contents('./../storage/app/exports/231204-17_sjdl20.json');
 		$jsonData = file_get_contents('./../storage/app/exports/sjdl20s.json');
 		$jsonData = preg_replace('/ /', '&nbsp;', $jsonData);
-		$datas    = json_decode($jsonData, true);
+		$ads      = json_decode($jsonData, true);
 
-		if (null === $datas) {
+		if (null === $ads) {
 			exit('Erreur lors de la conversion JSON');
 		}
 
-		$data = count($datas);
+		$adsNb = count($ads);
 		// Gc7::aff($datas[3]);
 		// $data = $datas;
 
@@ -60,10 +65,11 @@ class TestController extends Controller
 		$keys = [];
 		$i    = 0;
 		$data = '<table class="table table-sm table-bordered table-rounded">';
-		foreach ($datas[1] as $k => $v) {
+		foreach ($ads[1] as $k => $v) {
 			$data .= '<tr><td style="text-align: right;">' . $i++ . '</td><td>' . $k . '</td><td>' . $v . '</td></tr>';
 		}
 		$data .= '</table>';
+
 		// Gc7::aff($datas[3]);
 		/*
 		foreach ($datas as $k => $data) {
@@ -97,23 +103,6 @@ class TestController extends Controller
 			echo $i++ . ' : ' . $k . ' → ' . $a . '<br>';
 		}
 		 */
-	}
-
-	private function getPropertiesFromJson()
-	{
-		// $jsonData = file_get_contents('./../storage/app/exports/sjdl20s.json');
-		$jsonData = file_get_contents('./../storage/app/exports/231201_sjdl20.json');
-		$jsonData = file_get_contents('./../storage/app/exports/231204-17_sjdl20.json');
-		// echo $jsonData;
-		$jsonData = preg_replace('/ /', '&nbsp;', $jsonData);
-		$datas    = json_decode($jsonData, true);
-
-		if (null === $datas) {
-			exit('Erreur lors de la conversion JSON');
-		}
-
-		$this->datas = $datas;
-
-		return true;
+		return $data;
 	}
 }

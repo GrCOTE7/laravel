@@ -2,26 +2,86 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Tools\Gc7;
+
 class ImportController extends Controller
 {
+	private $aff;
+
+	private $nFile;
+
+	private $file;
+
+	private $ads;
+
+	private $error;
+
+	public function __construct(int $nFile, int|null $aff = 0)
+	{
+		$this->nFile = $nFile;
+		$this->aff   = $aff;
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 */
-	public function index()
+	public function index($file)
 	{
-		$data = $this->import();
+		// 2see CHOIX du Fichier & reel IA
+		$nFile  = 2;
+		$IAMode = 0;
 
-		// return $data;
+		$ads    = ( new importController($nFile, 1))->getAdsFromFile();
 
-		return view('pages.import', compact('data'));
+		// Gc7::aff($ads[0]);
+		$property = (new TestIA($ads[0], $IAMode))->getProperty();
+		Gc7::aff($property, 'Property');
+
+		$data = 'The file #' . $nFile . ' has ' . count($ads) . ' ads.';
+	}
+
+	/**
+	 * getAdsFromFile.
+	 *
+	 * @return void
+	 */
+	public function getAdsFromFile(): array
+	{
+		$this->exportFile();
+
+		return $this->ads;
+		// foreach ($files as $k => $file) {
+		// 	echo '&nbsp;# ' . $k . ': ' . count($file) . ' ads<br>';
+		// 	// echo '&nbsp;' . $k . ' - ' . $file . '<br>';
+		// }
+
+		// if (!($error ?? 0)) {
+		// 	$ads = $this->getAdsFromJson();
+		// 	// Gc7::aff($ads);
+		// 	$data = count($ads);
+		// } else {
+		// 	$data = 'Error: No such file !';
+		// }
+	}
+
+	public function getAdsFromJson()
+	{
+		$jsonData = file_get_contents($this->file);
+		// echo $jsonData;
+		$jsonData = preg_replace('/ /', '&nbsp;', $jsonData);
+		$ads      = json_decode($jsonData, true);
+
+		if (null === $ads) {
+			exit('Erreur lors de la conversion JSON');
+		}
+
+		// Gc7::aff($ads);
+
+		return $ads;
 	}
 
 	public function import()
 	{
-		// // $jsonData = file_get_contents('./../storage/app/exports/uuuleboncoin.fr.xlsx.json');
-		$jsonData = file_get_contents('./../storage/app/exports/231204-17_sjdl20.json');
-		$jsonData = file_get_contents('./../storage/app/exports/fullleboncoin.fr.json');
-		$jsonData = file_get_contents('./../storage/app/exports/sjdl20s.json');
 		$jsonData = file_get_contents('./../storage/app/exports/231201_sjdl20.json');
 		$jsonData = preg_replace('/ /', '&nbsp;', $jsonData);
 		$datas    = json_decode($jsonData, true);
@@ -37,7 +97,6 @@ class ImportController extends Controller
 
 		$manager = new importManagerController();
 		$manager->initDateProcess();
-
 
 		foreach ($datas as $k => $data) {
 			$addKey = array_keys($data);
@@ -128,5 +187,40 @@ class ImportController extends Controller
 		return count($add) . ' annonces<table class="table table-sm table-bordered table-rounded">' . $head . $line . '</table>';
 		// $ch = 'https://www.leboncoin.fr/ventes_immobilieres/2452806946.htm';
 		// $ch = substr($ch, 50, 5);
+	}
+
+	private function exportFile()
+	{
+		$files = [
+			'./../storage/app/exports/231204-17_sjdl20.json',
+			'./../storage/app/exports/fullleboncoin.fr.json',
+			'./../storage/app/exports/231201_sjdl20.json',
+			'./../storage/app/exports/sjdl20s.json',
+			'./../storage/app/exports/xxx.json',
+		];
+		$nbFiles = count($files);
+
+		$data = '<table class="table table-sm table-bordered table-rounded m-auto" style="width: 70%">';
+		foreach ($files as $k => $v) {
+			$bgcolor    = ($this->nFile == $k) ? 'yellow' : 'none';
+			$this->file = $v;
+			$ads        = $this->getAdsFromJson($v);
+			if ($this->nFile == $k) {
+				$this->ads = $this->getAdsFromJson($v);
+			}
+			$data .= '<tr><td style="text-align: right;background-color:' . $bgcolor . ';">' . $k . '</td><td style="background-color:' . $bgcolor . '">' . $v . '</td><td style="text-align: right;background-color:' . $bgcolor . '">' . count($ads) . '</td><td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', filectime($v)) . '</td></tr>';
+		}
+		$data .= '</table>';
+		if ($this->aff) {
+			echo '<h3>Fichier de 0 à ' . $nbFiles - 1 . '</h3>';
+			echo '<p>Affichage</p>';
+			echo $data . '<hr>';
+		}
+
+		if ($this->nFile >= count($files)) {
+			$this->error = 1;
+		}
+
+		return $files[$this->nFile];
 	}
 }

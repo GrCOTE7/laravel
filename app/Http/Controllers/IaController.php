@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 class IaController extends Controller
 {
+    public function index($ad) {
+
+        return 'result';
+    }
 	private function prompt()
 	{
 		// Peux-tu remplacer dans le code suivant, les  '???' par la valeur adaptée ?
@@ -21,4 +25,8 @@ class IaController extends Controller
 		$description        = '???';
 		// N'explique pas du tout ta réponse, juste donne le code que tu obtiens!
 	}
+
+    public function askAd($ad){
+        return 'result';
+    }
 }
