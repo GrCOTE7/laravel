@@ -31,7 +31,7 @@ class ImportController extends Controller
 		$nFile  = 2;
 		$IAMode = 0;
 
-		$ads    = ( new importController($nFile, 1))->getAdsFromFile();
+		$ads = ( new importController($nFile, 1))->getAdsFromFile();
 
 		// Gc7::aff($ads[0]);
 		$property = (new TestIA($ads[0], $IAMode))->getProperty();
@@ -193,7 +193,6 @@ class ImportController extends Controller
 	{
 		$files = [
 			'./../storage/app/exports/231204-17_sjdl20.json',
-			'./../storage/app/exports/fullleboncoin.fr.json',
 			'./../storage/app/exports/231201_sjdl20.json',
 			'./../storage/app/exports/sjdl20s.json',
 			'./../storage/app/exports/xxx.json',

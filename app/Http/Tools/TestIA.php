@@ -221,11 +221,12 @@ class TestIA
 		// Gc7::aff($ad);
 
 		$prompt = <<<'EOD'
+<br>
 Remplace dans le code suivant, les  'xxx' par la valeur appropriée.<br>
 Attention: Si tu ne trouves pas de valeur, laisse le champs à null, et si c'est explicitement indiqué qu'il n'y en as pas, affecte 0.<br>
 Pour le champ property_description, recopie intégralement la valeur.
 $property_location           = 'xxx';<br>
-$ad_published_at             = 'xxx'; // Simplifier pour ne générer que le jour<br>
+$ad_published_at             = 'xxx'; // Génère ici le jour et l'heure selon le format 'Y-m-d H:i'
 $ad_title                    = 'xxx';<br>
 $ad_link                     = 'xxx';<br>
 $property_owner              = 'xxx';<br>

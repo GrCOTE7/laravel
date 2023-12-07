@@ -13,17 +13,29 @@ class TestController extends Controller
 	 */
 	public function index()
 	{
+
+        $n=10;
+        echo $n%10;
+
 		// 2see CHOIX du Fichier & reel IA
-		$nFile  = 2;
-		$IAMode = 1;
+		$nFile = 3;
+		// IA Mode reel ?
+		$IAMode = 0;
+		// # ad
+		$adN = 0;
 
-		$ads    = ( new importController($nFile, 1))->getAdsFromFile();
+		$ads = ( new importController($nFile, 1))->getAdsFromFile();
 
-		// Gc7::aff($ads[0]);
-		$property = (new TestIA($ads[2], $IAMode))->getProperty();
-		Gc7::aff($property, 'Property');
+		Gc7::affH($ads[$adN]);
 
-		$data = 'The file #' . $nFile . ' has ' . count($ads) . ' ads.';
+		Gc7::aff($ads[$adN]);
+		$property = (new TestIA($ads[$adN], $IAMode))->getProperty();
+		// Gc7::aff($property, 'Property');
+
+		$data = 'The file is #' . $nFile;
+		if ($IAMode) {
+			exit;
+		}
 
 		return view('pages.test', compact('data'));
 	}
