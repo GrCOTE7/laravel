@@ -20,11 +20,11 @@ class ImportController extends Controller
 	public function index()
 	{
 		// 2ar CHOIX du Fichier - 1 #0 pour fake ad
-		$nFile = 0;
+		$nFile = 1;
 		// 2ar IA Mode reel ?
-		$IAMode = 0;
+		$IAMode = 8;
 		// 2ar # ad in jsonFile
-		$adN = 3;
+		$adN = 8;
 		// 2ar Affichage Debug
 		$aff = 10;
 
@@ -54,6 +54,15 @@ class ImportController extends Controller
 		return view('pages.import', compact('data'));
 	}
 
+    public function getParamsFromTest($nFile, $IAMode, $adN, $aff){
+        $this->nFile = $nFile;
+        $this->iaMode = $IAMode;
+		$this->adN   = $adN;
+		$this->aff   = $aff;
+
+        return $this->getAdsFromFile();
+    }
+
 	/**
 	 * getAdsFromFile.
 	 *
@@ -71,8 +80,8 @@ class ImportController extends Controller
 		$files = [
 			'./../storage/app/exports/231204-17_sjdl20.json',
 			'./../storage/app/exports/231201_sjdl20.json',
+			'./../storage/app/exports/231201_sjdl20err.json',
 			'./../storage/app/exports/sjdl20s.json',
-			'./../storage/app/exports/xxx.json',
 		];
 		$nbFiles = count($files);
 
@@ -226,6 +235,4 @@ class ImportController extends Controller
 		// $ch = 'https://www.leboncoin.fr/ventes_immobilieres/2452806946.htm';
 		// $ch = substr($ch, 50, 5);
 	}
-
-
 }

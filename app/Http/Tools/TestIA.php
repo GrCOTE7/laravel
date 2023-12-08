@@ -23,8 +23,8 @@ class TestIA
 	{
 		// return $this->realPrompt();
 		// return $this->whatIsCompletion();
-		return $this->getProperty();
-		// return $this->answerAnalysis();
+		// return $this->getProperty();
+		return $this->answerAnalysis();
 	}
 
 	public function getProperty()
@@ -36,8 +36,10 @@ class TestIA
 
 		// $this->askAI($prompt);
 		$propertyString = $this->askAI($prompt);
+
 		// Gc7::aff($propertyString);
-        return $this->answerAnalysis($propertyString);
+		// return $this->ad;
+		return $this->answerAnalysis($propertyString);
 	}
 
 	private function answerAnalysis($propertyString)
@@ -52,6 +54,11 @@ class TestIA
 		// Extrait info exploitable
 		// Gc7::aff($response2, '$response');
 		// echo '<hr>';
+
+        // $propertyString = json_encode($propertyString);
+
+        // Gc7::aff(gettype($propertyString));
+        // Gc7::aff($propertyString);
 
 		eval($propertyString);
 
@@ -192,17 +199,17 @@ class TestIA
 			// Gc7::aff($ch, 'ch');
 			$fullAnswer = curl_exec($ch); // Complete Json Response
 
-			// Gc7::aff($fullAnswer);
+		// Gc7::aff($fullAnswer);
 		// exit;
 		} else {
 			$fullAnswer = $this->fakeAnswerAI();
 		}
 
+		// return $fullAnswer;
 		$answer = json_decode($fullAnswer, true);
 		// Gc7::aff($fullAnswer, 'Answer');
 
 		// exit;
-
 		return $answer['choices'][0]['message']['content'];
 	}
 
@@ -221,28 +228,27 @@ class TestIA
 		// Gc7::aff($ad);
 
 		$prompt = <<<'EOD'
-<br>
-Remplace dans le code suivant, les  'xxx' par la valeur appropriée.<br>
-Attention: Si tu ne trouves pas de valeur, laisse le champs à null, et si c'est explicitement indiqué qu'il n'y en as pas, affecte 0.<br>
-Pour le champ property_description, recopie intégralement la valeur.
-$property_location           = 'xxx';<br>
-$ad_published_at             = 'xxx'; // Génère ici le jour et l'heure selon le format 'Y-m-d H:i'
-$ad_title                    = 'xxx';<br>
-$ad_link                     = 'xxx';<br>
-$property_owner              = 'xxx';<br>
-$property_price              = 'xxx';<br>
-$property_number_of_pieces   = 'xxx';<br> // Supérieur ou égal au nombre de chambres
-$property_number_of_bedrooms = 'xxx'; // Ici, tu peux déduire l'information aussi avec la description fournie<br>
-$property_building_surface   = 'xxx';<br>
-$property_ground_surface     = 'xxx';<br>
-$property_number_of_levels   = 'xxx';<br>
-$property_description        = 'xxx';<br>
-N'explique pas du tout ta réponse, juste renvoie le code que tu obtiens!
-EOD;
+			<br>
+			Remplace dans le code suivant, les  'xxx' par la valeur appropriée.<br>
+			Attention: Si tu ne trouves pas de valeur, laisse le champs à null, et si c'est explicitement indiqué qu'il n'y en as pas, affecte 0.<br>
+			Pour le champ property_description, recopie intégralement la valeur.
+			$property_location           = 'xxx';<br>
+			$ad_published_at             = 'xxx'; // Génère ici le jour et l'heure selon le format 'Y-m-d H:i'
+			$ad_title                    = 'xxx';<br>
+			$ad_link                     = 'xxx';<br>
+			$property_owner              = 'xxx';<br>
+			$property_price              = 'xxx';<br>
+			$property_number_of_pieces   = 'xxx';<br> // Supérieur ou égal au nombre de chambres
+			$property_number_of_bedrooms = 'xxx'; // Ici, tu peux déduire l'information aussi avec la description fournie<br>
+			$property_building_surface   = 'xxx';<br>
+			$property_ground_surface     = 'xxx';<br>
+			$property_number_of_levels   = 'xxx';<br>
+			$property_description        = 'xxx';<br>
+			N'explique pas du tout ta réponse, juste renvoie le code que tu obtiens!
+			EOD;
 		$p = $ad . json_encode($prompt);
 
 		// die($p);
 		return $this->prompt($ad . $prompt);
 	}
-
 }
