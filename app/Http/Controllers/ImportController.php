@@ -17,25 +17,16 @@ class ImportController extends Controller
 
 	private $error;
 
-	// public function __construct(int $nFile, int|null $aff = 0)
-	// {
-	// 	$this->nFile = $nFile;
-	// 	$this->aff   = $aff;
-	// }
-
-	/**
-	 * Display a listing of the resource.
-	 */
 	public function index()
 	{
-		// 2ar CHOIX du Fichier
-		$nFile = 1;
+		// 2ar CHOIX du Fichier - 1 #0 pour fake ad
+		$nFile = 0;
 		// 2ar IA Mode reel ?
 		$IAMode = 0;
 		// 2ar # ad in jsonFile
-		$adN = 0;
+		$adN = 3;
 		// 2ar Affichage Debug
-		$aff = 0;
+		$aff = 10;
 
 		$this->nFile = $nFile;
 		$this->aff   = $aff;
@@ -45,10 +36,12 @@ class ImportController extends Controller
 		// Gc7::aff($ads[$adN]);
 		// Gc7::aff($ads);
 
+        echo str_repeat('&nbsp;', 7).'After Scraping';
 		Gc7::affH($ads[$adN]);
 
 		// Gc7::aff($ads[$adN]);
 		$property = (new TestIA($ads[$adN], $IAMode))->getProperty();
+        echo str_repeat('&nbsp;', 7).'After I.A. process';
 		Gc7::affH($property, 'Property');
 
 		// $data = 'The file is #' . $nFile;

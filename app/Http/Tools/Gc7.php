@@ -94,7 +94,7 @@ class Gc7
 			$data .= $linesH[$i] . '</tr><tr>';
 			$data .= $linesC[$i] . '</tr><tr>';
 		}
-		$data .= '</tr></table><br>';
+		$data .= '</tr></table>';
 
 		echo $data;
 

@@ -177,7 +177,7 @@ class TestIA
 	private function askAI(string $prompt): string
 	{
 		if ($this->realAskAI) {
-			Gc7::aff($prompt);
+			// Gc7::aff($prompt);
 			// exit;
 			$ch = curl_init('https://api.openai.com/v1/chat/completions');
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
