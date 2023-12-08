@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Tools\Gc7;
+use App\Http\Tools\TestIA;
 
 class ImportController extends Controller
 {
@@ -34,7 +35,7 @@ class ImportController extends Controller
 		// 2ar # ad in jsonFile
 		$adN = 0;
 		// 2ar Affichage Debug
-		$aff = 1;
+		$aff = 0;
 
 		$this->nFile = $nFile;
 		$this->aff   = $aff;
@@ -47,8 +48,8 @@ class ImportController extends Controller
 		Gc7::affH($ads[$adN]);
 
 		// Gc7::aff($ads[$adN]);
-		// $property = (new TestIA($ads[$adN], $IAMode))->getProperty();
-		// // Gc7::aff($property, 'Property');
+		$property = (new TestIA($ads[$adN], $IAMode))->getProperty();
+		Gc7::affH($property, 'Property');
 
 		// $data = 'The file is #' . $nFile;
 		// if ($IAMode) {

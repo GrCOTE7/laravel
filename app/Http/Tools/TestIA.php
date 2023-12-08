@@ -199,7 +199,7 @@ class TestIA
 		}
 
 		$answer = json_decode($fullAnswer, true);
-		// Gc7::aff($answer, 'Answer');
+		// Gc7::aff($fullAnswer, 'Answer');
 
 		// exit;
 

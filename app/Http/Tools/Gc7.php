@@ -60,41 +60,41 @@ class Gc7
 		$fields = array_keys($ad);
 		$values = array_values($ad);
 
-		$limit = 36;
-		$cell  = 'text-align: center; max-width: 200; word-wrap: break-word;';
+		$limit = count($ad) > 20 ? 36 : 12;
+		$cell  = 'text-align: center; max-width: 260; word-wrap: break-word;';
 
-        $lg= 0;
-        for ($i=0; $i <= 3; $i++) {
-            $linesH[$i]='';
-            $linesC[$i]='';
-        }
-        // $lines='';
+		$lg = 0;
+		for ($i = 0; $i <= 3; ++$i) {
+			$linesH[$i] = '';
+			$linesC[$i] = '';
+		}
+		// $lines='';
 		foreach ($fields as $k => $v) {
 			if ($k < $limit) {
 				$linesH[$lg] .= '<th style="' . $cell . '">' . $v . '</th>';
-				if (!(($k+1) % 12)) {
-                    $lg++;
+				if (!(($k + 1) % ($limit / 3))) {
+					++$lg;
 					// $linesH[$lg] .= '</tr><tr>';
 				}
 			}
 		}
-        $lg=0;
+		$lg = 0;
 		foreach ($values as $k => $v) {
 			if ($k < $limit) {
 				$linesC[$lg] .= '<td style="' . $cell . '">' . $v . '</td>';
-				if (!(($k+1) % 12)) {
-                    ++$lg;
-                    // $linesC[$lg] .= '</tr><tr>';
+				if (!(($k + 1) % ($limit / 3))) {
+					++$lg;
+					// $linesC[$lg] .= '</tr><tr>';
 				}
 			}
 		}
 
-        $data  = '<table class="table table-sm table-bordered table-rounded m-auto" style="width: 90%"><tr>';
-        for ($i=0; $i <= 3; $i++) {
-            $data .= $linesH[$i].'</tr><tr>';
-            $data .= $linesC[$i].'</tr><tr>';
-        }
-		$data .= '</tr></table>';
+		$data = '<table class="table table-sm table-bordered table-rounded m-auto" style="width: 97%"><tr>';
+		for ($i = 0; $i <= 3; ++$i) {
+			$data .= $linesH[$i] . '</tr><tr>';
+			$data .= $linesC[$i] . '</tr><tr>';
+		}
+		$data .= '</tr></table><br>';
 
 		echo $data;
 
