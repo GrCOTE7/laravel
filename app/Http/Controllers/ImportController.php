@@ -16,28 +16,48 @@ class ImportController extends Controller
 
 	private $error;
 
-	public function __construct(int $nFile, int|null $aff = 0)
-	{
-		$this->nFile = $nFile;
-		$this->aff   = $aff;
-	}
+	// public function __construct(int $nFile, int|null $aff = 0)
+	// {
+	// 	$this->nFile = $nFile;
+	// 	$this->aff   = $aff;
+	// }
 
 	/**
 	 * Display a listing of the resource.
 	 */
-	public function index($file)
+	public function index()
 	{
-		// 2see CHOIX du Fichier & reel IA
-		$nFile  = 2;
+		// 2ar CHOIX du Fichier
+		$nFile = 1;
+		// 2ar IA Mode reel ?
 		$IAMode = 0;
+		// 2ar # ad in jsonFile
+		$adN = 0;
+		// 2ar Affichage Debug
+		$aff = 1;
 
-		$ads = ( new importController($nFile, 1))->getAdsFromFile();
+		$this->nFile = $nFile;
+		$this->aff   = $aff;
 
-		// Gc7::aff($ads[0]);
-		$property = (new TestIA($ads[0], $IAMode))->getProperty();
-		Gc7::aff($property, 'Property');
+		$ads = $this->getAdsFromFile();
 
-		$data = 'The file #' . $nFile . ' has ' . count($ads) . ' ads.';
+		// Gc7::aff($ads[$adN]);
+		// Gc7::aff($ads);
+
+		Gc7::affH($ads[$adN]);
+
+		// Gc7::aff($ads[$adN]);
+		// $property = (new TestIA($ads[$adN], $IAMode))->getProperty();
+		// // Gc7::aff($property, 'Property');
+
+		// $data = 'The file is #' . $nFile;
+		// if ($IAMode) {
+		// 	exit;
+		// }
+
+		$data = 'Extract from json file #' . $nFile . ', ad # ' . $adN . '.';
+
+		return view('pages.import', compact('data'));
 	}
 
 	/**
@@ -50,18 +70,39 @@ class ImportController extends Controller
 		$this->exportFile();
 
 		return $this->ads;
-		// foreach ($files as $k => $file) {
-		// 	echo '&nbsp;# ' . $k . ': ' . count($file) . ' ads<br>';
-		// 	// echo '&nbsp;' . $k . ' - ' . $file . '<br>';
-		// }
+	}
 
-		// if (!($error ?? 0)) {
-		// 	$ads = $this->getAdsFromJson();
-		// 	// Gc7::aff($ads);
-		// 	$data = count($ads);
-		// } else {
-		// 	$data = 'Error: No such file !';
-		// }
+    private function exportFile()
+	{
+		$files = [
+			'./../storage/app/exports/231204-17_sjdl20.json',
+			'./../storage/app/exports/231201_sjdl20.json',
+			'./../storage/app/exports/sjdl20s.json',
+			'./../storage/app/exports/xxx.json',
+		];
+		$nbFiles = count($files);
+
+		$data = '<table class="table table-sm table-bordered table-rounded m-auto" style="width: 70%">';
+		foreach ($files as $k => $v) {
+			$bgcolor    = ($this->nFile == $k) ? 'yellow' : 'none';
+			$this->file = $v;
+			$ads        = $this->getAdsFromJson($v);
+			if ($this->nFile == $k) {
+				$this->ads = $ads;
+			}
+			$data .= '<tr><td style="text-align: right;background-color:' . $bgcolor . ';">' . $k . '</td><td style="background-color:' . $bgcolor . '">' . $v . '</td><td style="text-align: right;background-color:' . $bgcolor . '">' . count($ads) . '</td><td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', filectime($v)) . '</td></tr>';
+		}
+		$data .= '</table>';
+		if ($this->aff) {
+			echo '<h3>Fichier de 0 à ' . $nbFiles - 1 . '</h3>';
+			echo $data . '<hr>';
+		}
+
+		if ($this->nFile >= $nbFiles) {
+			$this->error = 1;
+		}
+
+		return $files[$this->nFile];
 	}
 
 	public function getAdsFromJson()
@@ -80,6 +121,9 @@ class ImportController extends Controller
 		return $ads;
 	}
 
+    /**
+     * 1er jet
+     */
 	public function import()
 	{
 		$jsonData = file_get_contents('./../storage/app/exports/231201_sjdl20.json');
@@ -189,37 +233,5 @@ class ImportController extends Controller
 		// $ch = substr($ch, 50, 5);
 	}
 
-	private function exportFile()
-	{
-		$files = [
-			'./../storage/app/exports/231204-17_sjdl20.json',
-			'./../storage/app/exports/231201_sjdl20.json',
-			'./../storage/app/exports/sjdl20s.json',
-			'./../storage/app/exports/xxx.json',
-		];
-		$nbFiles = count($files);
 
-		$data = '<table class="table table-sm table-bordered table-rounded m-auto" style="width: 70%">';
-		foreach ($files as $k => $v) {
-			$bgcolor    = ($this->nFile == $k) ? 'yellow' : 'none';
-			$this->file = $v;
-			$ads        = $this->getAdsFromJson($v);
-			if ($this->nFile == $k) {
-				$this->ads = $this->getAdsFromJson($v);
-			}
-			$data .= '<tr><td style="text-align: right;background-color:' . $bgcolor . ';">' . $k . '</td><td style="background-color:' . $bgcolor . '">' . $v . '</td><td style="text-align: right;background-color:' . $bgcolor . '">' . count($ads) . '</td><td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', filectime($v)) . '</td></tr>';
-		}
-		$data .= '</table>';
-		if ($this->aff) {
-			echo '<h3>Fichier de 0 à ' . $nbFiles - 1 . '</h3>';
-			echo '<p>Affichage</p>';
-			echo $data . '<hr>';
-		}
-
-		if ($this->nFile >= count($files)) {
-			$this->error = 1;
-		}
-
-		return $files[$this->nFile];
-	}
 }

@@ -24,4 +24,4 @@ Route::post('test', [TestController::class, 'store']);
 Route::get('photo', [PhotoController::class, 'create']);
 Route::post('photo', [PhotoController::class, 'store']);
 
-Route::get('import', [ImportController::class, 'index']);
+Route::get('import', [ImportController::class, 'index'])->name('import.index');
