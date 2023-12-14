@@ -22,9 +22,9 @@ class ImportController extends Controller
 		// 2ar CHOIX du Fichier - 1 #0 pour fake ad
 		$nFile = 1;
 		// 2ar IA Mode reel ?
-		$IAMode = 8;
+		$IAMode = 0;
 		// 2ar # ad in jsonFile
-		$adN = 8;
+		$adN = 0;
 		// 2ar Affichage Debug
 		$aff = 10;
 
@@ -80,7 +80,6 @@ class ImportController extends Controller
 		$files = [
 			'./../storage/app/exports/231204-17_sjdl20.json',
 			'./../storage/app/exports/231201_sjdl20.json',
-			'./../storage/app/exports/231201_sjdl20err.json',
 			'./../storage/app/exports/sjdl20s.json',
 		];
 		$nbFiles = count($files);
@@ -108,7 +107,7 @@ class ImportController extends Controller
 		return $files[$this->nFile];
 	}
 
-	public function getAdsFromJson()
+	public function getAdsFromJson(): array
 	{
 		$jsonData = file_get_contents($this->file);
 		// echo $jsonData;

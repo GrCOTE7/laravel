@@ -6,6 +6,9 @@ class Gc7
 {
 	public static function aff(mixed $var, string $txt = null): void
 	{
+		if (!$txt) {
+			$txt = gettype($var);
+		}
 		$aff = self::affR($var, $txt);
 		echo $aff;
 	}
@@ -18,6 +21,26 @@ class Gc7
 
 		// return (DEBUG) ? $aff : '';
 		return $aff;
+	}
+
+	public static function affData($data = null)
+	{
+		self::aff($data);
+		$str = $data;
+
+		if (!is_string($data)) {
+			if (is_array($data)) {
+				$str = implode('<br>', $data);
+			}
+			if (is_object($data)) {
+				$str = 'Object:<br>';
+				foreach ($data as $k => $v) {
+					$str .= $k . ' → ' . $v . '<br>';
+				}
+			}
+		}
+
+		return $str;
 	}
 
 	/**
@@ -60,7 +83,8 @@ class Gc7
 		$fields = array_keys($ad);
 		$values = array_values($ad);
 
-		$limit = count($ad) > 20 ? 36 : 12;
+		// $limit = count($ad) > 20 ? 33 : 12;
+		$limit = count($ad);
 		$cell  = 'text-align: center; max-width: 260; word-wrap: break-word;';
 
 		$lg = 0;
@@ -71,7 +95,7 @@ class Gc7
 		// $lines='';
 		foreach ($fields as $k => $v) {
 			if ($k < $limit) {
-				$linesH[$lg] .= '<th style="' . $cell . '">' . $v . '</th>';
+				$linesH[$lg] .= '<th style="' . $cell . '">' . $v . '<br>' . $k . '</th>';
 				if (!(($k + 1) % ($limit / 3))) {
 					++$lg;
 					// $linesH[$lg] .= '</tr><tr>';
