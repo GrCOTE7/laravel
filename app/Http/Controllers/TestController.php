@@ -9,22 +9,14 @@ use App\Http\Tutos\TutoController;
 
 class TestController extends Controller
 {
-	private $aff;
 
-	private $nFile;
-
-	private $file;
-
-	private $ads;
-
-	private $error;
 
 	public function index()
 	{
 		$data = (new AdController())->index();
 		// echo '<h1>Add: '.Gc7::affR($ad).'</h1>';
-
 		// (new TutoController)->index();
+
 		$data = Gc7::affData($data ?? null);
 
 		return view('pages.test', compact('data'));

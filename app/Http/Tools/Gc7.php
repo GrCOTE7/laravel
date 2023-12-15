@@ -25,7 +25,7 @@ class Gc7
 
 	public static function affData($data = null)
 	{
-		self::aff($data);
+		// self::aff($data);
 		$str = $data;
 
 		if (!is_string($data)) {

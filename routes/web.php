@@ -25,3 +25,5 @@ Route::get('photo', [PhotoController::class, 'create']);
 Route::post('photo', [PhotoController::class, 'store']);
 
 Route::get('import', [ImportController::class, 'index'])->name('import.index');
+Route::get('files', [ImportController::class, 'files'])->name('import.files');
+

@@ -8,7 +8,17 @@ class AdController extends Controller
 {
 	public $ad;
 
-	private $_adJson;
+	protected $aff;
+
+	protected $nFile=1; //@i Choix numéro de fichier
+
+	protected $file;
+
+	protected $ads;
+
+	protected $error;
+
+	protected $_adJson;
 
 	public function __construct()
 	{
@@ -17,11 +27,7 @@ class AdController extends Controller
 
 	public function index()
 	{
-        // $o = new \stdClass();
-        // $o->property1 = 'Value1';
-        // $o->property2 = 'Value2';
-
-		// return $o;
+        // echo $this->nFile;
 		return (new AdImport())->index();
 	}
 }

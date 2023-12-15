@@ -7,9 +7,9 @@ use App\Http\Tools\TestIA;
 
 class ImportController extends Controller
 {
-	private $aff;
+	private $aff = 1;
 
-	private $nFile;
+	private $nFile = 1;
 
 	private $file;
 
@@ -36,12 +36,12 @@ class ImportController extends Controller
 		// Gc7::aff($ads[$adN]);
 		// Gc7::aff($ads);
 
-        echo str_repeat('&nbsp;', 7).'After Scraping';
+		echo str_repeat('&nbsp;', 7) . 'After Scraping';
 		Gc7::affH($ads[$adN]);
 
 		// Gc7::aff($ads[$adN]);
 		$property = (new TestIA($ads[$adN], $IAMode))->getProperty();
-        echo str_repeat('&nbsp;', 7).'After I.A. process';
+		echo str_repeat('&nbsp;', 7) . 'After I.A. process';
 		Gc7::affH($property, 'Property');
 
 		// $data = 'The file is #' . $nFile;
@@ -54,14 +54,31 @@ class ImportController extends Controller
 		return view('pages.import', compact('data'));
 	}
 
-    public function getParamsFromTest($nFile, $IAMode, $adN, $aff){
-        $this->nFile = $nFile;
-        $this->iaMode = $IAMode;
-		$this->adN   = $adN;
-		$this->aff   = $aff;
+	public function files()
+	{
+		// Gc7::aff($this->getFiles());
+		$this->aff = 0;
 
-        return $this->getAdsFromFile();
-    }
+		// 2ar
+		Gc7::aff($this->exportFilesHtmlTable());
+		echo '<hr>';
+
+		$data = $this->exportFiles();
+
+		// $data = 123;
+
+		return view('pages.files', compact('data'));
+	}
+
+	public function getParamsFromTest($nFile, $IAMode, $adN, $aff)
+	{
+		$this->nFile  = $nFile;
+		$this->iaMode = $IAMode;
+		$this->adN    = $adN;
+		$this->aff    = $aff;
+
+		return $this->getAdsFromFile();
+	}
 
 	/**
 	 * getAdsFromFile.
@@ -70,41 +87,9 @@ class ImportController extends Controller
 	 */
 	public function getAdsFromFile(): array
 	{
-		$this->exportFile();
+		$this->exportFileTable();
 
 		return $this->ads;
-	}
-
-    private function exportFile()
-	{
-		$files = [
-			'./../storage/app/exports/231204-17_sjdl20.json',
-			'./../storage/app/exports/231201_sjdl20.json',
-			'./../storage/app/exports/sjdl20s.json',
-		];
-		$nbFiles = count($files);
-
-		$data = '<table class="table table-sm table-bordered table-rounded m-auto" style="width: 70%">';
-		foreach ($files as $k => $v) {
-			$bgcolor    = ($this->nFile == $k) ? 'yellow' : 'none';
-			$this->file = $v;
-			$ads        = $this->getAdsFromJson($v);
-			if ($this->nFile == $k) {
-				$this->ads = $ads;
-			}
-			$data .= '<tr><td style="text-align: right;background-color:' . $bgcolor . ';">' . $k . '</td><td style="background-color:' . $bgcolor . '">' . $v . '</td><td style="text-align: right;background-color:' . $bgcolor . '">' . count($ads) . '</td><td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', filectime($v)) . '</td></tr>';
-		}
-		$data .= '</table>';
-		if ($this->aff) {
-			echo '<h3>Fichier de 0 à ' . $nbFiles - 1 . '</h3>';
-			echo $data . '<hr>';
-		}
-
-		if ($this->nFile >= $nbFiles) {
-			$this->error = 1;
-		}
-
-		return $files[$this->nFile];
 	}
 
 	public function getAdsFromJson(): array
@@ -123,9 +108,9 @@ class ImportController extends Controller
 		return $ads;
 	}
 
-    /**
-     * 1er jet
-     */
+	/**
+	 * 1er jet.
+	 */
 	public function import()
 	{
 		$jsonData = file_get_contents('./../storage/app/exports/231201_sjdl20.json');
@@ -233,5 +218,126 @@ class ImportController extends Controller
 		return count($add) . ' annonces<table class="table table-sm table-bordered table-rounded">' . $head . $line . '</table>';
 		// $ch = 'https://www.leboncoin.fr/ventes_immobilieres/2452806946.htm';
 		// $ch = substr($ch, 50, 5);
+	}
+
+	protected function getFiles(): object
+	{
+		// Chemin du répertoire à lister
+		$repertoire = './../storage/app/exports/';
+		$filesArr   = [];
+
+		// Ouvre le répertoire
+		if ($gestionnaire = opendir($repertoire)) {
+			// Parcours chaque fichier du répertoire
+			while (false !== ($fichier = readdir($gestionnaire))) {
+				// Exclut les entrées "." et ".."
+				if ('.' != $fichier && '..' != $fichier) {
+					// Affiche le nom du fichier
+					if ('json' === pathinfo($fichier, PATHINFO_EXTENSION)) {
+						// Affiche le nom du fichier
+						$filesArr[] = $fichier;
+					}
+				}
+			}
+			// Ferme le gestionnaire de fichier
+			closedir($gestionnaire);
+		} else {
+			// En cas d'erreur d'ouverture du répertoire
+			$filesArr = null;
+		}
+
+		$imports         = new \stdClass();
+		$imports->folder = $repertoire;
+		$imports->files  = $filesArr;
+
+		// Gc7::aff($imports);
+
+		return $imports;
+	}
+
+	private function exportFilesHtmlTable(): string
+	{
+		$imports = $this->getFiles();
+		$files   = $imports->files;
+
+		// $files = [
+		// 	'./../storage/app/exports/231204-17_sjdl20.json',
+		// 	'./../storage/app/exports/231201_sjdl20.json',
+		// 	'./../storage/app/exports/sjdl20s.json',
+		// ];
+
+		$nbFiles = count($files);
+
+		$data = '<div class="container"><h3>' . $imports->folder . ' Fichiers de 0 à ' . $nbFiles - 1 . '</h3><table class="table table-sm table-bordered table-rounded m-auto" style="width: 97%">';
+		foreach ($files as $k => $v) {
+			$bgcolor    = ($this->nFile == $k) ? 'yellow' : 'none';
+			$this->file = $imports->folder . $v;
+			// $this->file = $v;
+			// Gc7::aff($v);
+			// Gc7::aff($this->file);
+			$ads = $this->getAdsFromJson();
+			// Gc7::aff($ads);
+			if ($this->nFile == $k) {
+				$this->ads = $ads;
+			}
+			$data .= '<tr><td style="text-align: right;background-color:' . $bgcolor . ';">' . $k . '</td><td style="background-color:' . $bgcolor . '">' . $v . '</td><td style="text-align: right;background-color:' . $bgcolor . '">' . count($ads) . '</td><td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', filectime($imports->folder . $v)) . '</td></tr>';
+		}
+		$data .= '</table></div>';
+		if ($this->aff) {
+			echo '<h3>' . $imports->folder . ' /Fichiers de 0 à ' . $nbFiles - 1 . '</h3>';
+			echo $data . '<hr>';
+		}
+
+		// if ($this->nFile >= $nbFiles) {
+		// 	$this->error = 1;
+		// }
+
+		return $data;
+	}
+
+	private function exportFiles(): object
+	{
+		$imports = $this->getFiles();
+		$folder  = $imports->folder;
+		$files   = $imports->files;
+
+		// Gc7::aff($folder);
+
+		// $files = [
+		// 	'./../storage/app/exports/231204-17_sjdl20.json',
+		// 	'./../storage/app/exports/231201_sjdl20.json',
+		// 	'./../storage/app/exports/sjdl20s.json',
+		// ];
+
+		$nbFiles = count($files);
+
+		$data          = new \stdClass();
+		$data->nbFiles = $nbFiles;
+		$data->folder  = $folder;
+
+		foreach ($files as $k => $v) {
+			$this->file    = $imports->folder . $v;
+			$ads           = $this->getAdsFromJson();
+			$data->files[] = [
+				'name'      => $v,
+				'adsCount'  => count($ads),
+				'createdAt' => date('d/m/Y à H:i:s', filectime($imports->folder . $v)),
+				'bgColor'   => 'none',
+			];
+			if ($this->nFile == $k) {
+				$data->files[$k]['ads']     = $ads;
+				$data->files[$k]['bgColor'] = 'yellow';
+			}
+
+			// Gc7::aff($v);
+		}
+
+		// if ($this->nFile >= $nbFiles) {
+		// 	$this->error = 1;
+		// }
+
+		// Gc7::aff($data);
+
+		return $data;
 	}
 }
