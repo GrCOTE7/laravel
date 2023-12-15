@@ -20,20 +20,4 @@
             @endforeach
         </table>
     </div>
-
-
-    {{--
-
-      // foreach ($files as $k => $v) {
-      // 	$bgcolor    = ($this->nFile == $k) ? 'yellow' : 'none';
-      // 	$this->file = $imports->folder . $v;
-      // 	// $this->file = $v;
-
-      // 	if ($this->nFile == $k) {
-                // 		$this->ads = $ads;
-                // 	}
-                // 	$data .= '<tr><td style="text-align: right;background-color:' . $bgcolor . ';">' . $k . '</td><td style="background-color:' . $bgcolor . '">' . $v . '</td><td style="text-align: right;background-color:' . $bgcolor . '">' . count($ads) . '</td><td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', filectime($imports->folder . $v)) . '</td></tr>';
-                // }
-
-                --}}
 @endsection
