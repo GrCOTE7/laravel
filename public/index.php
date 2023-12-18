@@ -1,10 +1,9 @@
 <?php
-
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
-
+exit ('oki');
 /*
 |--------------------------------------------------------------------------
 | Check If The Application Is Under Maintenance

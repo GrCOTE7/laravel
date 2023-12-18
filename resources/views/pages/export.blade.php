@@ -1,6 +1,6 @@
 @extends ('layouts.main')
 @section('title')
-    Test
+    Export
 @endsection
 
 @section('main')
@@ -18,6 +18,7 @@
         }
     @endphp --}}
 
-        <h1>Import: {!! $data ?? '$data is empty' !!}</h1>
+    <h1>Export: {!! isset($data) ? $data : '$data is empty' !!}</h1>
+
     </div>
 @endsection

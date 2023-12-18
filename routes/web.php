@@ -1,14 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MyController;
+use App\Http\classes\ExportManager;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\MyController;
 use App\Http\Controllers\PhotoController;
-use App\Http\Controllers\ImportController;
+use App\Http\Controllers\TestController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MyController::class, 'index'])
 	->name('test');
+    
 Route::get('users', [MyController::class, 'users'])
 	->name('users');
 Route::get('mail', [MailController::class, 'index'])
@@ -24,6 +25,5 @@ Route::post('test', [TestController::class, 'store']);
 Route::get('photo', [PhotoController::class, 'create']);
 Route::post('photo', [PhotoController::class, 'store']);
 
-Route::get('import', [ImportController::class, 'index'])->name('import.index');
-Route::get('files', [ImportController::class, 'files'])->name('import.files');
-
+Route::get('export', [ExportManager::class, 'index'])->name('export.index');
+Route::get('files', [ExportManager::class, 'files'])->name('export.files');

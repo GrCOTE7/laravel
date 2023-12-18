@@ -6,13 +6,13 @@ use App\Http\Controllers\ImportController;
 
 class Ads
 {
-	private $apiKey;
+	protected $apiKey;
 
-	private $ads;
+	protected $ads;
 
-	private $realAskAI;
+	protected $realAskAI;
 
-	private $aff;
+	protected $aff;
 
 	// public function __construct(array $ad, ?int $realAskAI = 0, ?int $aff = 0)
 	// {
@@ -40,7 +40,7 @@ class Ads
 		return $this->getNewAdLength();
 	}
 
-	private function getNewAdLength()
+	protected function getNewAdLength()
 	{
 		$this->apiKey = $ads = (new ImportController())->getParamsFromTest($this->nFile, $this->IAMode, $this->adN, $this->aff);
 		// Gc7::affH($ads[0]);
@@ -109,7 +109,7 @@ class Ads
 		return $newLength;
 	}
 
-	private function cutAds()
+	protected function cutAds()
 	{
 	}
 }

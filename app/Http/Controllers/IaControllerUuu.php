@@ -4,18 +4,18 @@ namespace App\Http\Tools;
 
 class TestIA
 {
-	private $apiKey;
+	protected $apiKey;
 
-	private $ad;
+	protected $ad;
 
-	private $realAskAI;
+	protected $realAskAi;
 
-	private $aff;
+	protected $aff;
 
-	public function __construct(array $ad, ?int $realAskAI = 0, ?int $aff = 0)
+	public function __construct(array $ad, ?int $realAskAi = 0, ?int $aff = 0)
 	{
 		$this->ad        = $ad;
-		$this->realAskAI = $realAskAI;
+		$this->realAskAi = $realAskAi;
 		$this->aff       = $aff;
 	}
 
@@ -42,7 +42,7 @@ class TestIA
 		return $this->answerAnalysis($propertyString);
 	}
 
-	private function answerAnalysis($propertyString)
+	protected function answerAnalysis($propertyString)
 	{
 		// Réc réponse
 		// $answer = json_decode(file_get_contents('./../storage/app/ia/adAnswerAIExemple.json')); // Object
@@ -94,7 +94,7 @@ class TestIA
 		// return $result;
 	}
 
-	private function whatIsCompletion()
+	protected function whatIsCompletion()
 	{
 		$prompt = $this->prompt("Qu'est-ce que la completion?");
 
@@ -102,12 +102,12 @@ class TestIA
 		return $this->askAI($prompt);
 	}
 
-	private function getApiKey()
+	protected function getApiKey()
 	{
 		return env('IA_KEY', 'No IA Key found');
 	}
 
-	private function exemplePrompt()
+	protected function exemplePrompt()
 	{
 		// Peux-tu remplacer dans le code suivant, les  'xxx' par la valeur adaptée ?
 		// Attention: Si tu ne trouves pas de valeur, laisse le champs à null, si c'est explicitement indiqué qu'il n'y en as pas, affecte 0.
@@ -125,7 +125,7 @@ class TestIA
 		// N'explique pas du tout ta réponse, juste donne le code que tu obtiens!
 	}
 
-	private function whatIsEncens()
+	protected function whatIsEncens()
 	{
 		// 2ar ApiKey
 		$apiKey = $this->getApiKey();
@@ -167,7 +167,7 @@ class TestIA
 		return $result['choices'][0]['message']['content'];
 	}
 
-	private function prompt(string $prompt): string
+	protected function prompt(string $prompt): string
 	{
 		$data = [
 			'model'    => 'gpt-3.5-turbo',
@@ -181,7 +181,7 @@ class TestIA
 		return json_encode($data);
 	}
 
-	private function askAI(string $prompt): string
+	protected function askAI(string $prompt): string
 	{
 		if ($this->realAskAI) {
 			// Gc7::aff($prompt);
@@ -213,12 +213,12 @@ class TestIA
 		return $answer['choices'][0]['message']['content'];
 	}
 
-	private function fakeAnswerAI()
+	protected function fakeAnswerAI()
 	{
 		return file_get_contents('./../storage/app/ia/adAnswerAiExemple.json');
 	}
 
-	private function realPrompt($ad = null)
+	protected function realPrompt($ad = null)
 	{
 		$ad ??= ['Description: Petite maison de 50m² sur 2 étages avec 5 chambres avec un terrain de 500m²'];
 

@@ -12,15 +12,9 @@ class MyController extends Controller
 	{
 		session(['maVar' => null]);
 		$var = config('app.name');
-		// var_dump($var);
 
-		// Storage::disk('public')->put('recettes2.txt', 'Contenu du fichier');
-		date_default_timezone_set('Europe/Paris');
 
-		// $date= Carbon::now()->locale('fr_FR');
-		$date = Carbon::now()->locale('fr');
-
-		define('DATA', $data ?? ucfirst($date->isoFormat('LLLL')));
+		define('DATA', $this->getFrDate());
 
 		return view('test')->withDataSend(DATA);
 	}
@@ -30,5 +24,12 @@ class MyController extends Controller
 		$users = User::all();
 
 		return view('test', ['dataSend' => $users]);
+	}
+
+	private function getFrDate()
+	{
+		date_default_timezone_set('Europe/Paris');
+        $date = Carbon::now()->locale('fr');
+        return ucfirst($date->isoFormat('LLLL'));
 	}
 }

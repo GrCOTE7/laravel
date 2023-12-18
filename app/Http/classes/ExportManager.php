@@ -1,46 +1,68 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\classes;
 
+use App\Http\Controllers\AdController;
 use App\Http\Tools\Gc7;
-use App\Http\Tools\TestIA;
+use App\Http\Tools\TestIaUuu;
+use Illuminate\View\View;
 
-class ImportController extends Controller
+class ExportManager extends AdController
 {
-	private $aff = 1;
+	public $exports;
 
-	private $nFile = 1;
+	public $folder;
 
-	private $file;
-
-	private $ads;
-
-	private $error;
-
-	public function index()
+	public function __construct()
 	{
-		// 2ar CHOIX du Fichier - 1 #0 pour fake ad
-		$nFile = 1;
-		// 2ar IA Mode reel ?
-		$IAMode = 0;
-		// 2ar # ad in jsonFile
-		$adN = 0;
-		// 2ar Affichage Debug
-		$aff = 10;
+		$this->exports = $this->exportFiles();
+		$this->folder  = $this->exports->folder;
 
-		$this->nFile = $nFile;
-		$this->aff   = $aff;
+		// Gc7::aff($this);
+		// Gc7::aff($this->getFieldsCountByAd(), 'FieldsCountByAd()');
+	}
 
-		$ads = $this->getAdsFromFile();
+	public function getSelectedAd()
+	{
+		$selectedFile       = new \stdClass();
+		$selectedFile->name = $this->exports->files[$this->fileName];
+		$selectedFile->ads  = $this->exports->files[$this->fileN]['ads'][$this->adN];
+
+		// $this->selectedFile=$selectedFile;
+		return $selectedFile;
+	}
+
+	public function getFieldsCountByAd()
+	{
+		// foreach ($this->exports->ads as $k => $ad) {
+		//     # code...
+		// }
+
+		return $this;
+	}
+
+	public function index(): view
+	{
+		$data = $this->getAdJsonToHtmlAd(); // Complete (with credit fields)
+
+		$data ??= null;
+
+		return view('pages.export', compact('data'));
+	}
+
+	public function getAdJsonToHtmlAd(): string
+	{
+		// $this->exports = $this->exportFiles();
+
+		$selectedAd = $this->getSelectedAd();
 
 		// Gc7::aff($ads[$adN]);
 		// Gc7::aff($ads);
 
 		echo str_repeat('&nbsp;', 7) . 'After Scraping';
-		Gc7::affH($ads[$adN]);
-
+		Gc7::affH($selectedAd);
 		// Gc7::aff($ads[$adN]);
-		$property = (new TestIA($ads[$adN], $IAMode))->getProperty();
+		$property = (new TestIaUuu($selectedAd, $this->askAi))->getProperty();
 		echo str_repeat('&nbsp;', 7) . 'After I.A. process';
 		Gc7::affH($property, 'Property');
 
@@ -49,35 +71,20 @@ class ImportController extends Controller
 		// 	exit;
 		// }
 
-		$data = 'Extract from json file #' . $nFile . ', ad # ' . $adN . '.';
-
-		return view('pages.import', compact('data'));
+		return 'Extract from json file #' . $this->fileN . ', ad # ' . $this->adN . '.';
 	}
 
 	public function files()
 	{
 		// Gc7::aff($this->getFiles());
-		$this->aff = 0;
+		// $this->aff = 0;
 
-		// 2ar
-		Gc7::aff($this->exportFilesHtmlTable());
-		echo '<hr>';
-
-		$data = $this->exportFiles();
-
+		// Gc7::aff($this->exportFilesToHtmlTable());
+		// echo '<hr>';
+		$data = $this->exports;
 		// $data = 123;
 
 		return view('pages.files', compact('data'));
-	}
-
-	public function getParamsFromTest($nFile, $IAMode, $adN, $aff)
-	{
-		$this->nFile  = $nFile;
-		$this->iaMode = $IAMode;
-		$this->adN    = $adN;
-		$this->aff    = $aff;
-
-		return $this->getAdsFromFile();
 	}
 
 	/**
@@ -87,14 +94,20 @@ class ImportController extends Controller
 	 */
 	public function getAdsFromFile(): array
 	{
-		$this->exportFileTable();
+		$this->ads = $this->exportFiles()->files;
 
 		return $this->ads;
 	}
 
-	public function getAdsFromJson(): array
+	/**
+	 * get ads and cleaned json.
+	 *
+	 * @param null|mixed $file
+	 */
+	public function getAdsFromJson($file = null): array
 	{
-		$jsonData = file_get_contents($this->file);
+		$file ??= $this->file;
+		$jsonData = file_get_contents($file);
 		// echo $jsonData;
 		$jsonData = preg_replace('/ /', '&nbsp;', $jsonData);
 		$ads      = json_decode($jsonData, true);
@@ -246,91 +259,132 @@ class ImportController extends Controller
 			$filesArr = null;
 		}
 
-		$imports         = new \stdClass();
-		$imports->folder = $repertoire;
-		$imports->files  = $filesArr;
+		$exports         = new \stdClass();
+		$exports->folder = $repertoire;
+		$exports->files  = $filesArr;
 
 		// Gc7::aff($imports);
 
-		return $imports;
+		return $exports;
 	}
 
-	private function exportFilesHtmlTable(): string
+	protected function exportFilesToHtmlTable(): object
 	{
-		$imports = $this->getFiles();
-		$files   = $imports->files;
+		$exports = $this->exports;
+		$files   = $exports->files;
 
-		// $files = [
-		// 	'./../storage/app/exports/231204-17_sjdl20.json',
-		// 	'./../storage/app/exports/231201_sjdl20.json',
-		// 	'./../storage/app/exports/sjdl20s.json',
-		// ];
+		// Gc7::aff($exports);
 
-		$nbFiles = count($files);
+		$filesCount = count($files);
 
-		$data = '<div class="container"><h3>' . $imports->folder . ' Fichiers de 0 à ' . $nbFiles - 1 . '</h3><table class="table table-sm table-bordered table-rounded m-auto" style="width: 97%">';
-		foreach ($files as $k => $v) {
-			$bgcolor    = ($this->nFile == $k) ? 'yellow' : 'none';
-			$this->file = $imports->folder . $v;
-			// $this->file = $v;
-			// Gc7::aff($v);
-			// Gc7::aff($this->file);
-			$ads = $this->getAdsFromJson();
-			// Gc7::aff($ads);
-			if ($this->nFile == $k) {
-				$this->ads = $ads;
-			}
-			$data .= '<tr><td style="text-align: right;background-color:' . $bgcolor . ';">' . $k . '</td><td style="background-color:' . $bgcolor . '">' . $v . '</td><td style="text-align: right;background-color:' . $bgcolor . '">' . count($ads) . '</td><td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', filectime($imports->folder . $v)) . '</td></tr>';
+		$html = '<div class="container"><h3>' . $exports->folder . ' Fichiers de 0 à ' . $filesCount - 1 . '</h3><table class="table table-sm table-bordered table-rounded m-auto" style="width: 97%">
+        <tr style="text-align: center"><th>Id</th><th>Name</th><th>AdsCount</th><th>FieldsCount</th><th>AdIdTopFields</th><th>Created Date</th></tr>';
+		foreach ($files as $k => $file) {
+			$bgcolor = $file['bgColor'];
+
+			$fileDetails = $this->fileDetails($this->folder . $file['name']);
+
+			// Gc7::aff($file);
+
+			$html .= '<tr><td style="text-align: right;background-color:' . $bgcolor . ';">' . $k . '</td>
+            <td style="background-color:' . $bgcolor . '">' . $file['name'] . '</td>
+            <td style="text-align: right;background-color:' . $bgcolor . '">' . $file['adsCount'] . '</td>
+            <td style="text-align: right;background-color:' . $bgcolor . '">' . $fileDetails->fieldsCount . '</td>
+            <td style="text-align: right;background-color:' . $bgcolor . '">' . $fileDetails->adIdTopFieldsCount . '</td>
+            <td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', $file['createdAt']) . '</td></tr>';
 		}
-		$data .= '</table></div>';
-		if ($this->aff) {
-			echo '<h3>' . $imports->folder . ' /Fichiers de 0 à ' . $nbFiles - 1 . '</h3>';
-			echo $data . '<hr>';
-		}
+		$html .= '</table></div>';
 
-		// if ($this->nFile >= $nbFiles) {
-		// 	$this->error = 1;
-		// }
+		echo $html . '<hr>';
 
-		return $data;
+		return $exports;
 	}
 
-	private function exportFiles(): object
+	protected function fileDetails($file)
 	{
+		$details = new \stdClass();
+
+		// Gc7::aff($this);
+
+		$ads                  = $this->getAdsFromJson($file);
+		$ad                   = $ads[0];
+		$details->fieldsCount = count($ad);
+
+		Gc7::aff($this->getAdWithoutFinancial($ad));
+
+		$vCount = count($this->fieldsNotEmptyCount($ads[0]));
+		// Gc7::aff($vCount);
+
+		// $fields = count($ads);
+
+		$details->adIdTopFieldsCount = $vCount;
+
+		return $details;
+	}
+
+	protected function fieldsNotEmptyCount($ad)
+	{
+		return array_filter($ad, function ($value) {
+			// La fonction de rappel retourne true pour les valeurs non vides
+			return null !== $value && '' !== $value && false !== $value;
+		});
+	}
+
+	protected function getAdWithoutFinancial($ad)
+	{
+		// Gc7::affH($ads[0]);
+		$adsNum = array_values($ad);
+
+		// Gc7::affH($ad);
+
+		// Gc7::aff(count($adsNum));
+		return array_slice($ad, 0, array_search('Calculer mes mensualités', $adsNum));
+		// Gc7::aff($adsNum);
+	}
+
+	/**
+	 * exportFiles.
+	 */
+	protected function exportFiles(): object
+	{
+		// Gc7::aff($this);
 		$imports = $this->getFiles();
-		$folder  = $imports->folder;
-		$files   = $imports->files;
+		// Gc7::aff($imports, 'imports');
 
-		// Gc7::aff($folder);
+		$folder = $imports->folder;
+		$files  = $imports->files;
+		// Gc7::aff($folder, 'folder');
+		// Gc7::aff($files, 'files');
 
-		// $files = [
-		// 	'./../storage/app/exports/231204-17_sjdl20.json',
-		// 	'./../storage/app/exports/231201_sjdl20.json',
-		// 	'./../storage/app/exports/sjdl20s.json',
-		// ];
+		// Gc7::aff($this, '$this');
 
-		$nbFiles = count($files);
+		$exports             = new \stdClass();
+		$exports->filesCount = count($files);
+		$exports->folder     = $folder;
+		// Gc7::aff($exports, '$exports');
+		// $exports->selected = $this->adN;
 
-		$data          = new \stdClass();
-		$data->nbFiles = $nbFiles;
-		$data->folder  = $folder;
+		$exports->selectedFile = new \stdClass();
 
 		foreach ($files as $k => $v) {
-			$this->file    = $imports->folder . $v;
-			$ads           = $this->getAdsFromJson();
-			$data->files[] = [
+			$this->file       = $imports->folder . $v;
+			$ads              = $this->getAdsFromJson();
+			$exports->files[] = [
 				'name'      => $v,
 				'adsCount'  => count($ads),
-				'createdAt' => date('d/m/Y à H:i:s', filectime($imports->folder . $v)),
+				'createdAt' => filectime($imports->folder . $v),
 				'bgColor'   => 'none',
 			];
-			if ($this->nFile == $k) {
-				$data->files[$k]['ads']     = $ads;
-				$data->files[$k]['bgColor'] = 'yellow';
+			if ($this->fileN == $k) {
+				$exports->files[$k]['bgColor'] = 'yellow';
+				$exports->selectedFile->name   = $v;
+				$exports->selectedFile->ads    = $ads;
 			}
 
 			// Gc7::aff($v);
 		}
+
+		// Gc7::aff($exports, '$exports');
 
 		// if ($this->nFile >= $nbFiles) {
 		// 	$this->error = 1;
@@ -338,6 +392,6 @@ class ImportController extends Controller
 
 		// Gc7::aff($data);
 
-		return $data;
+		return $exports;
 	}
 }

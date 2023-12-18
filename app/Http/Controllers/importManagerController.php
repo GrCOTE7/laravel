@@ -104,7 +104,7 @@ class importManagerController extends Controller
 		return $dateModification;
 	}
 
-	private function initDate()
+	protected function initDate()
 	{
 		$timezone    = 'Europe/Paris';
 		$this->dDate = Carbon::now($timezone);
@@ -121,7 +121,7 @@ class importManagerController extends Controller
 		return true;
 	}
 
-	private function dateComplexConversion($published_date)
+	protected function dateComplexConversion($published_date)
 	{
 		// hier
 		$words = explode(' ', $published_date);
@@ -134,7 +134,7 @@ class importManagerController extends Controller
 		return $this->setHourAndMinute($decal, $published_date);
 	}
 
-	private function setHourAndMinute(int $decal, string $date): Carbon
+	protected function setHourAndMinute(int $decal, string $date): Carbon
 	{
 		$timezone = 'Europe/Paris';
 		$dateJ    = Carbon::now($timezone);
@@ -146,7 +146,7 @@ class importManagerController extends Controller
 		return $dateJ->subDay($decal)->setHour($hour)->setMinute($minute)->setSecond(0);
 	}
 
-	private function getFakeOwnerFields()
+	protected function getFakeOwnerFields()
 	{
 		return [
 			'christine colinMembre depuis août 2019Signaler l’annonceVos droits et obligationsAccueilVentes immobilièresFranche-ComtéJuraPeintre 39290Lot maisons à vendreAnnonces Google',

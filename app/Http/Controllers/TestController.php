@@ -9,8 +9,6 @@ use App\Http\Tutos\TutoController;
 
 class TestController extends Controller
 {
-
-
 	public function index()
 	{
 		$data = (new AdController())->index();

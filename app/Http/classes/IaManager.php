@@ -1,30 +1,28 @@
 <?php
 
-namespace App\Http\Tools;
+namespace App\Http\classes;
 
-class TestIA
+use App\Http\Controllers\AdController;
+use App\Http\Tools\Gc7;
+
+class IaManager extends AdController
 {
-	private $apiKey;
-
-	private $ad;
-
-	private $realAskAI;
-
-	private $aff;
-
-	public function __construct(array $ad, ?int $realAskAI = 0, ?int $aff = 0)
-	{
-		$this->ad        = $ad;
-		$this->realAskAI = $realAskAI;
-		$this->aff       = $aff;
-	}
-
 	public function index()
 	{
 		// return $this->realPrompt();
 		// return $this->whatIsCompletion();
 		// return $this->getProperty();
 		return $this->answerAnalysis();
+	}
+
+	public function getFields(array $ads): array
+	{
+		Gc7::aff(count($ads), 'Nombre d\'annonces');
+
+        $ad = $ads[0];
+        // Gc7::affH($ad);
+
+		return ['ch1', 'ch2'];
 	}
 
 	public function getProperty()
@@ -42,7 +40,7 @@ class TestIA
 		return $this->answerAnalysis($propertyString);
 	}
 
-	private function answerAnalysis($propertyString)
+	protected function answerAnalysis($propertyString)
 	{
 		// Réc réponse
 		// $answer = json_decode(file_get_contents('./../storage/app/ia/adAnswerAIExemple.json')); // Object
@@ -55,10 +53,10 @@ class TestIA
 		// Gc7::aff($response2, '$response');
 		// echo '<hr>';
 
-        // $propertyString = json_encode($propertyString);
+		// $propertyString = json_encode($propertyString);
 
-        // Gc7::aff(gettype($propertyString));
-        // Gc7::aff($propertyString);
+		// Gc7::aff(gettype($propertyString));
+		// Gc7::aff($propertyString);
 
 		eval($propertyString);
 
@@ -94,20 +92,20 @@ class TestIA
 		// return $result;
 	}
 
-	private function whatIsCompletion()
+	protected function whatIsCompletion()
 	{
 		$prompt = $this->prompt("Qu'est-ce que la completion?");
 
 		// die($answer);
-		return $this->askAI($prompt);
+		return $this->askAi($prompt);
 	}
 
-	private function getApiKey()
+	protected function getApiKey()
 	{
 		return env('IA_KEY', 'No IA Key found');
 	}
 
-	private function exemplePrompt()
+	protected function exemplePrompt()
 	{
 		// Peux-tu remplacer dans le code suivant, les  'xxx' par la valeur adaptée ?
 		// Attention: Si tu ne trouves pas de valeur, laisse le champs à null, si c'est explicitement indiqué qu'il n'y en as pas, affecte 0.
@@ -125,7 +123,7 @@ class TestIA
 		// N'explique pas du tout ta réponse, juste donne le code que tu obtiens!
 	}
 
-	private function whatIsEncens()
+	protected function whatIsEncens()
 	{
 		// 2ar ApiKey
 		$apiKey = $this->getApiKey();
@@ -167,7 +165,7 @@ class TestIA
 		return $result['choices'][0]['message']['content'];
 	}
 
-	private function prompt(string $prompt): string
+	protected function prompt(string $prompt): string
 	{
 		$data = [
 			'model'    => 'gpt-3.5-turbo',
@@ -181,9 +179,9 @@ class TestIA
 		return json_encode($data);
 	}
 
-	private function askAI(string $prompt): string
+	protected function askAI(string $prompt): string
 	{
-		if ($this->realAskAI) {
+		if ($this->realAskAi) {
 			// Gc7::aff($prompt);
 			// exit;
 			$ch = curl_init('https://api.openai.com/v1/chat/completions');
@@ -202,7 +200,7 @@ class TestIA
 		// Gc7::aff($fullAnswer);
 		// exit;
 		} else {
-			$fullAnswer = $this->fakeAnswerAI();
+			$fullAnswer = $this->fakeAnswerAi();
 		}
 
 		// return $fullAnswer;
@@ -213,12 +211,12 @@ class TestIA
 		return $answer['choices'][0]['message']['content'];
 	}
 
-	private function fakeAnswerAI()
+	protected function fakeAnswerAi()
 	{
 		return file_get_contents('./../storage/app/ia/adAnswerAiExemple.json');
 	}
 
-	private function realPrompt($ad = null)
+	protected function realPrompt($ad = null)
 	{
 		$ad ??= ['Description: Petite maison de 50m² sur 2 étages avec 5 chambres avec un terrain de 500m²'];
 

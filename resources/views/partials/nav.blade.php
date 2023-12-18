@@ -1,5 +1,5 @@
 <a href="/">Home</a> |
-<a href="import">Import</a> |
+<a href="export">Export</a> |
 <a href="users">Users</a> |
 <a href="photo">Photo</a> |
 <a href="mail">Mail</a> |
