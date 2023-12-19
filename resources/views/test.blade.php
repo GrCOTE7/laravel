@@ -6,6 +6,6 @@
 
 @section('main')
     <h1>Test Page with Xdebug v3</h1>
-    <p>{{  DATA }}</p>
+    <p>{{ DATA }}</p>
 
 @endsection

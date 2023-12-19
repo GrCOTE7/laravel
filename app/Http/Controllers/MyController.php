@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
+use App\Http\Tools\Gc7;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\View\View;
-use App\Http\Controllers\Controller;
 
 class MyController extends Controller
 {
 	public function index(mixed $data = null): View
 	{
-		session(['maVar' => null]);
-		$var = config('app.name');
+		$data = (new AdController())->index();
 
+		// define('DATA', $this->getFrDate());
+		// return view('test')->withDataSend(DATA);
 
-		define('DATA', $this->getFrDate());
+		// $data = Gc7::affData($data ?? null);
 
-		return view('test')->withDataSend(DATA);
+		return view('pages.test', compact('data'));
 	}
 
 	public function users($id = null)
@@ -30,7 +31,8 @@ class MyController extends Controller
 	private function getFrDate()
 	{
 		date_default_timezone_set('Europe/Paris');
-        $date = Carbon::now()->locale('fr');
-        return ucfirst($date->isoFormat('LLLL'));
+		$date = Carbon::now()->locale('fr');
+
+		return ucfirst($date->isoFormat('LLLL'));
 	}
 }
