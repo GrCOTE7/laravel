@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\View\View;
+use App\Http\Controllers\Controller;
 
 class MyController extends Controller
 {
