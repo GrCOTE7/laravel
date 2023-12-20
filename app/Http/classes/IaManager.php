@@ -7,40 +7,28 @@ use App\Http\Tools\Gc7;
 
 class IaManager extends AdController
 {
+    public $prompt;
 	public function index()
 	{
-		// return $this->realPrompt();
-		// return $this->whatIsCompletion();
-		// return $this->getProperty();
-		return $this->answerAnalysis();
+         return $this->getPropertyFields();
 	}
 
-	public function getFields(array $ads): array
+	public function getPropertyFields()
 	{
-		Gc7::aff(count($ads), 'Nombre d\'annonces');
-
-        $ad = $ads[0];
-        // Gc7::affH($ad);
-
-		return ['ch1', 'ch2'];
-	}
-
-	public function getProperty()
-	{
-		$prompt = $this->realPrompt($this->ad);
+		$prompt = $this->realPrompt();
 
 		// Gc7::aff($prompt);
 		// Gc7::aff($this->ad);
 
 		// $this->askAI($prompt);
-		$propertyString = $this->askAI($prompt);
+		$propertyString = $this->askAI();
 
 		// Gc7::aff($propertyString);
 		// return $this->ad;
 		return $this->answerAnalysis($propertyString);
 	}
 
-	protected function answerAnalysis($propertyString)
+	protected function answerAnalysis($ad)
 	{
 		// Réc réponse
 		// $answer = json_decode(file_get_contents('./../storage/app/ia/adAnswerAIExemple.json')); // Object
@@ -58,7 +46,7 @@ class IaManager extends AdController
 		// Gc7::aff(gettype($propertyString));
 		// Gc7::aff($propertyString);
 
-		eval($propertyString);
+		eval($ad);
 
 		$vars = get_defined_vars();
 
@@ -92,14 +80,6 @@ class IaManager extends AdController
 		// return $result;
 	}
 
-	protected function whatIsCompletion()
-	{
-		$prompt = $this->prompt("Qu'est-ce que la completion?");
-
-		// die($answer);
-		return $this->askAi($prompt);
-	}
-
 	protected function getApiKey()
 	{
 		return env('IA_KEY', 'No IA Key found');
@@ -123,48 +103,6 @@ class IaManager extends AdController
 		// N'explique pas du tout ta réponse, juste donne le code que tu obtiens!
 	}
 
-	protected function whatIsEncens()
-	{
-		// 2ar ApiKey
-		$apiKey = $this->getApiKey();
-		$data   = [
-			'model'    => 'gpt-3.5-turbo',
-			'messages' => [[
-				'role'    => 'user',
-				'content' => "Qu'est-ce que l'encens?",
-			]],
-		];
-		$data_string = json_encode($data);
-
-		// echo $data_string . '<hr>';
-
-		// { "id": "chatcmpl-8STJBJJymIxqEMWKS9wItrOSf0GvW", "object": "chat.completion", "created": 1701796537, "model": "gpt-3.5-turbo-0613", "choices": [ { "index": 0, "message": { "role": "assistant", "content": "L'encens est une substance aromatique obtenue à partir de plantes, de résines ou d'huiles essentielles, utilisée depuis des milliers d'années pour ses propriétés parfumantes et thérapeutiques. Il est souvent brûlé lors de rituels religieux et spirituels, pour purifier l'air, favoriser la méditation, créer une atmosphère harmonieuse ou simplement diffuser un agréable parfum. L'encens se présente sous différentes formes, telles que des bâtonnets, des cônes, des grains ou des résines, et il existe de nombreuses variétés avec des senteurs diverses, comme la lavande, le jasmin, le santal ou la sauge." }, "finish_reason": "stop" } ], "usage": { "prompt_tokens": 16, "completion_tokens": 172, "total_tokens": 188 }, "system_fingerprint": null }
-
-		if (!$this->test) {
-			$ch = curl_init('https://api.openai.com/v1/chat/completions');
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, [
-				'Content-Type: application/json',
-				'Content-Length: ' . strlen($data_string),
-				'Authorization: Bearer ' . $apiKey,
-			]);
-
-			return curl_exec($ch); // Complete Json Response
-			// { "id": "chatcmpl-8STJBJJymIxqEMWKS9wItrOSf0GvW", "object": "chat.completion", "created": 1701796537, "model": "gpt-3.5-turbo-0613", "choices": [ { "index": 0, "message": { "role": "assistant", "content": "L'encens est une substance aromatique obtenue à partir de plantes, de résines ou d'huiles essentielles, utilisée depuis des milliers d'années pour ses propriétés parfumantes et thérapeutiques. Il est souvent brûlé lors de rituels religieux et spirituels, pour purifier l'air, favoriser la méditation, créer une atmosphère harmonieuse ou simplement diffuser un agréable parfum. L'encens se présente sous différentes formes, telles que des bâtonnets, des cônes, des grains ou des résines, et il existe de nombreuses variétés avec des senteurs diverses, comme la lavande, le jasmin, le santal ou la sauge." }, "finish_reason": "stop" } ], "usage": { "prompt_tokens": 16, "completion_tokens": 172, "total_tokens": 188 }, "system_fingerprint": null }
-		}
-
-		$resultJson = file_get_contents('./../storage/app/ia/encens.json');
-		// die( $resultJson);
-		// echo $result;
-
-		$result = json_decode($resultJson, true);
-
-		// print_r($result);
-		return $result['choices'][0]['message']['content'];
-	}
-
 	protected function prompt(string $prompt): string
 	{
 		$data = [
@@ -179,18 +117,18 @@ class IaManager extends AdController
 		return json_encode($data);
 	}
 
-	protected function askAI(string $prompt): string
+	protected function askAI(): string
 	{
-		if ($this->realAskAi) {
+		if ($this->askAi) {
 			// Gc7::aff($prompt);
 			// exit;
 			$ch = curl_init('https://api.openai.com/v1/chat/completions');
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $prompt);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $this->prompt);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, [
 				'Content-Type: application/json',
-				'Content-Length: ' . strlen($prompt),
+				'Content-Length: ' . strlen($this->prompt),
 				'Authorization: Bearer ' . $this->getApiKey(),
 			]);
 
@@ -218,35 +156,38 @@ class IaManager extends AdController
 
 	protected function realPrompt($ad = null)
 	{
-		$ad ??= ['Description: Petite maison de 50m² sur 2 étages avec 5 chambres avec un terrain de 500m²'];
+		$ad ??= $this->file->adForIa;
 
 		// Gc7::aff($ad);
 		// $ad = implode(' ',$ad);
 		$ad = json_encode($ad);
 		// Gc7::aff($ad);
 
-		$prompt = <<<'EOD'
-			<br>
-			Remplace dans le code suivant, les  'xxx' par la valeur appropriée.<br>
-			Attention: Si tu ne trouves pas de valeur, laisse le champs à null, et si c'est explicitement indiqué qu'il n'y en as pas, affecte 0.<br>
-			Pour le champ property_description, recopie intégralement la valeur.
-			$property_location           = 'xxx';<br>
-			$ad_published_at             = 'xxx'; // Génère ici le jour et l'heure selon le format 'Y-m-d H:i'
-			$ad_title                    = 'xxx';<br>
-			$ad_link                     = 'xxx';<br>
-			$property_owner              = 'xxx';<br>
-			$property_price              = 'xxx';<br>
-			$property_number_of_pieces   = 'xxx';<br> // Supérieur ou égal au nombre de chambres
-			$property_number_of_bedrooms = 'xxx'; // Ici, tu peux déduire l'information aussi avec la description fournie<br>
-			$property_building_surface   = 'xxx';<br>
-			$property_ground_surface     = 'xxx';<br>
-			$property_number_of_levels   = 'xxx';<br>
-			$property_description        = 'xxx';<br>
+		$promptString = <<<'EOD'
+			<hr>
+			À partir de l'annonce ci-avant, remplace dans le code ci-dessous les 'xxx' par le nom de la clé dans l'objet (et donc pas sa valeur) qui contient l'information appropriée et si ce n'est pas clairement explicité, affecte lui la valeur null.
+
+			Voici le code:
+			$property_location           = 'xxx';
+			$ad_published_at             = 'xxx';
+			$ad_title                    = 'xxx';
+			$ad_link                     = 'xxx';
+			$property_price              = 'xxx';
+			$property_number_of_pieces   = 'xxx';
+			$property_number_of_bedrooms = 'xxx';
+			$property_building_surface   = 'xxx';
+			$property_ground_surface     = 'xxx';
+			$property_number_of_levels   = 'xxx';
+			$property_description        = 'xxx';
+			$property_owner              = 'xxx';
+
 			N'explique pas du tout ta réponse, juste renvoie le code que tu obtiens!
+			Rappel: Pas les valeurs, mais bien les clés ! Et n'oublie pas le owner !
 			EOD;
-		$p = $ad . json_encode($prompt);
+
+		$p = $ad. json_encode($promptString);
 
 		// die($p);
-		return $this->prompt($ad . $prompt);
+		return $this->prompt($p);
 	}
 }

@@ -28,13 +28,16 @@ class AdController extends Controller
 		date_default_timezone_set('Europe/Paris');
 		// $this->ads = (new ExportManager())->getAds();
 		$this->file = (new ExportManager())->exports;
-		Gc7::affH($this->file->ads[$this->adN]); // The selected Ad
+		$this->file->adForIa = $this->file->ads[$this->file->adForIa];
+
+		// Gc7::affH($this->file->adForIa); // The Ad for IA
 		// Gc7::aff($this->file->ads); // The ads
 	}
 
 	// @i Called by /test
 	public function index()
 	{
+		$ia = (new IaManager())->index();
 		// phpinfo();
 		// $this->exports = (new ExportManager())->exportFilesToHtmlTable();
 
