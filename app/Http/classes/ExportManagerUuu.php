@@ -204,7 +204,7 @@ class ExportManagerUuu extends AdController
 		// $ch = substr($ch, 50, 5);
 	}
 
-	
+
 
 	protected function exportFilesToHtmlTable(): object
 	{
@@ -260,23 +260,6 @@ class ExportManagerUuu extends AdController
 		return $details;
 	}
 
-	protected function fieldsNotEmptyCount($ad)
-	{
-		return array_filter($ad, function ($value) {
-			// La fonction de rappel retourne true pour les valeurs non vides
-			return null !== $value && '' !== $value && false !== $value;
-		});
-	}
 
-	protected function getAdWithoutFinancial($ad)
-	{
-		// Gc7::affH($ads[0]);
-		$adsNum = array_values($ad);
 
-		// Gc7::affH($ad);
-
-		// Gc7::aff(count($adsNum));
-		return array_slice($ad, 0, array_search('Calculer mes mensualités', $adsNum));
-		// Gc7::aff($adsNum);
-	}
 }

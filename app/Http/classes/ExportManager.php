@@ -3,6 +3,7 @@
 namespace App\Http\classes;
 
 use App\Http\Controllers\AdController;
+use App\Http\Tools\Gc7;
 
 class ExportManager extends AdController
 {
@@ -56,18 +57,28 @@ class ExportManager extends AdController
 			$file->bgColor   = 'none';
 
 			if ($this->fileN == $k) {
-				$file->bgColor = 'yellow';
-				$cleanedAd     = [];
+				$file->bgColor   = 'yellow';
+				$cleanedAds      = [];
+				$adFieldsCount   = [];
+				$maxFilledFields = 0;
 				foreach ($ads as $k => $ad) {
-					$ad          = $this->getAdWithoutFinancial($ad);
-					$cleanedAds[] = $ad;
-				}
+					$ad                = $this->getAdWithoutFinancial($ad);
+					$cleanedAds[]      = $ad;
+					$filledFieldsCount = count($this->fieldsNotEmptyCount($ad));
+					$adFieldsCount[]   = $filledFieldsCount;
 
-				$file->ads = $cleanedAds;
+					$maxFilledFields = max($maxFilledFields, $filledFieldsCount);
+				}
+				$adMoreFields = array_search($maxFilledFields, $adFieldsCount);
+				// echo $adMoreFields; // Ad More fields
+				// Gc7::aff($maxFilledFields);
+				// Gc7::aff($adFieldsCount);
+				$file->adForIa = $adMoreFields;
+				$file->ads     = $cleanedAds;
 			}
 		}
 
-		return $file;
+		return $exports->files[$this->fileN];
 		// return new \stdClass();
 	}
 
@@ -113,5 +124,13 @@ class ExportManager extends AdController
 		$adsNum = array_values($ad);
 
 		return array_slice($ad, 0, array_search('Calculer mes mensualités', $adsNum));
+	}
+
+	protected function fieldsNotEmptyCount($ad)
+	{
+		return array_filter($ad, function ($value) {
+			// La fonction de rappel retourne true pour les valeurs non vides
+			return null !== $value && '' !== $value && false !== $value;
+		});
 	}
 }
