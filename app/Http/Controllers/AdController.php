@@ -14,7 +14,7 @@ class AdController extends Controller
 
 	protected $fileN = 2; // @i Choix numéro de fichier
 
-	protected $adN = 0; // @i Choix numéro de l'annonce dans la liste
+	protected $adN = 1; // @i Choix numéro de l'annonce dans la liste
 
 	protected $file;
 
@@ -41,13 +41,15 @@ class AdController extends Controller
 
 	public function index()
 	{
-		Gc7::affH($this->file->ads[$this->file->adForIaId]);
+		// Gc7::affH($this->file->ads[$this->file->adForIaId]);
 		// $str = $this->allAdsWithFields();
 
 		// $this->adForIa = $this->setAdForIa();
-        $iaFields = (new IaManager)->index();
+		$adIa = (new IaManager())->index();
 
-        Gc7::aff($iaFields);
+		$this->affAds($adIa);
+
+		// Gc7::aff($adIa);
 
 		return $this->error ?? 'no';
 	}
@@ -98,6 +100,59 @@ class AdController extends Controller
 		return 'Fichier #' . $this->fileN;
 	}
 
+	protected function affAds($adIa): void
+	{
+		// Gc7::aff($adIa);
+		$ads  = $this->file->ads;
+		$html = '<div class="container" style="font-family: arial;"><h3>Fichier: ' . $this->fileN . ' (' . $this->file->name . ' - ' . $this->file->adsCount . ' ads)</h3>
+        <table class="table table-sm table-bordered table-rounded m-auto" style="width: 97%">
+        <tr style="text-align: center">';
+
+		$html .= '<th>Id</th>';
+		$i = 0;
+		foreach ($adIa->keys as $k => $field) {
+			if (1 != $i++) {
+				$html .= '<th>' . $k . '<br>' . $field . '</th>';
+			}
+		}
+		foreach ($ads as $k => $ad) {
+			$html .= '</tr><tr style="text-align: center"><td>' . $k . '</td>';
+
+			$i = 0;
+			foreach ($adIa->keys as $field) {
+				if (0 == $i && empty($ad[$field])) {
+                    $field = $adIa->keys->fallback_property_location;
+				}
+
+				// if (empty($ad[$field])) {
+				// 	$ad[$field] = '<h1>XXXXX</h1><hr>' . $ad['textcaption'];
+				// }
+				if (1 != $i++) {
+					$html .= '<td>' . $ad[$field] . '</td>';
+				}
+			}
+		}
+
+		$html .= '</tr>';
+		// foreach ($files as $k => $file) {
+		// 	$bgcolor = $file['bgColor'];
+
+		// 	$fileDetails = $this->fileDetails($this->folder . $file['name']);
+
+		// 	// Gc7::aff($file);
+
+		// 	$html .= '<tr><td style="text-align: right;background-color:' . $bgcolor . ';">' . $k . '</td>
+		//     <td style="background-color:' . $bgcolor . '">' . $file['name'] . '</td>
+		//     <td style="text-align: right;background-color:' . $bgcolor . '">' . $file['adsCount'] . '</td>
+		//     <td style="text-align: right;background-color:' . $bgcolor . '">' . $fileDetails->fieldsCount . '</td>
+		//     <td style="text-align: right;background-color:' . $bgcolor . '">' . $fileDetails->adIdTopFieldsCount . '</td>
+		//     <td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', $file['createdAt']) . '</td></tr>';
+		// }
+		$html .= '</table></div>';
+
+		echo $html . '<hr>';
+	}
+
 	protected function setAdForIa()
 	{
 		$adForIa       = new \stdClass();
@@ -105,11 +160,12 @@ class AdController extends Controller
 		$adForIa->ad   = $this->file->ads[$this->file->adForIaId];
 		$adForIa->keys = array_keys($adForIa->ad, true);
 		// echo count($adForIa->keys);
-		$cutField = array_search(array_search('Critères', $adForIa->ad), $adForIa->keys);
-        $adForIa->cut = array_slice($adForIa->ad,0, $cutField);
-        $adForIa->forFilter = array_slice($adForIa->ad,$cutField+1);
-        // Gc7::affH($adForIaCut);
-        // Gc7::affH($adForFilter);
+		$cutField           = array_search(array_search('Critères', $adForIa->ad), $adForIa->keys);
+		$adForIa->cut       = array_slice($adForIa->ad, 0, $cutField);
+		$adForIa->forFilter = array_slice($adForIa->ad, $cutField + 1);
+
+		// Gc7::affH($adForIaCut);
+		// Gc7::affH($adForFilter);
 		return $adForIa;
 	}
 

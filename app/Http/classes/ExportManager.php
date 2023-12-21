@@ -27,8 +27,12 @@ class ExportManager extends AdController
 	{
 		// $file ??= $this->file;
 		$jsonData = file_get_contents($file);
+
+        // $encodage = mb_detect_encoding($jsonData);
 		// echo $jsonData;
-		$jsonData = preg_replace('/ /', '&nbsp;', $jsonData);
+		$jsonData = preg_replace('/ /', '', $jsonData);
+		$jsonData = preg_replace('/�/', '', $jsonData);
+
 		$ads      = json_decode($jsonData, true);
 
 		if (null === $ads) {

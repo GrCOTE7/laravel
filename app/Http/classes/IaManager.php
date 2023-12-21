@@ -9,6 +9,8 @@ class IaManager extends AdController
 {
 	public $prompt;
 
+	protected $adForIa;
+
 	public function index()
 	{
 		$this->adForIa = $this->setAdForIa();
@@ -26,12 +28,12 @@ class IaManager extends AdController
 		// $this->askAI($prompt);
 		$fieldsString = $this->askAI();
 
-		$this->keys = $this->getFieldsFromString($fieldsString);
+		$this->adForIa->keys = $this->getFieldsFromString($fieldsString);
 
 		// Gc7::aff(eval($fieldsString));
 		// return $this->ad;
 		// return $this->answerAnalysis($propertyString);
-		return $this->keys;
+		return $this->adForIa;
 	}
 
 	protected function getFieldsFromString($fieldsString)
@@ -43,7 +45,14 @@ class IaManager extends AdController
 
 		$keys = new \stdClass();
 		// Itération sur les correspondances
-		foreach ($matches as $match) {
+		foreach ($matches as $k => $match) {
+			if (1 === $k) {
+                $location = trim($this->adForIa->cut[$keys->property_location]);
+                // Nettoyage du champs
+                $location = preg_replace('/[^A-Za-z0-9 ]/', '', $location);
+                // $length = strlen($location);
+				$keys->fallback_property_location = array_search(trim($location), $this->adForIa->cut, true);
+			}
 			// Nom de la variable
 			$variableName = substr($match[1], 1);
 
@@ -53,6 +62,8 @@ class IaManager extends AdController
 			// Création de la variable dans le contexte actuel
 			$keys->{$variableName} = $variableValue;
 		}
+
+		// Gc7::affH($this->adForIa->ad);
 
 		return $keys;
 	}
@@ -148,7 +159,7 @@ class IaManager extends AdController
 
 	protected function askAI(): string
 	{
-		Gc7::affH($this->adForIa->cut);
+		// Gc7::affH($this->adForIa->cut);
 		if ($this->askAi) {
 			echo '<hr>';
 			// Gc7::aff($prompt);
@@ -179,14 +190,14 @@ class IaManager extends AdController
 
 	protected function fakeAnswerAi()
 	{
-		return file_get_contents('./../storage/app/ia/adFieldsAnswerAiExemple_'.$this->fileN.'.json');
+		return file_get_contents('./../storage/app/ia/adFieldsAnswerAiExemple_' . $this->fileN . '.json');
 	}
 
 	protected function realPrompt($ad = null)
 	{
 		$ad ??= $this->adForIa;
 
-		Gc7::aff($ad->cut);
+		// Gc7::aff($ad->cut);
 		// $ad = implode(' ',$ad);
 		$ad = json_encode($ad->cut);
 		// Gc7::aff($ad);
@@ -216,8 +227,8 @@ class IaManager extends AdController
 
 		$p = $ad . json_encode($promptString);
 
-		Gc7::aff($p);
-		echo '<hr>';
+		// Gc7::aff($p);
+		// echo '<hr>';
 
 		// die($p);
 		return $this->prompt($p);
