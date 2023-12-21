@@ -7,25 +7,54 @@ use App\Http\Tools\Gc7;
 
 class IaManager extends AdController
 {
-    public $prompt;
+	public $prompt;
+
 	public function index()
 	{
-         return $this->getPropertyFields();
+		$this->adForIa = $this->setAdForIa();
+
+		return $this->getPropertyFields();
 	}
 
 	public function getPropertyFields()
 	{
-		$prompt = $this->realPrompt();
+		$this->prompt = $this->realPrompt();
 
 		// Gc7::aff($prompt);
 		// Gc7::aff($this->ad);
 
 		// $this->askAI($prompt);
-		$propertyString = $this->askAI();
+		$fieldsString = $this->askAI();
 
-		// Gc7::aff($propertyString);
+		$this->keys = $this->getFieldsFromString($fieldsString);
+
+		// Gc7::aff(eval($fieldsString));
 		// return $this->ad;
-		return $this->answerAnalysis($propertyString);
+		// return $this->answerAnalysis($propertyString);
+		return $this->keys;
+	}
+
+	protected function getFieldsFromString($fieldsString)
+	{
+		$pattern = '/(\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*=\s*(.*?);/';
+
+		// Recherche des correspondances dans la chaîne
+		preg_match_all($pattern, $fieldsString, $matches, PREG_SET_ORDER);
+
+		$keys = new \stdClass();
+		// Itération sur les correspondances
+		foreach ($matches as $match) {
+			// Nom de la variable
+			$variableName = substr($match[1], 1);
+
+			// Valeur de la variable
+			$variableValue = trim($match[2], "'");
+
+			// Création de la variable dans le contexte actuel
+			$keys->{$variableName} = $variableValue;
+		}
+
+		return $keys;
 	}
 
 	protected function answerAnalysis($ad)
@@ -106,7 +135,7 @@ class IaManager extends AdController
 	protected function prompt(string $prompt): string
 	{
 		$data = [
-			'model'    => 'gpt-3.5-turbo',
+			'model'    => 'gpt-3.5-turbo-1106',
 			'messages' => [[
 				'role'    => 'user',
 				'content' => $prompt,
@@ -119,7 +148,9 @@ class IaManager extends AdController
 
 	protected function askAI(): string
 	{
+		Gc7::affH($this->adForIa->cut);
 		if ($this->askAi) {
+			echo '<hr>';
 			// Gc7::aff($prompt);
 			// exit;
 			$ch = curl_init('https://api.openai.com/v1/chat/completions');
@@ -132,40 +163,36 @@ class IaManager extends AdController
 				'Authorization: Bearer ' . $this->getApiKey(),
 			]);
 
-			// Gc7::aff($ch, 'ch');
-			$fullAnswer = curl_exec($ch); // Complete Json Response
+			$fullAnswer = curl_exec($ch);
 
-		// Gc7::aff($fullAnswer);
-		// exit;
-		} else {
-			$fullAnswer = $this->fakeAnswerAi();
+			Gc7::aff($fullAnswer);
+			exit;
 		}
 
-		// return $fullAnswer;
-		$answer = json_decode($fullAnswer, true);
-		// Gc7::aff($fullAnswer, 'Answer');
+		$fullAnswer = $this->fakeAnswerAi();
 
-		// exit;
+		$answer = json_decode($fullAnswer, true);
+
+		// Gc7::aff($fullAnswer, '<hr>');
 		return $answer['choices'][0]['message']['content'];
 	}
 
 	protected function fakeAnswerAi()
 	{
-		return file_get_contents('./../storage/app/ia/adAnswerAiExemple.json');
+		return file_get_contents('./../storage/app/ia/adFieldsAnswerAiExemple_'.$this->fileN.'.json');
 	}
 
 	protected function realPrompt($ad = null)
 	{
-		$ad ??= $this->file->adForIa;
+		$ad ??= $this->adForIa;
 
-		// Gc7::aff($ad);
+		Gc7::aff($ad->cut);
 		// $ad = implode(' ',$ad);
-		$ad = json_encode($ad);
+		$ad = json_encode($ad->cut);
 		// Gc7::aff($ad);
 
 		$promptString = <<<'EOD'
-			<hr>
-			À partir de l'annonce ci-avant, remplace dans le code ci-dessous les 'xxx' par le nom de la clé dans l'objet (et donc pas sa valeur) qui contient l'information appropriée et si ce n'est pas clairement explicité, affecte lui la valeur null.
+			À partir de l'annonce fournie, remplace dans le code ci-dessous les 'xxx' par le nom de la clé dans l'objet (et donc pas sa valeur) qui contient l'information appropriée et si ce n'est pas clairement explicité, affecte lui la valeur null. Si 2 champs ont la même valeur, prendre la clé du champs trouvé en dernier.
 
 			Voici le code:
 			$property_location           = 'xxx';
@@ -173,19 +200,24 @@ class IaManager extends AdController
 			$ad_title                    = 'xxx';
 			$ad_link                     = 'xxx';
 			$property_price              = 'xxx';
-			$property_number_of_pieces   = 'xxx';
-			$property_number_of_bedrooms = 'xxx';
-			$property_building_surface   = 'xxx';
-			$property_ground_surface     = 'xxx';
-			$property_number_of_levels   = 'xxx';
-			$property_description        = 'xxx';
 			$property_owner              = 'xxx';
 
-			N'explique pas du tout ta réponse, juste renvoie le code que tu obtiens!
-			Rappel: Pas les valeurs, mais bien les clés ! Et n'oublie pas le owner !
+			N'explique pas du tout ta réponse, juste renvoie le code php que tu obtiens!
+			Rappel: Pas les valeurs, mais bien les clés ! Et n'oublie pas: Pour le owner, aussi avec la clé du champ !
+			Corriger les clés pour la property_location, prends bien le dernier champs trouvé, et le property_floor selon les données fournies.
 			EOD;
 
-		$p = $ad. json_encode($promptString);
+		// $property_number_of_pieces   = 'xxx';
+		// $property_number_of_bedrooms = 'xxx';
+		// $property_building_surface   = 'xxx';
+		// $property_ground_surface     = 'xxx';
+		// $property_number_of_floors   = 'xxx';
+		// $property_description        = 'xxx';
+
+		$p = $ad . json_encode($promptString);
+
+		Gc7::aff($p);
+		echo '<hr>';
 
 		// die($p);
 		return $this->prompt($p);

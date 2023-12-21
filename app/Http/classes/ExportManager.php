@@ -69,15 +69,14 @@ class ExportManager extends AdController
 
 					$maxFilledFields = max($maxFilledFields, $filledFieldsCount);
 				}
-				$adMoreFields = array_search($maxFilledFields, $adFieldsCount);
 				// echo $adMoreFields; // Ad More fields
 				// Gc7::aff($maxFilledFields);
 				// Gc7::aff($adFieldsCount);
-				$file->adForIa = $adMoreFields;
+				$file->adForIaId = array_search($maxFilledFields, $adFieldsCount);
 				$file->ads     = $cleanedAds;
 			}
 		}
-
+// $this->file->
 		return $exports->files[$this->fileN];
 		// return new \stdClass();
 	}
