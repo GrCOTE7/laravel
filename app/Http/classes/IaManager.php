@@ -11,11 +11,26 @@ class IaManager extends AdController
 
 	protected $adForIa;
 
-	public function index()
+	public function getAdIa($file)
 	{
-		$this->adForIa = $this->setAdForIa();
+		$this->adForIa = $this->setAdForIa($file);
 
 		return $this->getPropertyFields();
+	}
+	protected function setAdForIa($file)
+	{
+		$adForIa       = new \stdClass();
+		$adForIa->id   = $file->adForIaId;
+		$adForIa->ad   = $file->ads[$file->adForIaId];
+		$adForIa->keys = array_keys($adForIa->ad, true);
+		// echo count($adForIa->keys);
+		$cutField           = array_search(array_search('Critères', $adForIa->ad), $adForIa->keys);
+		$adForIa->cut       = array_slice($adForIa->ad, 0, $cutField);
+		$adForIa->forFilter = array_slice($adForIa->ad, $cutField + 1);
+
+		// Gc7::affH($adForIaCut);
+		// Gc7::affH($adForFilter);
+		return $adForIa;
 	}
 
 	public function getPropertyFields()

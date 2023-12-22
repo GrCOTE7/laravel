@@ -12,7 +12,7 @@ class AdController extends Controller
 
 	// protected $exports;
 
-	protected $fileN = 2; // @i Choix numéro de fichier
+	protected $fileN = 1; // @i Choix numéro de fichier
 
 	protected $adN = 1; // @i Choix numéro de l'annonce dans la liste
 
@@ -26,28 +26,19 @@ class AdController extends Controller
 
 	protected $error;
 
-	public function __construct()
+	public function index()
 	{
 		ini_set('max_execution_time', '0');
 		date_default_timezone_set('Europe/Paris');
-		// $this->ads = (new ExportManager())->getAds();
+
 		$this->file = (new ExportManager())->exports;
-
-		// $this->file->adForIa = $this->file->ads[$this->file->adForIaId];
-
-		// Gc7::affH($this->file->adForIa); // The Ad for IA
-		// Gc7::aff($this->file->ads); // The ads
-	}
-
-	public function index()
-	{
 		// Gc7::affH($this->file->ads[$this->file->adForIaId]);
 		// $str = $this->allAdsWithFields();
 
 		// $this->adForIa = $this->setAdForIa();
-		$adIa = (new IaManager())->index();
+		$adIa = (new IaManager())->getAdIa($this->file);
 
-		$this->affAds($adIa);
+		$this->newAds = $this->affAds($adIa, 10);
 
 		// Gc7::aff($adIa);
 
@@ -100,7 +91,7 @@ class AdController extends Controller
 		return 'Fichier #' . $this->fileN;
 	}
 
-	protected function affAds($adIa): void
+	protected function affAds($adIa, $aff = 1): array
 	{
 		// Gc7::aff($adIa);
 		$ads  = $this->file->ads;
@@ -115,13 +106,14 @@ class AdController extends Controller
 				$html .= '<th>' . $k . '<br>' . $field . '</th>';
 			}
 		}
+		$newAds = [];
 		foreach ($ads as $k => $ad) {
 			$html .= '</tr><tr style="text-align: center"><td>' . $k . '</td>';
 
 			$i = 0;
 			foreach ($adIa->keys as $field) {
 				if (0 == $i && empty($ad[$field])) {
-                    $field = $adIa->keys->fallback_property_location;
+					$field = $adIa->keys->fallback_property_location;
 				}
 
 				// if (empty($ad[$field])) {
@@ -129,6 +121,7 @@ class AdController extends Controller
 				// }
 				if (1 != $i++) {
 					$html .= '<td>' . $ad[$field] . '</td>';
+                    $newAds[$k][$i] = $ad[$field];
 				}
 			}
 		}
@@ -150,23 +143,11 @@ class AdController extends Controller
 		// }
 		$html .= '</table></div>';
 
-		echo $html . '<hr>';
-	}
+		if ($aff) {
+			echo $html . '<hr>';
+		}
 
-	protected function setAdForIa()
-	{
-		$adForIa       = new \stdClass();
-		$adForIa->id   = $this->file->adForIaId;
-		$adForIa->ad   = $this->file->ads[$this->file->adForIaId];
-		$adForIa->keys = array_keys($adForIa->ad, true);
-		// echo count($adForIa->keys);
-		$cutField           = array_search(array_search('Critères', $adForIa->ad), $adForIa->keys);
-		$adForIa->cut       = array_slice($adForIa->ad, 0, $cutField);
-		$adForIa->forFilter = array_slice($adForIa->ad, $cutField + 1);
-
-		// Gc7::affH($adForIaCut);
-		// Gc7::affH($adForFilter);
-		return $adForIa;
+		return $newAds; // array
 	}
 
 	protected function allAdsWithFields()

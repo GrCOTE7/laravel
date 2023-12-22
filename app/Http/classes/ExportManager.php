@@ -28,12 +28,12 @@ class ExportManager extends AdController
 		// $file ??= $this->file;
 		$jsonData = file_get_contents($file);
 
-        // $encodage = mb_detect_encoding($jsonData);
+		// $encodage = mb_detect_encoding($jsonData);
 		// echo $jsonData;
 		$jsonData = preg_replace('/ /', '', $jsonData);
-		$jsonData = preg_replace('/�/', '', $jsonData);
+				$jsonData = preg_replace('/\xc2\xa0/', ' ', $jsonData);
 
-		$ads      = json_decode($jsonData, true);
+		$ads = json_decode($jsonData, true);
 
 		if (null === $ads) {
 			exit('Erreur lors de la conversion JSON');
@@ -52,7 +52,7 @@ class ExportManager extends AdController
 		$exports = $this->getFiles();
 		// $exports->selectedFile = new \stdClass();
 
-		foreach ($exports->files as $k => $file) {
+		foreach ($exports->files as $fileId => $file) {
 			$fileName = $exports->path . $file->name;
 			$ads      = $this->getAdsFromJson($fileName);
 
@@ -60,29 +60,43 @@ class ExportManager extends AdController
 			$file->createdAt = filectime($fileName);
 			$file->bgColor   = 'none';
 
-			if ($this->fileN == $k) {
+			if ($this->fileN === $fileId) {
 				$file->bgColor   = 'yellow';
 				$cleanedAds      = [];
 				$adFieldsCount   = [];
 				$maxFilledFields = 0;
 				foreach ($ads as $k => $ad) {
-					$ad                = $this->getAdWithoutFinancial($ad);
-					$cleanedAds[]      = $ad;
+					$ad = $this->getAdWithoutFinancial($ad);
+
+					$cleanedAds[]      = $this->cleanFieldsAd($ad);
 					$filledFieldsCount = count($this->fieldsNotEmptyCount($ad));
 					$adFieldsCount[]   = $filledFieldsCount;
 
 					$maxFilledFields = max($maxFilledFields, $filledFieldsCount);
 				}
+
 				// echo $adMoreFields; // Ad More fields
 				// Gc7::aff($maxFilledFields);
 				// Gc7::aff($adFieldsCount);
 				$file->adForIaId = array_search($maxFilledFields, $adFieldsCount);
-				$file->ads     = $cleanedAds;
+				$file->ads       = $cleanedAds;
 			}
 		}
-// $this->file->
+
+		// $this->file->
 		return $exports->files[$this->fileN];
 		// return new \stdClass();
+	}
+
+	protected function cleanFieldsAd($ad)
+	{
+		foreach ($ad as $key => $field) {
+
+			// $ad[$key] = trim($ad[$key]);
+			$ad[$key] = trim(preg_replace('/\s{2}/', ' ', $ad[$key]));
+		}
+
+		return $ad;
 	}
 
 	protected function getFiles(): object
