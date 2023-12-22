@@ -17,21 +17,6 @@ class IaManager extends AdController
 
 		return $this->getPropertyFields();
 	}
-	protected function setAdForIa($file)
-	{
-		$adForIa       = new \stdClass();
-		$adForIa->id   = $file->adForIaId;
-		$adForIa->ad   = $file->ads[$file->adForIaId];
-		$adForIa->keys = array_keys($adForIa->ad, true);
-		// echo count($adForIa->keys);
-		$cutField           = array_search(array_search('Critères', $adForIa->ad), $adForIa->keys);
-		$adForIa->cut       = array_slice($adForIa->ad, 0, $cutField);
-		$adForIa->forFilter = array_slice($adForIa->ad, $cutField + 1);
-
-		// Gc7::affH($adForIaCut);
-		// Gc7::affH($adForFilter);
-		return $adForIa;
-	}
 
 	public function getPropertyFields()
 	{
@@ -51,6 +36,22 @@ class IaManager extends AdController
 		return $this->adForIa;
 	}
 
+	protected function setAdForIa($file)
+	{
+		$adForIa       = new \stdClass();
+		$adForIa->id   = $file->adForIaId;
+		$adForIa->ad   = $file->ads[$file->adForIaId];
+		$adForIa->keys = array_keys($adForIa->ad, true);
+		// echo count($adForIa->keys);
+		$cutField           = array_search(array_search('Critères', $adForIa->ad), $adForIa->keys);
+		$adForIa->cut       = array_slice($adForIa->ad, 0, $cutField);
+		$adForIa->forFilter = array_slice($adForIa->ad, $cutField + 1);
+
+		// Gc7::affH($adForIaCut);
+		// Gc7::affH($adForFilter);
+		return $adForIa;
+	}
+
 	protected function getFieldsFromString($fieldsString)
 	{
 		$pattern = '/(\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*=\s*(.*?);/';
@@ -62,10 +63,10 @@ class IaManager extends AdController
 		// Itération sur les correspondances
 		foreach ($matches as $k => $match) {
 			if (1 === $k) {
-                $location = trim($this->adForIa->cut[$keys->property_location]);
-                // Nettoyage du champs
-                $location = preg_replace('/[^A-Za-z0-9 ]/', '', $location);
-                // $length = strlen($location);
+				$location = trim($this->adForIa->cut[$keys->property_location]);
+				// Nettoyage du champs
+				// $location = preg_replace('/[^A-Za-z0-9 ]/', '', $location);
+				// $length = strlen($location);
 				$keys->fallback_property_location = array_search(trim($location), $this->adForIa->cut, true);
 			}
 			// Nom de la variable

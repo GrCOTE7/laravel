@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\classes\ExportManager;
 use App\Http\classes\IaManager;
+use App\Http\classes\ToolsManager;
 use App\Http\Tools\Gc7;
 
 class AdController extends Controller
@@ -12,7 +13,7 @@ class AdController extends Controller
 
 	// protected $exports;
 
-	protected $fileN = 1; // @i Choix numéro de fichier
+	protected $fileN = 0; // @i Choix numéro de fichier
 
 	protected $adN = 1; // @i Choix numéro de l'annonce dans la liste
 
@@ -38,10 +39,12 @@ class AdController extends Controller
 		// $this->adForIa = $this->setAdForIa();
 		$adIa = (new IaManager())->getAdIa($this->file);
 
-		$this->newAds = $this->affAds($adIa, 10);
+		// $cuts = $this->totalCleaning($adIa->cut);
+		$newAds = $this->affNewAds($adIa, 10);
 
-		// Gc7::aff($adIa);
+        $this->newAds = $this->totalCleaning($newAds);
 
+		// 2do nett
 		return $this->error ?? 'no';
 	}
 
@@ -91,7 +94,31 @@ class AdController extends Controller
 		return 'Fichier #' . $this->fileN;
 	}
 
-	protected function affAds($adIa, $aff = 1): array
+	protected function totalCleaning($ads)
+	{
+		// Gc7::aff($ads);
+		// 2do Nett date + Proprio
+        $tools = new ToolsManager;
+
+		foreach ($ads as $k=>$ad) {
+            // $ads[$k]['property_owner'] = substr($ad['property_owner'], 0, 7);
+            $ads[$k]['property_owner'] = $tools->getNewOwner($ad['property_owner']);
+		}
+        Gc7::aff($ads);
+        return $ads;
+
+	}
+
+	protected function cleanDate($date)
+	{
+	}
+
+	protected function cleanOwner($owner)
+	{
+	}
+
+    //2dbug Aff séparé de traitement
+	protected function affNewAds($adIa, $aff = 1): array
 	{
 		// Gc7::aff($adIa);
 		$ads  = $this->file->ads;
@@ -106,6 +133,9 @@ class AdController extends Controller
 				$html .= '<th>' . $k . '<br>' . $field . '</th>';
 			}
 		}
+        Gc7::aff($adIa->keys);
+        $invKeys = $this->flip($adIa->keys);
+        Gc7::aff($invKeys);
 		$newAds = [];
 		foreach ($ads as $k => $ad) {
 			$html .= '</tr><tr style="text-align: center"><td>' . $k . '</td>';
@@ -119,9 +149,12 @@ class AdController extends Controller
 				// if (empty($ad[$field])) {
 				// 	$ad[$field] = '<h1>XXXXX</h1><hr>' . $ad['textcaption'];
 				// }
+				// echo $k. ' : '.$field;
 				if (1 != $i++) {
 					$html .= '<td>' . $ad[$field] . '</td>';
-                    $newAds[$k][$i] = $ad[$field];
+					// $newAds[$k][$i-1] = $ad[$field];
+					// $newAds[$k][$field] = $ad[$field];
+					$newAds[$k][$invKeys[$field]] = $ad[$field];
 				}
 			}
 		}
@@ -149,6 +182,11 @@ class AdController extends Controller
 
 		return $newAds; // array
 	}
+
+    protected function flip($o){
+        return array_flip(get_object_vars($o));
+
+    }
 
 	protected function allAdsWithFields()
 	{

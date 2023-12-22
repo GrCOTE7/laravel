@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\classes;
 
 use App\Http\Tools\Gc7;
 use Carbon\Carbon;
 
-class importManagerController extends Controller
+class ToolsManager
 {
 	protected $dDate; // Current date
 
@@ -95,8 +95,8 @@ class importManagerController extends Controller
 			// Obtenir la date de création du fichier
 			$dateModification = date('Y-m-d H:i:s', filectime($file));
 
-			// Afficher la date de modification
-			// echo "La date de modification du fichier {$file} est : {$dateModification}";
+		// Afficher la date de modification
+		// echo "La date de modification du fichier {$file} est : {$dateModification}";
 		} else {
 			$dateModification = "Le fichier {$file} n'existe pas.";
 		}

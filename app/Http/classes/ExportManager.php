@@ -31,7 +31,7 @@ class ExportManager extends AdController
 		// $encodage = mb_detect_encoding($jsonData);
 		// echo $jsonData;
 		$jsonData = preg_replace('/ /', '', $jsonData);
-				$jsonData = preg_replace('/\xc2\xa0/', ' ', $jsonData);
+		$jsonData = preg_replace('/\xc2\xa0/', ' ', $jsonData);
 
 		$ads = json_decode($jsonData, true);
 
@@ -91,7 +91,6 @@ class ExportManager extends AdController
 	protected function cleanFieldsAd($ad)
 	{
 		foreach ($ad as $key => $field) {
-
 			// $ad[$key] = trim($ad[$key]);
 			$ad[$key] = trim(preg_replace('/\s{2}/', ' ', $ad[$key]));
 		}
@@ -138,9 +137,7 @@ class ExportManager extends AdController
 
 	protected function getAdWithoutFinancial($ad)
 	{
-		$adsNum = array_values($ad);
-
-		return array_slice($ad, 0, array_search('Calculer mes mensualités', $adsNum));
+		return array_slice($ad, 0, array_search('Calculer mes mensualités', array_values($ad)));
 	}
 
 	protected function fieldsNotEmptyCount($ad)
