@@ -40,11 +40,11 @@ class AdController extends Controller
 		$adIa = (new IaManager())->getAdIa($this->file);
 
 		// $cuts = $this->totalCleaning($adIa->cut);
-		$newAds = $this->affNewAds($adIa, 10);
+		$newAds = $this->newAds($adIa);
 
-        $this->newAds = $this->totalCleaning($newAds);
+		$this->newAds = $this->totalCleaning($newAds);
 
-		// 2do nett
+		// 2do // $newAds = $this->affAds($ad, 10);
 		return $this->error ?? 'no';
 	}
 
@@ -97,16 +97,14 @@ class AdController extends Controller
 	protected function totalCleaning($ads)
 	{
 		// Gc7::aff($ads);
-		// 2do Nett date + Proprio
-        $tools = new ToolsManager;
+		$tools = new ToolsManager();
 
-		foreach ($ads as $k=>$ad) {
-            // $ads[$k]['property_owner'] = substr($ad['property_owner'], 0, 7);
-            $ads[$k]['property_owner'] = $tools->getNewOwner($ad['property_owner']);
+		foreach ($ads as $k => $ad) {
+			$ads[$k]['property_owner'] = $tools->getNewOwner($ad['property_owner']);
+			// 2do Nett date
 		}
-        Gc7::aff($ads);
-        return $ads;
-
+		// Gc7::aff($ads);
+return $ads;
 	}
 
 	protected function cleanDate($date)
@@ -117,8 +115,8 @@ class AdController extends Controller
 	{
 	}
 
-    //2dbug Aff séparé de traitement
-	protected function affNewAds($adIa, $aff = 1): array
+	// 2dbug Aff séparé de traitement
+	protected function newAds($adIa, $aff = 1): array
 	{
 		// Gc7::aff($adIa);
 		$ads  = $this->file->ads;
@@ -133,9 +131,9 @@ class AdController extends Controller
 				$html .= '<th>' . $k . '<br>' . $field . '</th>';
 			}
 		}
-        Gc7::aff($adIa->keys);
-        $invKeys = $this->flip($adIa->keys);
-        Gc7::aff($invKeys);
+		// Gc7::aff($adIa->keys);
+		$invKeys = $this->flip($adIa->keys);
+		// Gc7::aff($invKeys);
 		$newAds = [];
 		foreach ($ads as $k => $ad) {
 			$html .= '</tr><tr style="text-align: center"><td>' . $k . '</td>';
@@ -183,10 +181,10 @@ class AdController extends Controller
 		return $newAds; // array
 	}
 
-    protected function flip($o){
-        return array_flip(get_object_vars($o));
-
-    }
+	protected function flip($o)
+	{
+		return array_flip(get_object_vars($o));
+	}
 
 	protected function allAdsWithFields()
 	{
