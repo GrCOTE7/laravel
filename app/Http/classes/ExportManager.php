@@ -31,6 +31,7 @@ class ExportManager extends AdController
 		// $encodage = mb_detect_encoding($jsonData);
 		// echo $jsonData;
 		$jsonData = preg_replace('/ /', '', $jsonData);
+		$jsonData = preg_replace('/’/', "'", $jsonData);
 		$jsonData = preg_replace('/\xc2\xa0/', ' ', $jsonData);
 
 		$ads = json_decode($jsonData, true);

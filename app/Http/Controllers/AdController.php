@@ -13,7 +13,7 @@ class AdController extends Controller
 
 	// protected $exports;
 
-	protected $fileN = 0; // @i Choix numéro de fichier
+	protected $fileN = 2; // @i Choix numéro de fichier
 
 	protected $adN = 1; // @i Choix numéro de l'annonce dans la liste
 
@@ -40,11 +40,14 @@ class AdController extends Controller
 		$adIa = (new IaManager())->getAdIa($this->file);
 
 		// $cuts = $this->totalCleaning($adIa->cut);
-		$newAds = $this->newAds($adIa);
+		// 2do: Only process
+		$newAds = $this->newAds = $this->newAds($adIa);
+		$this->showAds($adIa);
 
 		$this->newAds = $this->totalCleaning($newAds);
+		$this->showNewAds($adIa);
 
-		// 2do // $newAds = $this->affAds($ad, 10);
+		// 2do // $newAds = $this->affAds($ads, 10);
 		return $this->error ?? 'no';
 	}
 
@@ -100,27 +103,47 @@ class AdController extends Controller
 		$tools = new ToolsManager();
 
 		foreach ($ads as $k => $ad) {
-			$ads[$k]['property_owner'] = $tools->getNewOwner($ad['property_owner']);
+			$ads[$k]['property_owner']  = $tools->getNewOwner($ads[$k]['property_owner']);
+			$ads[$k]['ad_published_at'] = $tools->dateConversion($ads[$k]['ad_published_at'], $this->file->createdAt);
+            preg_match('/(\d+)/', $ads[$k]['property_price'], $matches);
+            $ads[$k]['property_price'] = $matches[0];
 			// 2do Nett date
 		}
+
 		// Gc7::aff($ads);
-return $ads;
+		return $ads;
 	}
 
 	protected function cleanDate($date)
 	{
 	}
 
-	protected function cleanOwner($owner)
+	protected function newAds($adIa): array
 	{
+		$ads     = $this->file->ads;
+		$i       = 0;
+		$invKeys = $this->flip($adIa->keys);
+		$newAds  = [];
+		foreach ($ads as $k => $ad) {
+			$i = 0;
+			foreach ($adIa->keys as $field) {
+				if (0 == $i && empty($ad[$field])) {
+					$field = $adIa->keys->fallback_property_location;
+				}
+				if (1 != $i++) {
+					$newAds[$k][$invKeys[$field]] = $ad[$field];
+				}
+			}
+		}
+
+		return $newAds;
 	}
 
-	// 2dbug Aff séparé de traitement
-	protected function newAds($adIa, $aff = 1): array
+	protected function showAds($adIa): void
 	{
 		// Gc7::aff($adIa);
 		$ads  = $this->file->ads;
-		$html = '<div class="container" style="font-family: arial;"><h3>Fichier: ' . $this->fileN . ' (' . $this->file->name . ' - ' . $this->file->adsCount . ' ads)</h3>
+		$html = '<div class="container" style="font-family: arial;"><h3>Fichier: ' . $this->fileN . ' (' . $this->file->name . ' - ' . $this->file->adsCount . ' ads - Publié le: ' . date('d/m/Y à H:i:s', $this->file->createdAt) . ')</h3>
         <table class="table table-sm table-bordered table-rounded m-auto" style="width: 97%">
         <tr style="text-align: center">';
 
@@ -131,10 +154,7 @@ return $ads;
 				$html .= '<th>' . $k . '<br>' . $field . '</th>';
 			}
 		}
-		// Gc7::aff($adIa->keys);
 		$invKeys = $this->flip($adIa->keys);
-		// Gc7::aff($invKeys);
-		$newAds = [];
 		foreach ($ads as $k => $ad) {
 			$html .= '</tr><tr style="text-align: center"><td>' . $k . '</td>';
 
@@ -152,33 +172,54 @@ return $ads;
 					$html .= '<td>' . $ad[$field] . '</td>';
 					// $newAds[$k][$i-1] = $ad[$field];
 					// $newAds[$k][$field] = $ad[$field];
-					$newAds[$k][$invKeys[$field]] = $ad[$field];
+					// $newAds[$k][$invKeys[$field]] = $ad[$field];
 				}
 			}
 		}
+		$html .= '</tr></table></div><hr>';
 
-		$html .= '</tr>';
-		// foreach ($files as $k => $file) {
-		// 	$bgcolor = $file['bgColor'];
+		echo $html;
+	}
 
-		// 	$fileDetails = $this->fileDetails($this->folder . $file['name']);
+	protected function showNewAds($adIa): void
+	{
+		// Gc7::aff($adIa);
+		$ads  = array_map('array_values', $this->newAds);
+		$html = '<div class="container" style="font-family: arial;"><h3>Fichier: ' . $this->fileN . ' (' . $this->file->name . ' - ' . $this->file->adsCount . ' ads - Publié le: ' . date('d/m/Y à H:i:s', $this->file->createdAt) . ')</h3>
+        <table class="table table-sm table-bordered table-rounded m-auto" style="width: 97%">
+        <tr style="text-align: center">';
 
-		// 	// Gc7::aff($file);
-
-		// 	$html .= '<tr><td style="text-align: right;background-color:' . $bgcolor . ';">' . $k . '</td>
-		//     <td style="background-color:' . $bgcolor . '">' . $file['name'] . '</td>
-		//     <td style="text-align: right;background-color:' . $bgcolor . '">' . $file['adsCount'] . '</td>
-		//     <td style="text-align: right;background-color:' . $bgcolor . '">' . $fileDetails->fieldsCount . '</td>
-		//     <td style="text-align: right;background-color:' . $bgcolor . '">' . $fileDetails->adIdTopFieldsCount . '</td>
-		//     <td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', $file['createdAt']) . '</td></tr>';
-		// }
-		$html .= '</table></div>';
-
-		if ($aff) {
-			echo $html . '<hr>';
+		$html .= '<th>Id</th>';
+		$i = 0;
+		foreach ($adIa->keys as $k => $field) {
+			if (1 != $i++) {
+				$html .= '<th>' . $k . '<br>' . $field . '</th>';
+			}
 		}
+		foreach ($ads as $k => $fields) {
+			$html .= '</tr><tr style="text-align: center"><td>' . $k . '</td>';
 
-		return $newAds; // array
+			$i = 0;
+			foreach ($fields as $i => $field) {
+				if (0 === $i && empty($field[$i])) {
+					$field = $adIa->keys->fallback_property_location;
+				}
+
+				// if (empty($ad[$field])) {
+				// 	$ad[$field] = '<h1>XXXXX</h1><hr>' . $ad['textcaption'];
+				// }
+				// echo $k. ' : '.$field;
+				// if (1 != $i++) {
+				$html .= '<td>' . $field . '</td>';
+				// $newAds[$k][$i-1] = $ad[$field];
+				// $newAds[$k][$field] = $ad[$field];
+				// $newAds[$k][$invKeys[$field]] = $ad[$field];
+				// }
+			}
+		}
+		$html .= '</tr></table></div><hr>';
+
+		echo $html;
 	}
 
 	protected function flip($o)
@@ -202,5 +243,23 @@ return $ads;
 		}
 
 		return $adCount . ' - ' . $fieldsCount;
+	}
+
+	protected function showAllFiles()
+	{
+		// foreach ($files as $k => $file) {
+		// 	$bgcolor = $file['bgColor'];
+
+		// 	$fileDetails = $this->fileDetails($this->folder . $file['name']);
+
+		// 	// Gc7::aff($file);
+
+		// 	$html .= '<tr><td style="text-align: right;background-color:' . $bgcolor . ';">' . $k . '</td>
+		//     <td style="background-color:' . $bgcolor . '">' . $file['name'] . '</td>
+		//     <td style="text-align: right;background-color:' . $bgcolor . '">' . $file['adsCount'] . '</td>
+		//     <td style="text-align: right;background-color:' . $bgcolor . '">' . $fileDetails->fieldsCount . '</td>
+		//     <td style="text-align: right;background-color:' . $bgcolor . '">' . $fileDetails->adIdTopFieldsCount . '</td>
+		//     <td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', $file['createdAt']) . '</td></tr>';
+		// }
 	}
 }
