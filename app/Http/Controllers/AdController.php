@@ -9,11 +9,12 @@ use App\Http\Tools\Gc7;
 
 class AdController extends Controller
 {
+    protected $newAds;
 	protected $aff = 1;
 
 	// protected $exports;
 
-	protected $fileN = 2; // @i Choix numéro de fichier
+	protected $fileN = 0; // @i Choix numéro de fichier
 
 	protected $adN = 1; // @i Choix numéro de l'annonce dans la liste
 
@@ -42,10 +43,12 @@ class AdController extends Controller
 		// $cuts = $this->totalCleaning($adIa->cut);
 		// 2do: Only process
 		$newAds = $this->newAds = $this->newAds($adIa);
-		$this->showAds($adIa);
+		// $this->showAds($adIa);
 
 		$this->newAds = $this->totalCleaning($newAds);
-		$this->showNewAds($adIa);
+		// $this->showNewAds($adIa);
+
+		$newAds = $this->fieldsFilter($adIa->cutField);
 
 		// 2do // $newAds = $this->affAds($ads, 10);
 		return $this->error ?? 'no';
@@ -105,8 +108,8 @@ class AdController extends Controller
 		foreach ($ads as $k => $ad) {
 			$ads[$k]['property_owner']  = $tools->getNewOwner($ads[$k]['property_owner']);
 			$ads[$k]['ad_published_at'] = $tools->dateConversion($ads[$k]['ad_published_at'], $this->file->createdAt);
-            preg_match('/(\d+)/', $ads[$k]['property_price'], $matches);
-            $ads[$k]['property_price'] = $matches[0];
+			preg_match('/(\d+)/', $ads[$k]['property_price'], $matches);
+			$ads[$k]['property_price'] = $matches[0];
 			// 2do Nett date
 		}
 
@@ -156,6 +159,9 @@ class AdController extends Controller
 		}
 		$invKeys = $this->flip($adIa->keys);
 		foreach ($ads as $k => $ad) {
+			if ($k > 2) {
+				continue;
+			}
 			$html .= '</tr><tr style="text-align: center"><td>' . $k . '</td>';
 
 			$i = 0;
@@ -197,6 +203,10 @@ class AdController extends Controller
 			}
 		}
 		foreach ($ads as $k => $fields) {
+			if ($k > 2) {
+				continue;
+			}
+
 			$html .= '</tr><tr style="text-align: center"><td>' . $k . '</td>';
 
 			$i = 0;
@@ -261,5 +271,53 @@ class AdController extends Controller
 		//     <td style="text-align: right;background-color:' . $bgcolor . '">' . $fileDetails->adIdTopFieldsCount . '</td>
 		//     <td style="text-align: center;background-color:' . $bgcolor . '">' . date('d/m/Y à H:i:s', $file['createdAt']) . '</td></tr>';
 		// }
+	}
+
+	protected function fieldsFilter($cutFieldN)
+	{
+		$pairs = [
+			'property_number_of_pieces'   => 'Nombre de pièces',
+			'property_number_of_bedrooms' => 'Nombre de chambres',
+			'property_building_surface'   => 'Surface habitable',
+			'property_ground_surface'     => 'Surface totale du terrain',
+			'property_number_of-floors'    => 'Nombre de niveaux',
+		];
+
+		// Gc7::aff($pairs);
+
+		foreach ($this->file->ads as $k => $ad) {
+			// if ($k) {
+			// 	continue;
+			// }
+
+			$ad             = array_slice($ad, $cutFieldN + 1);
+			$adFilterKeys   = array_keys($ad);
+			$adFilterValues = array_values($ad);
+
+			foreach ($pairs as $en => $fr) {
+				// echo array_keys($pair);
+				// echo $en . ' → ' . $fr . '<br>';
+				$ch                    = array_search($fr, $adFilterValues, true);
+				$this->newAds[$k][$en] = null;
+				if ($ch) {
+					$n = preg_match('/\d+/', $adFilterValues[$ch + 1], $matches);
+					if ($n) {
+						$this->newAds[$k][$en] = $matches[0];
+					}
+				}
+			}
+			// echo $k.' ';
+
+			// $adForFilter['champ20'] ='';
+			// Gc7::aff($adForFilter);
+
+			$champs        = [];
+
+            $this->newAds[$k]['property_description'] = $this->file->ads[$k]['cham24'];
+
+            Gc7::affH($this->newAds[$k]);
+		}
+        // Gc7::affH($ad);
+		return $this->newAds;
 	}
 }

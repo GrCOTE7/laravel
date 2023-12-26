@@ -43,9 +43,11 @@ class IaManager extends AdController
 		$adForIa->ad   = $file->ads[$file->adForIaId];
 		$adForIa->keys = array_keys($adForIa->ad, true);
 		// echo count($adForIa->keys);
-		$cutField           = array_search(array_search('Critères', $adForIa->ad), $adForIa->keys);
+		$cutField           = $adForIa->cutField = array_search(array_search('Critères', $adForIa->ad), $adForIa->keys);
 		$adForIa->cut       = array_slice($adForIa->ad, 0, $cutField);
 		$adForIa->forFilter = array_slice($adForIa->ad, $cutField + 1);
+
+        //2do here fieldsFilterStart
 
 		// Gc7::affH($adForIaCut);
 		// Gc7::affH($adForFilter);
