@@ -1,5 +1,19 @@
-import dotenv from "dotenv";
-dotenv.config({ path: './.env' });
+// import dotenv from "dotenv";
+// dotenv.config({ path: './.env' });
+
+// import mix from "laravel-mix";
+// import webpack from "webpack";
+// import dotenv from "dotenv-webpack";
+
+// module.exports = {
+//   //...
+//   plugins: [
+//     new webpack.DefinePlugin({
+//       'process.env': JSON.stringify(dotenv.config().parsed)
+//     })
+//   ]
+// };
+
 
 export function adsSearch() {
     let adsSearches = [
@@ -8,7 +22,7 @@ export function adsSearch() {
         },
         { // Toutes
             name: 'sdjl20',
-            'url': process.env.SJDL20
+            'url': import.meta.env.VITE_LBC_SJDL20
         },
     ];
 
