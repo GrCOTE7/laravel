@@ -1,0 +1,15 @@
+{
+    "version": 3,
+    "sources": [
+        "vite.config.js"
+    ],
+    "names": [
+        "defineConfig",
+        "laravel",
+        "plugins",
+        "input",
+        "refresh"
+    ],
+    "mappings": "OAASA,iBAAoB,cACtBC,YAAa,qCAELD,aAAa,CACxBE,QAAS,CACLD,QAAQ,CACJE,MAAO,CAAC,wBAAyB,uBACjCC,QAAS,CACL,kBACA,sBACA,YACA,qBACA,SACA",
+    "file": "vite.config.js"
+}

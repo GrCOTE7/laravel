@@ -11,7 +11,11 @@ class MyController extends Controller
 {
 	public function index(mixed $data = null): View
 	{
-		$data = (new AdController())->index();
+		ini_set('max_execution_time', '0');
+		date_default_timezone_set('Europe/Paris');
+		// $data = (new AdController())->index();
+
+		// $data = (new ScrapController())->index();
 
 		// define('DATA', $this->getFrDate());
 		// return view('test')->withDataSend(DATA);

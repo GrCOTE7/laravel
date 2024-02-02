@@ -1,0 +1,14 @@
+{
+    "version": 3,
+    "sources": [
+        "app.js"
+    ],
+    "names": [
+        "document",
+        "addEventListener",
+        "console",
+        "log"
+    ],
+    "mappings": "MAAO,oBACA,aACPA,SAASC,iBAAiB,mBAAoB,KAC1CC,QAAQC,IAAI",
+    "file": "app.js"
+}

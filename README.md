@@ -1,3 +1,25 @@
+//x Super tuto FR python + BeautifulSoup (1H44)
+// https://www.youtube.com/watch?v=Ea30AUHuegE&t=10s&ab_channel=DataScientest
+
+//2do Python Web scraping, requêtes sur site dynamique & collecte de données
+// https://www.youtube.com/watch?v=UkxWMiq52fE&t=615s
+
+//2do JS: WebScraping Python
+https://www.youtube.com/watch?v=UkxWMiq52fE&pp=ygUIc2NyYXBpbmc%3D&ab_channel=Probl%C3%A8mes%26Solutions
+
+Scraper en PHP
+https://www.youtube.com/watch?v=lMm3y5Co1QQ&ab_channel=PierreMiniggio
+
+----
+
+Tuto Pytho 400 loyers à Paris:
+https://www.youtube.com/watch?v=vQR-SJBU22I&ab_channel=Joycode
+
+Scraper toutes les pages
+https://www.youtube.com/watch?v=H2yBbKNzNK8&ab_channel=Fran%C3%A7oisDufaur-Boidin
+
+----
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

@@ -30,9 +30,6 @@ class AdController extends Controller
 
 	public function index()
 	{
-		ini_set('max_execution_time', '0');
-		date_default_timezone_set('Europe/Paris');
-
 		$this->file = (new ExportManager())->exports;
 		// Gc7::affH($this->file->ads[$this->file->adForIaId]);
 		// $str = $this->allAdsWithFields();
@@ -311,9 +308,10 @@ class AdController extends Controller
 			// $adForFilter['champ20'] ='';
 			// Gc7::aff($adForFilter);
 
-			$champs        = [];
+            $adFilterKeysDesc = count($adFilterKeys)-2;
 
-            $this->newAds[$k]['property_description'] = $this->file->ads[$k]['cham24'];
+            $this->newAds[$k]['property_description'] = $this->file->ads[$k][$adFilterKeys[$adFilterKeysDesc]];
+
 
             Gc7::affH($this->newAds[$k]);
 		}
