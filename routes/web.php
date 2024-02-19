@@ -1,15 +1,19 @@
 <?php
 
 use App\Http\classes\ExportManager;
-use App\Http\Controllers\MailController;
-use App\Http\Controllers\MyController;
-use App\Http\Controllers\PhotoController;
-use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MyController;
+use App\Http\Controllers\GregController;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\PhotoController;
 
 Route::get('/', [MyController::class, 'index'])
 	->name('test');
-    
+
+Route::get('greg', [GregController::class, 'index'])
+	->name('greg');
+
 Route::get('users', [MyController::class, 'users'])
 	->name('users');
 Route::get('mail', [MailController::class, 'index'])
