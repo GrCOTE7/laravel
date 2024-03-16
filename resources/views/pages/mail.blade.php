@@ -4,6 +4,9 @@
 @endsection
 
 @section('main')
+    AppName: <b>{{ $appName }}</b>
+    <hr>
+
     MAIL
     <form method="POST">
         @csrf

@@ -1,14 +1,18 @@
 <?php
 
+/**
+ * (ɔ) GrCOTE7 - 1990-2024
+ */
+
 return (new PhpCsFixer\Config())
 	// https:// github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/doc/list.rst
 	->setRiskyAllowed(false)
 	->setRules([
-		// 'header_comment' => [
-		// 	'header'       => '(ɔ) Online FORMAPRO - GrCOTE7 -2022.',
-		// 	'comment_type' => 'PHPDoc',
-		// 	'location'     => 'after_declare_strict',
-		// ],
+		'header_comment' => [
+			'header'       => '(ɔ) GrCOTE7 - 1990-' . date('Y'), // . date('Y'),
+			'comment_type' => 'PHPDoc',
+			'location'     => 'after_declare_strict',
+		],
 
 		'@PHP81Migration' => true,
 		'@PSR12'          => true,
@@ -22,7 +26,7 @@ return (new PhpCsFixer\Config())
 		'braces'                   => true,
 		'indentation_type'         => true,
 
-		'no_blank_lines_before_namespace'    => false,
+		// 'no_blank_lines_before_namespace'    => true,
 		'no_blank_lines_after_class_opening' => true,
 		'no_blank_lines_after_phpdoc'        => true,
 		'no_extra_blank_lines'               => [

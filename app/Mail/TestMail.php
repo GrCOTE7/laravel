@@ -36,8 +36,10 @@ class TestMail extends Mailable
      */
     public function content(): Content
     {
+        $data= ['key777'=>'value777'];
         return new Content(
             view: 'emails.testmail',
+            with: $data
         );
     }
 
