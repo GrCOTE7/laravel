@@ -1,5 +1,8 @@
 <IfModule mod_rewrite.c>
     php_value max_execution_time 500
+    # //2do que pour le débogage
+    # php_value output_buffering Off
+
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>

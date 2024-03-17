@@ -54,8 +54,8 @@ class ExportManager extends AdController
 		return $ads;
 	}
 
-	/**
-	 * exportFiles.
+	/** exportFiles.
+	 *
 	 */
 	protected function getAdsFromExportFiles(): object
 	{
@@ -112,6 +112,7 @@ class ExportManager extends AdController
 	{
 		// Chemin du répertoire à lister
 		$path  = './../storage/app/exports/';
+		$path  = './storage/app/exports/';
 		$files = [];
 
 		// Ouvre le répertoire

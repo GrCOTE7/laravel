@@ -7,10 +7,13 @@
 @section('main')
     Message
     <hr>
-    {!! $response ?? '$response is empty' !!}
-
+    {{-- {!! $msg ?? '$msg is empty' !!}
     <hr>
     {!! $decoded ?? '$decoded is empty' !!}
-    <hr>
-    {!! $msg ?? '$msg is empty' !!}
+    <hr> --}}
+    {!! $response ?? '$response is empty' !!}
+@endsection
+
+@section('prescripts')
+    <script src="{{ asset('assets/js/scrollDown.js') }}"></script>
 @endsection

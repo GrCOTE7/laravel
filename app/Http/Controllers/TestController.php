@@ -1,23 +1,42 @@
 <?php
 
+/**
+ * (ɔ) GrCOTE7 - 1990-2024
+ */
+
 namespace App\Http\Controllers;
 
 use App\Http\Tools\Ads;
 use App\Http\Tools\Gc7;
 use App\Http\Tools\TestIA;
-use App\Http\Tutos\TutoController;
 
 class TestController extends Controller
 {
 	public function index()
 	{
-		$data = (new AdController())->index();
-		// echo '<h1>Add: '.Gc7::affR($ad).'</h1>';
-		// (new TutoController)->index();
+		$data = 777;
 
-		$data = Gc7::affData($data ?? null);
+		return view('pages.test')
+			->with('data', $data ?? null);
+	}
 
-		return view('pages.test', compact('data'));
+	public function monospace()
+	{
+		$css   = '.monospace-font { color: red; font-weight: 800; font-size: 14pt; }';
+		$fonts = ['Courier', 'Consolas', 'Monaco', 'Inconsolata'];
+		$data  = '';
+		foreach ($fonts as $font) {
+			$str = '';
+			for ($i = 0; $i < 17; ++$i) {
+				$binary = str_pad(decbin($i), 5, '0', STR_PAD_LEFT);
+				$str .= sprintf("<span class='monospace-font' style='font-family:%s;'>%s</span> ← %d<br>", $font, $binary, $i);
+			}
+			$data .= sprintf('%s<br>%s<hr>', $font, $str);
+		}
+
+		return view('pages.test')
+			->with('data', $data ?? null)
+			->with('css', $css ?? null);
 	}
 
 	public function first_try_to_ask_in_loop()
