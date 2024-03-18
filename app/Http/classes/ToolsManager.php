@@ -88,8 +88,8 @@ class ToolsManager
 		// $timezone = 'Europe/Paris';
 		// $dateJ    = Carbon::now($timezone);
 
-		$hour   = substr($published_date, -5, 2);
-		$minute = substr($published_date, -2, 2);
+		$hour   = +substr($published_date, -5, 2);
+		$minute = +substr($published_date, -2, 2);
 		// echo '<h1>' . $decal . ' - ' . $hour . ':' . $minute . '</h1>';
 
 		return $date->setHour($hour)->setMinute($minute)->setSecond(0);

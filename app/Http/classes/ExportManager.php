@@ -111,8 +111,7 @@ class ExportManager extends AdController
 	protected function getFiles(): object
 	{
 		// Chemin du répertoire à lister
-		$path  = './../storage/app/exports/';
-		$path  = './storage/app/exports/';
+		$path  = storage_path('app/exports/');
 		$files = [];
 
 		// Ouvre le répertoire
