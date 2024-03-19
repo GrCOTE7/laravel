@@ -5,13 +5,13 @@
  */
 
 use App\Http\classes\ExportManager;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MyController;
 use App\Http\Controllers\GregController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\MyController;
 use App\Http\Controllers\PhotoController;
-use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\TutoSilloController;
+use Illuminate\Support\Facades\Route;
 
 // Route::get('/t2', function () {
 // 	return phpinfo();
@@ -19,8 +19,13 @@ use App\Http\Controllers\WelcomeController;
 
 Route::get('/', [MyController::class, 'index'])
 	->name('test');
-Route::get('/w', [WelcomeController::class, 'index'])
+
+Route::get('w', [TutoSilloController::class, 'index'])
+	->name('w');
+Route::get('w/welcome', [TutoSilloController::class, 'welcome'])
 	->name('welcome');
+Route::get('w/article/{n}', [TutoSilloController::class, 'article'])
+->where('n', '[0-9]+');
 
 Route::get('greg', [GregController::class, 'index'])
 	->name('greg');
