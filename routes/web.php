@@ -5,13 +5,14 @@
  */
 
 use App\Http\classes\ExportManager;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MyController;
 use App\Http\Controllers\GregController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\MyController;
-use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\TutoSilloController;
-use Illuminate\Support\Facades\Route;
 
 // Route::get('/t2', function () {
 // 	return phpinfo();
@@ -30,8 +31,11 @@ Route::get('w/article/{n}', [TutoSilloController::class, 'article'])
 Route::get('greg', [GregController::class, 'index'])
 	->name('greg');
 
-Route::get('users', [MyController::class, 'users'])
-	->name('users');
+Route::get('users', [UserController::class, 'index'])
+	->name('users.index');
+Route::post('users', [UserController::class, 'store'])
+	->name('users.store');
+
 Route::get('mail', [MailController::class, 'index'])
 	->name('mail');
 Route::post('mail', [MailController::class, 'send']);

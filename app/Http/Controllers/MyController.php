@@ -25,13 +25,6 @@ class MyController extends Controller
 		return view('pages.test', compact('data'));
 	}
 
-	public function users($id = null)
-	{
-		$users = User::all();
-
-		return view('test', ['dataSend' => $users]);
-	}
-
 	private function getFrDate()
 	{
 		date_default_timezone_set('Europe/Paris');
