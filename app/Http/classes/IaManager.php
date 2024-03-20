@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\classes;
+namespace App\Http\Classes;
 
 use App\Http\Controllers\AdController;
 use App\Http\Tools\Gc7;

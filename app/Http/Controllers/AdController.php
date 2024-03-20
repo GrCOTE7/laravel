@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\classes\ExportManager;
-use App\Http\classes\IaManager;
-use App\Http\classes\ToolsManager;
+use App\Http\Classes\ExportManager;
+use App\Http\Classes\IaManager;
+use App\Http\Classes\ToolsManager;
 use App\Http\Tools\Gc7;
 
 class AdController extends Controller

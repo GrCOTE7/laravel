@@ -31,7 +31,7 @@ Route::get('w/article/{n}', [TutoSilloController::class, 'article'])
 Route::get('greg', [GregController::class, 'index'])
 	->name('greg');
 
-Route::get('users', [UserController::class, 'index'])
+Route::get('users', [UserController::class, 'infos'])
 	->name('users.index');
 Route::post('users', [UserController::class, 'store'])
 	->name('users.store');
@@ -51,9 +51,9 @@ Route::post('photo', [PhotoController::class, 'store']);
 Route::get('export', [ExportManager::class, 'index'])->name('export.index');
 Route::get('files', [ExportManager::class, 'files'])->name('export.files');
 
-function aff($message)
-{
-	echo $message;
-	ob_flush();
-	flush();
-}
+// function aff($message)
+// {
+// 	echo $message;
+// 	ob_flush();
+// 	flush();
+// }

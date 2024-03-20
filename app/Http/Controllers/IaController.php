@@ -1,21 +1,27 @@
 <?php
 
-namespace App\Http\Tools;
+/**
+ * (ɔ) GrCOTE7 - 1990-2024
+ */
 
-class TestIAUuu
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+
+class IaController extends Controller
 {
 	protected $apiKey;
 
 	protected $ad;
 
-	protected $realAskAI;
+	protected $realAskAi;
 
 	protected $aff;
 
-	public function __construct(array $ad, ?int $realAskAI = 0, ?int $aff = 0)
+	public function __construct(array $ad, ?int $realAskAi = 0, ?int $aff = 0)
 	{
 		$this->ad        = $ad;
-		$this->realAskAI = $realAskAI;
+		$this->realAskAi = $realAskAi;
 		$this->aff       = $aff;
 	}
 
@@ -55,10 +61,10 @@ class TestIAUuu
 		// Gc7::aff($response2, '$response');
 		// echo '<hr>';
 
-        // $propertyString = json_encode($propertyString);
+		// $propertyString = json_encode($propertyString);
 
-        // Gc7::aff(gettype($propertyString));
-        // Gc7::aff($propertyString);
+		// Gc7::aff(gettype($propertyString));
+		// Gc7::aff($propertyString);
 
 		eval($propertyString);
 
@@ -101,27 +107,28 @@ class TestIAUuu
 		// die($answer);
 		return $this->askAI($prompt);
 	}
+
+	protected function getApiKey()
+	{
+		return env('IA_KEY', 'No IA Key found');
+	}
+
 	protected function exemplePrompt()
 	{
-        $prompt = <<<'EOD'
-        <br>
-        Remplace dans le code suivant, les  'xxx' par la valeur appropriée.<br>
-        Attention: Si tu ne trouves pas de valeur, laisse le champs à null, et si c'est explicitement indiqué qu'il n'y en as pas, affecte 0.<br>
-        Pour le champ property_description, recopie intégralement la valeur.
-        $property_location           = 'xxx';<br>
-        $ad_published_at             = 'xxx'; // Génère ici le jour et l'heure selon le format 'Y-m-d H:i'
-        $ad_title                    = 'xxx';<br>
-        $ad_link                     = 'xxx';<br>
-        $property_owner              = 'xxx';<br>
-        $property_price              = 'xxx';<br>
-        $property_number_of_pieces   = 'xxx';<br> // Supérieur ou égal au nombre de chambres
-        $property_number_of_bedrooms = 'xxx'; // Ici, tu peux déduire l'information aussi avec la description fournie<br>
-        $property_building_surface   = 'xxx';<br>
-        $property_ground_surface     = 'xxx';<br>
-        $property_number_of_levels   = 'xxx';<br>
-        $property_description        = 'xxx';<br>
-        N'explique pas du tout ta réponse, juste renvoie le code que tu obtiens!
-        EOD;
+		// Peux-tu remplacer dans le code suivant, les  'xxx' par la valeur adaptée ?
+		// Attention: Si tu ne trouves pas de valeur, laisse le champs à null, si c'est explicitement indiqué qu'il n'y en as pas, affecte 0.
+		$location           = 'xxx';
+		$published_date     = 'xxx'; // 2do: simplifier pour ne gérer que le jour
+		$add_title          = 'xxx';
+		$add_link           = 'xxx';
+		$price              = 'xxx';
+		$number_of_pieces   = 'xxx';
+		$number_of_bedrooms = 'xxx'; // Ici, tu peux déduire l'information aussi avec la description fournie
+		$building_surface   = 'xxx';
+		$ground_surface     = 'xxx';
+		$number_of_levels   = 'xxx';
+		$description        = 'xxx';
+		// N'explique pas du tout ta réponse, juste donne le code que tu obtiens!
 	}
 
 	protected function whatIsEncens()
@@ -166,4 +173,88 @@ class TestIAUuu
 		return $result['choices'][0]['message']['content'];
 	}
 
+	protected function prompt(string $prompt): string
+	{
+		$data = [
+			'model'    => 'gpt-3.5-turbo',
+			'messages' => [[
+				'role'    => 'user',
+				'content' => $prompt,
+			]],
+		];
+		// exit($data);
+
+		return json_encode($data);
+	}
+
+	protected function askAI(string $prompt): string
+	{
+		if ($this->realAskAI) {
+			// Gc7::aff($prompt);
+			// exit;
+			$ch = curl_init('https://api.openai.com/v1/chat/completions');
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $prompt);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, [
+				'Content-Type: application/json',
+				'Content-Length: ' . strlen($prompt),
+				'Authorization: Bearer ' . $this->getApiKey(),
+			]);
+
+			// Gc7::aff($ch, 'ch');
+			$fullAnswer = curl_exec($ch); // Complete Json Response
+
+		// Gc7::aff($fullAnswer);
+		// exit;
+		} else {
+			$fullAnswer = $this->fakeAnswerAI();
+		}
+
+		// return $fullAnswer;
+		$answer = json_decode($fullAnswer, true);
+		// Gc7::aff($fullAnswer, 'Answer');
+
+		// exit;
+		return $answer['choices'][0]['message']['content'];
+	}
+
+	protected function fakeAnswerAI()
+	{
+		return file_get_contents('./../storage/app/ia/adAnswerAiExemple.json');
+	}
+
+	protected function realPrompt($ad = null)
+	{
+		$ad ??= ['Description: Petite maison de 50m² sur 2 étages avec 5 chambres avec un terrain de 500m²'];
+
+		// Gc7::aff($ad);
+		// $ad = implode(' ',$ad);
+		$ad = json_encode($ad);
+		// Gc7::aff($ad);
+
+		$prompt = <<<'EOD'
+			<br>
+			Remplace dans le code suivant, les  'xxx' par la valeur appropriée.<br>
+			Attention: Si tu ne trouves pas de valeur, laisse le champs à null, et si c'est explicitement indiqué qu'il n'y en as pas, affecte 0.<br>
+			Pour le champ property_description, recopie intégralement la valeur.
+			$property_location           = 'xxx';<br>
+			$ad_published_at             = 'xxx'; // Génère ici le jour et l'heure selon le format 'Y-m-d H:i'
+			$ad_title                    = 'xxx';<br>
+			$ad_link                     = 'xxx';<br>
+			$property_owner              = 'xxx';<br>
+			$property_price              = 'xxx';<br>
+			$property_number_of_pieces   = 'xxx';<br> // Supérieur ou égal au nombre de chambres
+			$property_number_of_bedrooms = 'xxx'; // Ici, tu peux déduire l'information aussi avec la description fournie<br>
+			$property_building_surface   = 'xxx';<br>
+			$property_ground_surface     = 'xxx';<br>
+			$property_number_of_levels   = 'xxx';<br>
+			$property_description        = 'xxx';<br>
+			N'explique pas du tout ta réponse, juste renvoie le code que tu obtiens!
+			EOD;
+		$p = $ad . json_encode($prompt);
+
+		// die($p);
+		return $this->prompt($ad . $prompt);
+	}
 }

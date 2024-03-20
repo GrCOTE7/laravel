@@ -10,10 +10,16 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-	public function index($id = null)
+	public function infos($id = null)
 	{
 		$users = User::all();
 
-		return view('pages.tuto.user', ['data' => $users]);
+		return view('pages.tuto.userInfos', ['data' => $users]);
+	}
+	public function store($id = null)
+	{
+		$users = User::all();
+
+		return view('pages.tuto.userInfos', ['data' => $users]);
 	}
 }

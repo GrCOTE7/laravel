@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\classes;
+namespace App\Http\Classes;
 
 use Carbon\Carbon;
 

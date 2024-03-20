@@ -11,7 +11,7 @@
         "laravel/tinker": "^2.9"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.12.2",
+        "barryvdh/laravel-debugbar": "^3.12",
         "fakerphp/faker": "^1.23.1",
         "jason-guru/laravel-make-repository": "^0.0.3",
         "laravel-lang/common": "^3.1.1",
