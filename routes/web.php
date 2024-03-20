@@ -31,7 +31,7 @@ Route::get('w/article/{n}', [TutoSilloController::class, 'article'])
 Route::get('greg', [GregController::class, 'index'])
 	->name('greg');
 
-Route::get('users', [UserController::class, 'infos'])
+Route::get('users', [UserController::class, 'create'])
 	->name('users.index');
 Route::post('users', [UserController::class, 'store'])
 	->name('users.store');
