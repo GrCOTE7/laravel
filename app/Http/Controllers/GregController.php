@@ -16,11 +16,10 @@ class GregController extends Controller
 		// ini_set('implicit_flush', true);
 		// ob_implicit_flush(true);
 
-		global $aff;
 		// phpinfo();
-        // return;
-		aff($this->a);
-		aff('ok');
+		// return;
+		$this->aff($this->a);
+		$this->aff('ok');
 
 		echo 'Début ...<br />';
 		for ($i = 0; $i < 3; ++$i) {
@@ -45,8 +44,8 @@ class GregController extends Controller
 
 		foreach ($clefs as $k => $clef) {
 			$msg = str_replace($k, $clef, $msg);
-            // aff($msg);
-            // sleep(2);
+			// aff($msg);
+			// sleep(2);
 		}
 
 		return $msg;
@@ -120,5 +119,12 @@ class GregController extends Controller
 			'⊬' => 'y',
 			'⋉' => 'z',
 		];
+	}
+
+	public function aff($message)
+	{
+		echo $message;
+		ob_flush();
+		flush();
 	}
 }
