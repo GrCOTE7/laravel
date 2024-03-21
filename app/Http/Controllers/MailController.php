@@ -27,18 +27,30 @@ class MailController extends Controller
 	 */
 	public function index()
 	{
-		$appName  = $this->app;
-        
+		$appName = $this->app;
+
 		$vueEmail = new TestMail();
-		$vueEmail = new TestMail('Oki (ou rien possible)');
+		// $vueEmail = new TestMail('Oki (ou rien possible)');
 
 		return view('pages.tuto.mail.mail', compact('appName', 'vueEmail'));
 	}
 
-	public function send($data)
+	public function view()
 	{
 		$appName = $this->app;
+
+		$vueEmail = new TestMail();
+		// $vueEmail = new TestMail('Oki (ou rien possible)');
         
+		echo '<a href="' . route('mail') . '" style="margin-left:10px">Retour</a><hr>';
+
+		return $vueEmail;
+	}
+
+	public function send($data = null)
+	{
+		$appName = $this->app;
+
 		// Code d'envoi
 		Mail::to('administrateur@chezmoi.com')
 			->send(new TestMail($data));

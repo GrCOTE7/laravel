@@ -13,6 +13,8 @@
         <button>Send eMail</button><br>
         {{ $msg ?? '' }}
 
+        <a href = '/mail/view'>View only email (Without CSS of Page)</a>
+
         <hr>
         Vue du email avant l'envoi:
         <hr>
