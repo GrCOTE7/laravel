@@ -6,16 +6,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Tools\Gc7;
 use App\Mail\TestMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
+/**
+ * Class MailController.
+ *
+ * @property string $app
+ */
 class MailController extends Controller
 {
 	public function __construct()
 	{
-		$this->app = env('APP_NAME', 'oOo');
+		$this->app = config('app.name', 'L11');
 	}
 
 	/**
@@ -23,21 +27,24 @@ class MailController extends Controller
 	 */
 	public function index()
 	{
-		// Gc7::aff(config('app.locale'), 'Config App locale');
-		$appName = $this->app;
+		$appName  = $this->app;
+        
+		$vueEmail = new TestMail();
+		$vueEmail = new TestMail('Oki (ou rien possible)');
 
-		return view('pages.mail', compact('appName'));
+		return view('pages.tuto.mail.mail', compact('appName', 'vueEmail'));
 	}
 
-	public function send()
+	public function send($data)
 	{
 		$appName = $this->app;
+        
 		// Code d'envoi
 		Mail::to('administrateur@chezmoi.com')
-			->send(new TestMail());
+			->send(new TestMail($data));
 
-		$msg = 'Email envoyé !';
+		$msg = $data . '<hr>Email envoyé !';
 
-		return view('pages.mail', compact('appName', 'msg'));
+		return view('pages.tuto.mail.mail', compact('appName', 'msg'));
 	}
 }

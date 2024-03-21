@@ -12,7 +12,9 @@
 
     <h2>Envoi d'un email sur mon beau site intitulé: {{ $appName }}</h2>
     <hr>
-    {{  ucfirst($key777) }}
+    Des infos: {{  ucfirst($key777) }}
+    <hr>
+    Et: {{ $data }}
 </body>
 
 </html>

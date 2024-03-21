@@ -26,11 +26,14 @@ Route::get('w', [TutoSilloController::class, 'index'])
 	->name('w');
 Route::get('w/welcome', [TutoSilloController::class, 'welcome'])
 	->name('welcome');
+    
 Route::get('w/article/{n}', [TutoSilloController::class, 'article'])
 	->where('n', '[0-9]+');
+
 Route::get('w/mail', [MailController::class, 'index'])
 	->name('mail');
 Route::post('w/mail', [MailController::class, 'send']);
+
 Route::get('w/greg', [GregController::class, 'index'])
 	->name('greg');
 
