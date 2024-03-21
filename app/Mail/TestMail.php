@@ -13,7 +13,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-/** Send an email for testing
+/** Send an email for testing.
  * @property string $data
  */
 class TestMail extends Mailable
@@ -21,10 +21,12 @@ class TestMail extends Mailable
 	use Queueable;
 	use SerializesModels;
 
+	public $data;
+
 	/**
 	 * Create a new message instance.
 	 */
-	public function __construct(string $data=null)
+	public function __construct(?string $data = null)
 	{
 		$this->data = $data;
 	}

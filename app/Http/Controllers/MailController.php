@@ -41,7 +41,7 @@ class MailController extends Controller
 
 		$vueEmail = new TestMail();
 		// $vueEmail = new TestMail('Oki (ou rien possible)');
-        
+
 		echo '<a href="' . route('mail') . '" style="margin-left:10px">Retour</a><hr>';
 
 		return $vueEmail;
