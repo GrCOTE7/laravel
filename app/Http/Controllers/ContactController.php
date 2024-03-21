@@ -14,6 +14,6 @@ class ContactController extends Controller
 
     public function store(ContactRequest $request)
     {
-        return 'vue confirm';
+        return view('pages.tuto.contact.confirm');
     }
 }

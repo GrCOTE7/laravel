@@ -7,6 +7,7 @@
 @section('main')
     Create Contact
     <hr>
+    <br>
     <div class="container d-flex justify-content-center">
         <div class="row card text-white bg-dark">
             <h4 class="card-header">Contactez-moi</h4>
