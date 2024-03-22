@@ -6,22 +6,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Tools\Ads;
 use App\Http\Tools\Gc7;
+use Illuminate\View\View;
 use App\Http\Tools\TestIA;
+use Illuminate\Support\Facades\iew;
 use Illuminate\Support\Facades\Storage;
 
 class TestController extends Controller
 {
-	public function index()
+	public function index(): View
 	{
-		$data = 777;
-        $css='p {color:blue; font-weight:bold}';
+		$data = $this->dbReq();
+		$css  = 'p {color:blue; font-weight:bold}';
 
-        Storage::disk('public')->put('recettes.txt', 'Contenu du fichier');
+		Storage::disk('public')->put('recettes.txt', 'Contenu du fichier');
+
 		return view('pages.test')
 			->with('data', $data ?? null)
 			->with('css', $css ?? null);
+	}
+
+	public function dbReq(): string
+	{
+		return 'Oki';
 	}
 
 	public function monospace()
