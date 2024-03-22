@@ -4,12 +4,11 @@
  * (ɔ) GrCOTE7 - 1990-2024
  */
 
-namespace App\Http\Tutos\Divers;
+namespace App\Http\Controllers;
 
 use App\Http\Tools\Ads;
 use App\Http\Tools\Gc7;
 use App\Http\Tools\TestIA;
-use App\Http\Controllers\Controller;
 
 class TestController extends Controller
 {
