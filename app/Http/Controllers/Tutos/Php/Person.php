@@ -4,7 +4,7 @@
  * (ɔ) GrCOTE7 - 1990-2024
  */
 
-namespace App\Http\Tutos\Php;
+namespace App\Http\Controllers\Tutos\Php;
 
 class Person
 {
@@ -39,7 +39,7 @@ class Person
         Prénom : {$this->lastname}<br>
         Date de naissance : {$this->dateOfBirth}<br>
         Taille : {$this->height} - Sexe : {$this->sex}<br>
-        Infos :<ul><li>" . join("<li>", $this->infos)."</li></ul>";
+        Infos :<ul><li>" . join('<li>', $this->infos) . '</li></ul>';
 	}
 
 	public function drink(): string

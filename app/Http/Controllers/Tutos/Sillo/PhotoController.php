@@ -4,7 +4,7 @@
  * (ɔ) GrCOTE7 - 1990-2024
  */
 
-namespace App\Http\Tutos\Sillo;
+namespace App\Http\Controllers\Tutos\Sillo;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImagesRequest;

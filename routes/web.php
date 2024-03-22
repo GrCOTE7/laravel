@@ -5,16 +5,16 @@
  */
 
 use App\Http\Classes\ExportManager;
-use App\Http\Controllers\LbcController;
 use App\Http\Controllers\MyController;
+use App\Http\Controllers\LbcController;
+use App\Http\Controllers\Tutos\Php\Poo;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TutoController;
 use App\Http\Controllers\UserController;
-use App\Http\Tutos\Divers\GregController;
-use App\Http\Tutos\Php\Poo;
-use App\Http\Tutos\Sillo\ContactController;
-use App\Http\Tutos\Sillo\MailController;
-use App\Http\Tutos\Sillo\PhotoController;
+use App\Http\Controllers\Tutos\Sillo\MailController;
+use App\Http\Controllers\Tutos\Divers\GregController;
+use App\Http\Controllers\Tutos\Sillo\PhotoController;
+use App\Http\Controllers\Tutos\Sillo\ContactController;
 
 date_default_timezone_set('Europe/Paris');
 
@@ -23,6 +23,7 @@ Route::get('/', [MyController::class, 'index'])
 
 Route::get('tuto', [TutoController::class, 'tutos'])
 	->name('tuto.tutos');
+
 // POO PHP
 if (1) {
 	Route::get('tuto/poo', [Poo::class, 'index']);
@@ -59,9 +60,7 @@ if (1) {
 // LBC - Files & exports
 if (2) {
 	Route::get('lbc', [LbcController::class, 'index'])->name('lbc.index');
-
 	Route::get('lbc/files', [ExportManager::class, 'getFiles'])->name('export.files');
-
 	Route::get('lbc/export', [ExportManager::class, 'index'])->name('export.index');
 }
 

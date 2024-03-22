@@ -4,7 +4,7 @@
  * (ɔ) GrCOTE7 - 1990-2024
  */
 
-namespace App\Http\Tutos\Php;
+namespace App\Http\Controllers\Tutos\Php;
 
 class Poo
 {
@@ -56,6 +56,6 @@ class Poo
 		$myVehicle->actions = [$myVehicle->start()];
 		array_push($myVehicle->actions, $myVehicle->repair()); // Non visible
 
-		return (string)$myVehicle;
+		return (string) $myVehicle;
 	}
 }

@@ -4,7 +4,7 @@
  * (ɔ) GrCOTE7 - 1990-2024
  */
 
-namespace App\Http\Tutos\Divers;
+namespace App\Http\Controllers\Tutos\Divers;
 
 use App\Http\Controllers\Controller;
 

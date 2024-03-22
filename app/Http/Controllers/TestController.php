@@ -16,7 +16,7 @@ class TestController extends Controller
 	public function index()
 	{
 		$data = 777;
-        $css='p {color:red; font-weight:bold}';
+        $css='p {color:blue; font-weight:bold}';
 
         Storage::disk('public')->put('recettes.txt', 'Contenu du fichier');
 		return view('pages.test')
