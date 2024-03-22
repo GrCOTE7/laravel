@@ -15,9 +15,13 @@
     <h1>@yield('title')</h1>
     <ul>
         @foreach ($data as $u)
-        <li><p>{!! $u->name ?? '$data is empty' !!}</p></li>
+            <li>
+                <p>{!! $u->name ?? '$data is empty' !!}</p>
+            </li>
         @endforeach
     </ul>
+    <hr>
+    {{ $code ?? 'Nothing' }} (Passé / session)
 
     {{-- <form action="" method="POST">
         @csrf

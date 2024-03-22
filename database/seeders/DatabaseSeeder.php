@@ -1,8 +1,13 @@
 <?php
 
+/**
+ * (ɔ) GrCOTE7 - 1990-2024
+ */
+
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,7 +19,7 @@ class DatabaseSeeder extends Seeder
 	{
 		// \App\Models\User::factory(10)->create();
 
-		\App\Models\User::factory()->create([
+		User::factory()->create([
 			'name'     => 'GrCOTE7',
 			'email'    => 'GrCOTE7@gmail.com',
 			'password' => md5('123123123'),
