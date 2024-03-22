@@ -4,7 +4,9 @@
  * (ɔ) GrCOTE7 - 1990-2024
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Tutos\Divers;
+
+use App\Http\Controllers\Controller;
 
 class GregController extends Controller
 {
@@ -35,7 +37,7 @@ class GregController extends Controller
 		$msg     = $this->getMessage();
 		$decoded = $this->gregDecode($msg);
 
-		return view('pages.greg', compact('msg', 'decoded', 'response'));
+		return view('pages.tuto.decode.greg', compact('msg', 'decoded', 'response'));
 	}
 
 	public function gregDecode($msg)

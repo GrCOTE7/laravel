@@ -2,8 +2,8 @@
 
 namespace App\Http\Classes;
 
-use App\Http\Controllers\AdController;
 use App\Http\Tools\Gc7;
+use App\Http\Controllers\AdController;
 
 class ExportManager extends AdController
 {

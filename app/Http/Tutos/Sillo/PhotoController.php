@@ -1,7 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+/**
+ * (ɔ) GrCOTE7 - 1990-2024
+ */
 
+namespace App\Http\Tutos\Sillo;
+
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ImagesRequest;
 use App\Repositories\PhotosRepositoryInterface;
 use Illuminate\View\View;
@@ -9,8 +14,8 @@ use Illuminate\View\View;
 class PhotoController extends Controller
 {
 	public function create(): View
-	{
-		return view('pages.photo');
+	{echo 123;
+		return view('pages.tuto.photo.photo');
 	}
 
 	// public function store(ImagesRequest $request): View
@@ -19,6 +24,6 @@ class PhotoController extends Controller
 		// $request->image->store(config('images.path'), 'public');
 		$photosRepository->save($request->image);
 
-		return view('pages.photo_ok');
+		return view('pages.tuto.photo.photo_ok');
 	}
 }

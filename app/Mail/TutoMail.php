@@ -16,7 +16,7 @@ use Illuminate\Queue\SerializesModels;
 /** Send an email for testing.
  * @property string $data
  */
-class TestMail extends Mailable
+class TutoMail extends Mailable
 {
 	use Queueable;
 	use SerializesModels;
@@ -53,7 +53,7 @@ class TestMail extends Mailable
 		];
 
 		return new Content(
-			view: 'emails.testmail',
+			view: 'emails.tuto-mail',
 			with: $data
 		);
 	}

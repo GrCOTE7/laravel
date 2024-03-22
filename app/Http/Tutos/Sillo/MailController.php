@@ -4,9 +4,10 @@
  * (ɔ) GrCOTE7 - 1990-2024
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Tutos\Sillo;
 
-use App\Mail\TestMail;
+use App\Http\Controllers\Controller;
+use App\Mail\TutoMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -29,7 +30,7 @@ class MailController extends Controller
 	{
 		$appName = $this->app;
 
-		$vueEmail = new TestMail();
+		$vueEmail = new TutoMail();
 		// $vueEmail = new TestMail('Oki (ou rien possible)');
 
 		return view('pages.tuto.mail.mail', compact('appName', 'vueEmail'));
@@ -39,7 +40,7 @@ class MailController extends Controller
 	{
 		$appName = $this->app;
 
-		$vueEmail = new TestMail();
+		$vueEmail = new TutoMail();
 		// $vueEmail = new TestMail('Oki (ou rien possible)');
 
 		echo '<a href="' . route('mail') . '" style="margin-left:10px">Retour</a><hr>';
@@ -53,7 +54,7 @@ class MailController extends Controller
 
 		// Code d'envoi
 		Mail::to('administrateur@chezmoi.com')
-			->send(new TestMail($data));
+			->send(new TutoMail($data));
 
 		$msg = $data . '<hr>Email envoyé !';
 

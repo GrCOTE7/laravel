@@ -12,7 +12,6 @@ class MyController extends Controller
 	public function index(mixed $data = null): View
 	{
 		ini_set('max_execution_time', '0');
-		date_default_timezone_set('Europe/Paris');
 		// $data = (new AdController())->index();
 
 		// $data = (new ScrapController())->index();
@@ -21,6 +20,7 @@ class MyController extends Controller
 		// return view('test')->withDataSend(DATA);
 
 		// $data = Gc7::affData($data ?? null);
+        // $data=789;
 
 		return view('pages.test', compact('data'));
 	}
