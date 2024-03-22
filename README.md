@@ -12,6 +12,15 @@ https://www.youtube.com/watch?v=lMm3y5Co1QQ&ab_channel=PierreMiniggio
 
 ----
 
+```js
+Storage::disk('public')->put('recettes.txt', 'Contenu du fichier');
+
+php artisan storage:link
+```
+
+→ http://127.0.0.1:8000/storage/recettes.txt
+----
+
 Tuto Pytho 400 loyers à Paris:
 https://www.youtube.com/watch?v=vQR-SJBU22I&ab_channel=Joycode
 

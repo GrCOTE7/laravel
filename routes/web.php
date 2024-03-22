@@ -4,17 +4,17 @@
  * (ɔ) GrCOTE7 - 1990-2024
  */
 
-use App\Http\Tutos\Php\Poo;
 use App\Http\Classes\ExportManager;
-use App\Http\Controllers\MyController;
 use App\Http\Controllers\LbcController;
+use App\Http\Controllers\MyController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TutoController;
 use App\Http\Controllers\UserController;
-use App\Http\Tutos\Sillo\MailController;
 use App\Http\Tutos\Divers\GregController;
-use App\Http\Tutos\Sillo\PhotoController;
+use App\Http\Tutos\Php\Poo;
 use App\Http\Tutos\Sillo\ContactController;
+use App\Http\Tutos\Sillo\MailController;
+use App\Http\Tutos\Sillo\PhotoController;
 
 date_default_timezone_set('Europe/Paris');
 

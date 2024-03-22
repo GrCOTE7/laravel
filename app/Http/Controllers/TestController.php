@@ -9,15 +9,19 @@ namespace App\Http\Controllers;
 use App\Http\Tools\Ads;
 use App\Http\Tools\Gc7;
 use App\Http\Tools\TestIA;
+use Illuminate\Support\Facades\Storage;
 
 class TestController extends Controller
 {
 	public function index()
 	{
 		$data = 777;
+        $css='p {color:red; font-weight:bold}';
 
+        Storage::disk('public')->put('recettes.txt', 'Contenu du fichier');
 		return view('pages.test')
-			->with('data', $data ?? null);
+			->with('data', $data ?? null)
+			->with('css', $css ?? null);
 	}
 
 	public function monospace()

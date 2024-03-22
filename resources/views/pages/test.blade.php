@@ -12,6 +12,6 @@
 @endsection
 
 @section('main')
-    <h1>Accueil</h1>
+    <h1>Test</h1>
     <p>{!! $data ?? '$data is empty' !!}</p>
 @endsection
