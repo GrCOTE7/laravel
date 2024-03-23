@@ -8,6 +8,7 @@ namespace App\Http\Controllers\Tutos\Sillo;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactRequest;
+use App\Models\Contact;
 use Illuminate\View\View;
 
 class ContactController extends Controller
@@ -19,6 +20,27 @@ class ContactController extends Controller
 
 	public function store(ContactRequest $request): View
 	{
-		return view('pages.tuto.contact.confirm');
+		// $contact          = new Contact();
+		// $contact->name    = $request->nom;
+		// $contact->email   = $request->email;
+		// $contact->message = $request->message;
+		// $contact->save();
+
+        // dd(Contact::create ([ // Need fillable fields in model
+		// 	'name'    => $request->nom,
+		// 	'email'   => $request->email,
+		// 	'message' => $request->message,
+		// ]));
+
+		Contact::create([ // Need fillable fields in model
+			'name'    => $request->nom,
+			'email'   => $request->email,
+			'message' => $request->message,
+		]);
+
+
+		$data = Contact::get()->last();
+
+		return view('pages.tuto.contact.confirm')->with('data', $data);
 	}
 }

@@ -15,6 +15,7 @@
                 <p class="card-text">Merci. Votre message a été transmis à l'administrateur du site. Vous recevrez une
                     réponse rapidement.</p>
             </div>
+            <p class="card-text mb-3">{{ $data }}</p>
         </div>
     </div>
 @endsection
