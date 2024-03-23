@@ -38,8 +38,10 @@ if (1) {
 	Route::get('tuto/article/{n}', [TutoController::class, 'article'])
 		->where('n', '[0-9]+');
 
-	Route::get('tuto/contact', [ContactController::class, 'create']);
-	Route::post('tuto/contact', [ContactController::class, 'store']);
+	Route::get('tuto/contact', [ContactController::class, 'create'])
+		->name('contact.create');
+	Route::post('tuto/contact', [ContactController::class, 'store'])
+		->name('contact.store');
 
 	Route::get('tuto/mail', [MailController::class, 'index'])
 		->name('mail');
