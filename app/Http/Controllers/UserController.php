@@ -16,19 +16,33 @@ class UserController extends Controller
 	{
 		$users = User::all();
 
-        // session()->flush(); // Efface all sessions
+		// session()->flush(); // Efface all sessions
 		session(['code' => 777]);
-        session()->forget('code');
+		session()->forget('code');
 
-		return view('pages.tuto.user.infos');
+		return view('pages.tuto.user.infos')->with('users', $users);
 	}
 
 	public function store(Request $request): View
 	{
-		// var_dump($request);
-		$users = User::all();
-        $code = session('code');
+		// dd($request);
+		$request->validate(
+			[
+				'nom' => 'bail|required|between:2,32|exists:users,name',
+			],
+			// [
+			// 	'nom.exists' => 'Le nom entré n\'existe pas dans notre base de données.',
+			// ]
+		);
 
-		return view('pages.tuto.user.user', ['data' => $users, 'code'=>$code]);
+		$userChoice = $request->nom;
+		$users      = User::all();
+		$code       = session('code');
+
+		return view('pages.tuto.user.user', [
+			'userChoice' => $userChoice,
+			'users'      => $users,
+			'code'       => $code,
+		]);
 	}
 }

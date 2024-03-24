@@ -13,8 +13,10 @@
 
 @section('main')
     <h1>@yield('title')</h1>
+    Choix: {{ $userChoice }}
+    <hr>
     <ul>
-        @foreach ($data as $u)
+        @foreach ($users as $u)
             <li>
                 <p>{!! $u->name ?? '$data is empty' !!}</p>
             </li>

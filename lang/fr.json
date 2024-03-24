@@ -103,5 +103,8 @@
     "Verify Email Address": "Vérifier l'adresse e-mail",
     "Web Server is Down": "Le serveur Web est en panne",
     "Whoops!": "Oups !",
-    "You are receiving this email because we received a password reset request for your account.": "Vous recevez cet e-mail car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte."
+    "You are receiving this email because we received a password reset request for your account.": "Vous recevez cet e-mail car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.",
+    
+    "Enter the name you're looking for:": "Entrez le nom recherché:",
+    "Send": "Envoyer"
 }
