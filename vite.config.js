@@ -11,6 +11,7 @@ export default defineConfig({
                 "resources/views/**",
                 "routes/**",
                 "app/**",
+                "lang/**",
                 "config/**",
             ],
         }),
