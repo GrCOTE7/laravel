@@ -7,8 +7,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Film;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +27,12 @@ class DatabaseSeeder extends Seeder
 			'email'    => env('MAIL_FROM_ADDRESS'),
 			'password' => md5('123123123'),
 		]);
+
+        Schema::disableForeignKeyConstraints();
+        Category::factory()
+            ->has(Film::factory()->count(4))
+            ->count(10)
+            ->create();
 
 		$this->call(ImportSeeder::class);
 	}

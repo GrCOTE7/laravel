@@ -1,4 +1,5 @@
 <a href="/">Home</a> |
+<a href="/films">Films</a> |
 <a href="/lbc">LBC</a> |
 <a href="/tuto">Tutos</a> |
 <a href="/users">Users</a> |
