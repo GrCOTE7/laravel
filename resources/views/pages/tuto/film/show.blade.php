@@ -25,7 +25,7 @@
                 </ul>
                 <hr>
                 <p>Description :</p>
-                <p>{{ $film->description }}</p>
+                <p style="text-align: justify">{{ $film->description }}</p>
             </div>
         </div>
     </div>

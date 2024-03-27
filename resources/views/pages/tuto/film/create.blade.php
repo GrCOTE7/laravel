@@ -12,7 +12,7 @@
                 <form action="{{ route('films.store') }}" method="POST">
                     @csrf
                     <div class="field is-grouped is-horizontal">
-                        <label class="label field-label">Catégories</label>
+                        <label class="label field-label mr-2">Catégories</label>
                         <div class="select is-multiple">
                             <select name="cats[]" multiple>
                                 @foreach ($categories as $category)
@@ -22,7 +22,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <label class="label field-label">Acteurs</label>
+                        <label class="label field-label mx-2">Acteurs</label>
                         <div class="select is-multiple">
                             <select name="acts[]" multiple>
                                 @foreach ($actors as $actor)
@@ -56,7 +56,7 @@
                     <div class="field">
                         <label class="label">Description</label>
                         <div class="control">
-                            <textarea class="textarea" name="description" placeholder="Description du film">{{ old('description') }}</textarea>
+                            <textarea class="textarea" style="text-align: justify" name="description" placeholder="Description du film">{{ old('description') }}</textarea>
                         </div>
                         @error('description')
                             <p class="help is-danger">{{ $message }}</p>
