@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Actor extends Model
 {
 	use HasFactory;
+    protected $visible=['name'];
 
 	public function films(): MorphToMany
 	{

@@ -13,6 +13,7 @@ class User extends Model
 {
 	use HasFactory;
 	use Notifiable;
+    use HasApiTokens;
 
 	/**
 	 * The attributes that are mass assignable.
