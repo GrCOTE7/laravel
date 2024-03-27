@@ -6,6 +6,7 @@
 
 namespace App\Providers;
 
+use App\Models\Actor;
 use App\Models\Category;
 use App\Models\Film;
 use Illuminate\Support\Facades\Route;
@@ -30,12 +31,13 @@ class AppServiceProvider extends ServiceProvider
 	 */
 	public function boot(): void
 	{
-		View::composer(['pages.tuto.film.index', 'pages.tuto.film.create','pages.tuto.film.edit'], function ($view) {
-			$view->with('categories', Category::all());
+		View::composer(['pages.tuto.film.index', 'pages.tuto.film.create', 'pages.tuto.film.edit'], function ($view) {
+			$view->with('categories', Category::all())
+				->with('actors', Actor::all());
 		});
 
 		Route::bind('film', function ($value) {
-			return Film::with('categories')->find($value);
+			return Film::with('categories', 'actors')->find($value);
 		});
 	}
 }

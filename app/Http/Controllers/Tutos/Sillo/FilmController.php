@@ -8,9 +8,11 @@ namespace App\Http\Controllers\Tutos\Sillo;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilmRequest;
+use App\Models\Actor;
 use App\Models\Category;
 use App\Models\Film;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
 class FilmController extends Controller
@@ -22,6 +24,14 @@ class FilmController extends Controller
 	 */
 	public function index($slug = null): View
 	{
+		$model = null;
+		if ($slug) {
+			if ('films.category' == Route::currentRouteName()) {
+				$model = new Category();
+			} else {
+				$model = new Actor();
+			}
+		}
 		$query = $slug ? Category::whereSlug($slug)->firstOrFail()->films() : Film::query();
 		$films = $query->withTrashed()->oldest('title')->paginate(5);
 
@@ -65,6 +75,7 @@ class FilmController extends Controller
 	{
 		$film->update($filmRequest->all());
 		$film->categories()->sync($filmRequest->cats);
+		$film->actors()->sync($filmRequest->acts);
 
 		return redirect()->route('films.index')->with('info', 'Le film a bien été modifié');
 	}

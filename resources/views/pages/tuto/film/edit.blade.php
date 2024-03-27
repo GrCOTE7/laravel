@@ -15,18 +15,31 @@
                     <div class="field">
                         <label class="label">Titre</label>
                         <div class="control">
-                          <input class="input @error('title') is-danger @enderror" type="text" name="title" value="{{ old('title', $film->title) }}" placeholder="Titre du film">
+                            <input class="input @error('title') is-danger @enderror" type="text" name="title"
+                                value="{{ old('title', $film->title) }}" placeholder="Titre du film">
                         </div>
                         @error('title')
                             <p class="help is-danger">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="field">
-                        <label class="label">Catégories</label>
+                    <div class="field is-grouped is-horizontal">
+                        <label class="label field-label">Catégories</label>
                         <div class="select is-multiple">
                             <select name="cats[]" multiple>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ in_array($category->id, old('cats') ?: $film->categories->pluck('id')->all()) ? 'selected' : '' }}>{{ $category->name }}</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}"
+                                        {{ in_array($category->id, old('cats') ?: $film->categories->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                        {{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <label class="label field-label">Acteurs</label>
+                        <div class="select is-multiple">
+                            <select name="acts[]" multiple>
+                                @foreach ($actors as $actor)
+                                    <option value="{{ $actor->id }}"
+                                        {{ in_array($actor->id, old('acts') ?: $film->actors->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                        {{ $actor->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -34,7 +47,8 @@
                     <div class="field">
                         <label class="label">Année de diffusion</label>
                         <div class="control">
-                          <input class="input" type="number" name="year" value="{{ old('year', $film->year) }}" min="1950" max="{{ date('Y') }}">
+                            <input class="input" type="number" name="year" value="{{ old('year', $film->year) }}"
+                                min="1950" max="{{ date('Y') }}">
                         </div>
                         @error('year')
                             <p class="help is-danger">{{ $message }}</p>
@@ -51,7 +65,7 @@
                     </div>
                     <div class="field">
                         <div class="control">
-                          <button class="button is-link">Envoyer</button>
+                            <button class="button is-link">Envoyer</button>
                         </div>
                     </div>
                 </form>

@@ -12,8 +12,15 @@
                 <p>Année de sortie : {{ $film->year }}</p>
                 <p>Catégories :</p>
                 <ul>
-                    @foreach($film->categories as $category)
+                    @foreach ($film->categories as $category)
                         <li>{{ $category->name }}</li>
+                    @endforeach
+                </ul>
+                <hr>
+                <p>Acteurs :</p>
+                <ul>
+                    @foreach ($film->actors as $actor)
+                        <li>{{ $actor->name }}</li>
                     @endforeach
                 </ul>
                 <hr>

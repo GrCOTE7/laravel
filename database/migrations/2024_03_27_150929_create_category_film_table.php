@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('category_film', function (Blueprint $table) {
-            $table->foreignId('category_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+        // Schema::create('category_film', function (Blueprint $table) {
+        //     $table->foreignId('category_id')
+        //         ->constrained()
+        //         ->onUpdate('cascade')
+        //         ->onDelete('cascade');
 
-            $table->foreignId('film_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-        });
+        //     $table->foreignId('film_id')
+        //         ->constrained()
+        //         ->onUpdate('cascade')
+        //         ->onDelete('cascade');
+        // });
     }
 
     /**
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('category_film');
+        // Schema::dropIfExists('category_film');
     }
 };

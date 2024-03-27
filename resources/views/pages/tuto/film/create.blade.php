@@ -11,14 +11,24 @@
             <div class="content">
                 <form action="{{ route('films.store') }}" method="POST">
                     @csrf
-                    <div class="field">
-                        <label class="label">Catégories</label>
+                    <div class="field is-grouped is-horizontal">
+                        <label class="label field-label">Catégories</label>
                         <div class="select is-multiple">
                             <select name="cats[]" multiple>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
                                         {{ in_array($category->id, old('cats') ?: []) ? 'selected' : '' }}>
                                         {{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <label class="label field-label">Acteurs</label>
+                        <div class="select is-multiple">
+                            <select name="acts[]" multiple>
+                                @foreach ($actors as $actor)
+                                    <option value="{{ $actor->id }}"
+                                        {{ in_array($actor->id, old('acts') ?: []) ? 'selected' : '' }}>{{ $actor->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
