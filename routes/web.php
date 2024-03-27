@@ -74,4 +74,4 @@ Route::post('users', [UserController::class, 'store'])
 Route::get('test', [TestController::class, 'index'])
 	->name('test');
 
-Route::post('setLang', 'LocalizationController@setLang')->name('setLang');
+// Route::post('setLang', 'LocalizationController@setLang')->name('setLang');
