@@ -6,6 +6,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Http\Tools\Gc7;
 use Illuminate\View\View;
 use App\Http\Tools\TestIA;
@@ -28,7 +29,7 @@ class TestController extends Controller
 
 	public function dbReq(): string
 	{
-		return 'Oki';
+		return User::first()->email;
 	}
 
 	public function monospace()
