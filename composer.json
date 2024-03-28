@@ -16,6 +16,7 @@
         "fakerphp/faker": "^1.23.1",
         "jason-guru/laravel-make-repository": "^0.0.3",
         "laravel-lang/common": "^3.1.1",
+        "laravel/breeze": "^2.0",
         "laravel/pint": "^1.14",
         "laravel/sail": "^1.29",
         "mockery/mockery": "^1.6.9",

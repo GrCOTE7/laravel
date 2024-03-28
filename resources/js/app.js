@@ -1,8 +1,7 @@
-import "./bootstrap";
+import './bootstrap';
 
-import { adsSearch } from './lbc/adsSearch.js';
-// import "./scrap.js";
+import Alpine from 'alpinejs';
 
-console.log("Ready123");
-adsSearch();
-// document.addEventListener("DOMContentLoaded", () => { // });
+window.Alpine = Alpine;
+
+Alpine.start();
