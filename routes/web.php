@@ -85,3 +85,13 @@ Route::controller(FilmController::class)->group(function () {
 	Route::put('films/restore/{id}', 'restore')->name('films.restore');
 	Route::get('category/{slug}/films', 'index')->name('films.category');
 });
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

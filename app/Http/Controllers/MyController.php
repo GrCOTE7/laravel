@@ -20,7 +20,7 @@ class MyController extends Controller
 		// return view('test')->withDataSend(DATA);
 
 		// $data = Gc7::affData($data ?? null);
-        // $data=789;
+        $data=789;
 
 		return view('pages.test', compact('data'));
 	}

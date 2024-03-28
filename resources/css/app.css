@@ -1,1 +1,7 @@
-body{font-size:1rem;font-family:"Comic Sans MS",arial,serif;background-color:beige}hr{color:red;background-color:blue;margin:3px 0;padding:0}footer,nav{width:97%;padding:5px 0;margin:0 auto}main{padding:10px 20px 20px}.is-active,.nav-menu{transition:all 1s ease-in-out 1s;background-color:red}.red{color:red}mark{padding:0 3px;border-radius:4px}button{cursor:pointer}button,button input{font-size:16px;margin:3px 0;padding:5px 8px;border-radius:4px;transition:ease-in-out 1s}button:hover{color:#fff;background-color:#777;transition:ease-in-out 1s}.justify{text-align:justify}td{font-family:arial;font-size:1rem;padding-right:10px}td a{text-decoration:none}/*# sourceMappingURL=app.css.map */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}

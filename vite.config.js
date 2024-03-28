@@ -1,20 +1,14 @@
-import { defineConfig } from "vite";
-import laravel from "laravel-vite-plugin";
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
 export default defineConfig({
     plugins: [
         laravel({
-            input: ["resources/css/app.css", "resources/js/app.js"],
-            refresh: [
-                "public/assets/**",
-                "resources/js/**",
-                "resources/routes/**",
-                "resources/views/**",
-                "routes/**",
-                "app/**",
-                "lang/**",
-                "config/**",
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
             ],
+            refresh: true,
         }),
     ],
 });
-//# sourceMappingURL=vite.config.js.map
