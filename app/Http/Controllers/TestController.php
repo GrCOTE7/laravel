@@ -6,12 +6,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Http\Tools\Gc7;
-use Illuminate\View\View;
 use App\Http\Tools\TestIA;
-use Illuminate\Support\Facades\iew;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class TestController extends Controller
 {
@@ -29,7 +27,14 @@ class TestController extends Controller
 
 	public function dbReq(): string
 	{
-		return User::first()->email;
+		if (auth()->check()) {
+			$name = auth()->user()->name;
+			$msg  = 'Bonjour, ' . $name;
+		} else {
+			$msg = 'Bonjour, cher ami';
+		}
+
+		return $msg . ' !';
 	}
 
 	public function monospace()

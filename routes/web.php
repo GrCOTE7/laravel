@@ -20,7 +20,7 @@ use App\Http\Controllers\UserController;
 date_default_timezone_set('Europe/Paris');
 
 Route::get('/', [MyController::class, 'index'])
-	->name('test');
+	->name('home');
 
 Route::get('tuto', [TutoController::class, 'tutos'])
 	->name('tuto.tutos');
