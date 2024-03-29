@@ -16,7 +16,7 @@ class TestController extends Controller
 	public function index(): View
 	{
 		$data = $this->dbReq();
-		$css  = 'p {color:blue; font-weight:bold}';
+		$css  = 'p {color:blue}';
 
 		Storage::disk('public')->put('recettes.txt', 'Contenu du fichier');
 

@@ -10,6 +10,8 @@ namespace Database\Seeders;
 use App\Models\Actor;
 use App\Models\Category;
 use App\Models\Film;
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,7 +21,7 @@ class DatabaseSeeder extends Seeder
 	 */
 	public function run(): void
 	{
-		\App\Models\User::factory(10)->create();
+		User::factory(10)->create();
 
 		Actor::factory()->count(10)->create();
 		$categories = [
@@ -46,5 +48,18 @@ class DatabaseSeeder extends Seeder
 		});
 
 		$this->call(ImportSeeder::class);
+
+		Team::factory()->count(5)->create();
+
+		$u                  = User::find(15);
+		$u->name            = 'Lionel';
+		$u->email           = 'hello@example.com';
+		$u->password        = bcrypt('password');
+		$u->current_team_id = 1;
+		$u->save();
+
+		$t          = Team::find(1);
+		$t->user_id = 15;
+		$t->save();
 	}
 }
