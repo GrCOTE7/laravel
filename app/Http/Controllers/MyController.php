@@ -27,15 +27,21 @@ class MyController extends Controller
 		// $data = Gc7::affData($data ?? null);
 		// $user = auth()->user()?->email;
 		// $user = User::inRandomOrder()->first();
+
+		// $data = $teams ?? null;
+
+		return view('pages.test', compact('data'));
+	}
+
+	public function logLionel()
+	{
 		$user = User::find(15);
 		$this->forceLogin($user);
 		$ttt = $user->ownedTeam;
 		// return $ttt;
 		$teams = implode(',', (array) $ttt);
 
-		$data = $teams ?? null;
-
-		return view('pages.test', compact('data'));
+        return view('pages.test');
 	}
 
 	private function forceLogin($user)

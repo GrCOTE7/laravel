@@ -13,9 +13,11 @@ use Illuminate\View\View;
 
 class TestController extends Controller
 {
-	public function index(): View
+	public function index($data=null): View
 	{
-		$data = $this->dbReq();
+        $data = session('data');
+        session()->forget('data');
+		$data = $data ?? $this->dbReq();
 		$css  = 'p {color:blue}';
 
 		Storage::disk('public')->put('recettes.txt', 'Contenu du fichier');

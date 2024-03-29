@@ -14,7 +14,7 @@ class Poo
 	{
 		$data = $this->person();
 
-		$data .= str_repeat('-', 70);
+		$data .= str_repeat('-', 70).'<br>';
 
 		$data .= $this->vehicle();
 		$data .= $this->car(); // Héritage

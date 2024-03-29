@@ -21,6 +21,9 @@ date_default_timezone_set('Europe/Paris');
 
 Route::get('/', [MyController::class, 'index'])
 	->name('home');
+    
+Route::get('/logLionel', [MyController::class, 'logLionel'])
+	->name('logLionel');
 
 Route::get('tuto', [TutoController::class, 'tutos'])
 	->name('tuto.tutos');
@@ -67,10 +70,12 @@ if (2) {
 	Route::get('lbc/export', [ExportManager::class, 'index'])->name('export.index');
 }
 
-Route::get('users', [UserController::class, 'create'])
-	->name('users.index');
-Route::post('users', [UserController::class, 'store'])
-	->name('users.store');
+Route::middleware('lionel')->group(function () {
+	Route::get('users', [UserController::class, 'create'])
+		->name('users.index');
+	Route::post('users', [UserController::class, 'store'])
+		->name('users.store');
+});
 
 Route::get('test', [TestController::class, 'index'])
 	->name('test');
@@ -87,11 +92,11 @@ Route::controller(FilmController::class)->group(function () {
 });
 
 Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
+	'auth:sanctum',
+	config('jetstream.auth_session'),
+	'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+	Route::get('/dashboard', function () {
+		return view('dashboard');
+	})->name('dashboard');
 });

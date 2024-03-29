@@ -13,6 +13,7 @@
         @endauth
 
         @guest
+            <a href="/logLionel">LogLionel</a> |
             <a href="/login">Login</a> |
             <a href="/register">Register</a>
         @endguest
