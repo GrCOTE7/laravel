@@ -6,11 +6,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Tools\Gc7;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Events\Accueil;
+use App\Http\Tools\Gc7;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class MyController extends Controller
 {
@@ -29,12 +30,12 @@ class MyController extends Controller
 		// $user = User::inRandomOrder()->first();
 
 		// $data = $teams ?? null;
-
 		return view('pages.test', compact('data'));
 	}
 
 	public function logLionel()
 	{
+        event(new Accueil);
 		$user = User::find(15);
 		$this->forceLogin($user);
 		$ttt = $user->ownedTeam;
