@@ -33,7 +33,7 @@ class FilmController extends Controller
 			}
 		}
         $query = $model ? $model->whereSlug($slug)->firstOrFail()->films() : Film::query();
-		$films = $query->withTrashed()->oldest('title')->paginate(5);
+		$films = $query->withTrashed()->oldest('title')->paginate(4);
 
 		// $categories = Category::all();
 		return view('pages.tuto.film.index', compact('films', 'slug'));
