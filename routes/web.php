@@ -21,7 +21,7 @@ date_default_timezone_set('Europe/Paris');
 
 Route::get('/', [MyController::class, 'index'])
 	->name('home');
-    
+
 Route::get('/logLionel', [MyController::class, 'logLionel'])
 	->name('logLionel');
 
@@ -71,11 +71,13 @@ if (2) {
 }
 
 Route::middleware('lionel')->group(function () {
-	Route::get('users', [UserController::class, 'create'])
-		->name('users.index');
-	Route::post('users', [UserController::class, 'store'])
-		->name('users.store');
+	// Route::get('users', [UserController::class, 'index'])
+	// 	->name('users.index');
+	// Route::post('users', [UserController::class, 'store'])
+    // ->name('users.store');
+    Route::resource('users', UserController::class)->middleware('auth');
 });
+
 
 Route::get('test', [TestController::class, 'index'])
 	->name('test');

@@ -12,7 +12,7 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
-	public function create(): View
+	public function index(): View
 	{
 		$users = User::all();
 
