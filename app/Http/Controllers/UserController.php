@@ -12,6 +12,11 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
+	public function __construct()
+	{
+		$this->authorizeResource(User::class, 'user');
+	}
+
 	public function index(): View
 	{
 		$users = User::all();
@@ -44,5 +49,19 @@ class UserController extends Controller
 			'users'      => $users,
 			'code'       => $code,
 		]);
+	}
+
+	public function edit(User $user)
+	{
+		// $this->authorize('update', $user);
+
+		return 'Formulaire pour modifier #' . $user->id;
+	}
+
+	public function update(Request $request, User $user)
+	{
+		// $this->authorize('update', $user);
+
+		return 'Ok on a modifié !';
 	}
 }
