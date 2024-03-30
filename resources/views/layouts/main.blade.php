@@ -33,7 +33,7 @@
 
     <hr>
     <footer>
-        Today: {{ date('d/m/Y à H:i:s') }} -
+        {{ ucfirst(\Carbon\Carbon::now()->calendar()) }} -
 
         @php
             echo env('APP_NAME', 'oOo');
