@@ -32,7 +32,7 @@ class FilmController extends Controller
 				$model = new Actor();
 			}
 		}
-		$query = $slug ? Category::whereSlug($slug)->firstOrFail()->films() : Film::query();
+        $query = $model ? $model->whereSlug($slug)->firstOrFail()->films() : Film::query();
 		$films = $query->withTrashed()->oldest('title')->paginate(5);
 
 		// $categories = Category::all();
