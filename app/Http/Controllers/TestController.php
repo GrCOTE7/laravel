@@ -31,9 +31,9 @@ class TestController extends Controller
 	{
 		if (auth()->check()) {
 			$name = auth()->user()->name;
-			$msg  = 'Bonjour, ' . $name;
+			$msg  = __('Hello').', ' . $name;
 		} else {
-			$msg = 'Bonjour, cher ami';
+			$msg = __('Hi, dear friend');
 		}
 
 		return $msg . ' !';
