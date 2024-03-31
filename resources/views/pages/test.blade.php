@@ -14,9 +14,6 @@
 @section('main')
     <h1>Test ({{ App::currentLocale() }})</h1>
     <!-- resources/views/welcome.blade.php -->
-    <x-alert>
-        In my Vue (Here the slot in a app/view/component)</i>
-    </x-alert>
 
     <p>{!! $data ?? '$data is empty' !!}</p>
     <hr>

@@ -22,6 +22,6 @@ class UserLogin
     public function handle(Login $event): void
     {
         // dd($event->user->name . " s'est connecté.");
-        echo $event->user->name . " s'est connecté.";
+        session(['info'=> $event->user->name . " s'est connecté (Listener)."]);
     }
 }

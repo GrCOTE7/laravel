@@ -19,12 +19,6 @@
 @endsection
 @section('main')
     {{-- {{ $categories[0] }} --}}
-    @if (session()->has('info'))
-        <div class="notification is-success">
-            {{ session('info') }}
-        </div>
-    @endif
-
     {{-- Cats: {{  $categories[0] }} --}}
 
     <div class="card">

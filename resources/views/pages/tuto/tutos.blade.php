@@ -6,6 +6,7 @@
 
 @section('main')
     <h5>Tuto PHP</h5>
+    <a href='/tuto/notifs'>Notifications</a> : Show all notifications style (Bootstrap)<br>
     <a href='/tuto/poo'>POO</a> : Base POO PHP<br>
     <hr>
     <h5>Tuto Sillo</h5>

@@ -4,19 +4,18 @@
  * (ɔ) GrCOTE7 - 1990-2024
  */
 
-use App\Events\Accueil;
 use App\Http\Classes\ExportManager;
-use App\Http\Controllers\MyController;
 use App\Http\Controllers\LbcController;
-use App\Http\Controllers\Tutos\Php\Poo;
+use App\Http\Controllers\MyController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TutoController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Tutos\Divers\GregController;
+use App\Http\Controllers\Tutos\Php\Poo;
+use App\Http\Controllers\Tutos\Sillo\ContactController;
 use App\Http\Controllers\Tutos\Sillo\FilmController;
 use App\Http\Controllers\Tutos\Sillo\MailController;
-use App\Http\Controllers\Tutos\Divers\GregController;
 use App\Http\Controllers\Tutos\Sillo\PhotoController;
-use App\Http\Controllers\Tutos\Sillo\ContactController;
+use App\Http\Controllers\UserController;
 
 date_default_timezone_set('Europe/Paris');
 
@@ -28,12 +27,12 @@ Route::get('/logLionel', [MyController::class, 'logLionel'])
 
 Route::get('tuto', [TutoController::class, 'tutos'])
 	->name('tuto.tutos');
+Route::get('tuto/notifs', [TutoController::class, 'notifs']);
 
 // POO PHP
 if (1) {
 	Route::get('tuto/poo', [Poo::class, 'index']);
 }
-
 // Menu W: Tuto Sillo
 if (1) {
 	Route::get('direct-response', function () {
@@ -75,8 +74,8 @@ Route::middleware('lionel')->group(function () {
 	// Route::get('users', [UserController::class, 'index'])
 	// 	->name('users.index');
 	// Route::post('users', [UserController::class, 'store'])
-    // ->name('users.store');
-    Route::resource('users', UserController::class)->middleware('auth');
+	// ->name('users.store');
+	Route::resource('users', UserController::class)->middleware('auth');
 });
 
 Route::get('test', [TestController::class, 'index'])

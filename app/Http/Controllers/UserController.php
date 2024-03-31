@@ -21,10 +21,6 @@ class UserController extends Controller
 	{
 		$users = User::all();
 
-		// session()->flush(); // Efface all sessions
-		session(['code' => 777]);
-		session()->forget('code');
-
 		return view('pages.tuto.user.infos')->with('users', $users);
 	}
 
