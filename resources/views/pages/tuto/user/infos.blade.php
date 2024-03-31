@@ -40,12 +40,7 @@
                 </form>
                 <hr>
                 <table>
-                    @foreach ($users as $user)
-                        <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                        </tr>
-                    @endforeach
+                    @each('pages.tuto.user._user', $users, 'user')
                 </table>
             </div>
         </div>
