@@ -27,8 +27,12 @@ Route::get('/logLionel', [MyController::class, 'logLionel'])
 
 Route::get('tuto', [TutoController::class, 'tutos'])
 	->name('tuto.tutos');
-Route::get('tuto/notifs', [TutoController::class, 'notifs']);
 
+// Bases PHP
+if (1) {
+	Route::get('tuto/notifs', [TutoController::class, 'notifs']);
+	Route::get('tuto/component', [TutoController::class, 'component']);
+}
 // POO PHP
 if (1) {
 	Route::get('tuto/poo', [Poo::class, 'index']);
