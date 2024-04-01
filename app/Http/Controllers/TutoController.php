@@ -40,8 +40,6 @@ class TutoController extends Controller
 
 	public function component()
 	{
-		$var = 456;
-
-		return view('pages.test', compact('var'));
+		return view('pages.test');
 	}
 }
