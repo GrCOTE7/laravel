@@ -27,4 +27,6 @@
     <hr>
 
     {{ $n }} {{ trans_choice(__('point|points'), $n) }}.
+    <hr>
+    @livewire('mon-composant')
 @endsection
