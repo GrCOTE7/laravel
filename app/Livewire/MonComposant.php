@@ -21,8 +21,11 @@ class MonComposant extends Component
 
 	public $indexAutre;
 
-	protected $rules = [
-		'note'       => 'required|integer|between:0,20',
+	protected $rulesNote = [
+		'note' => 'required|integer|between:0,20',
+	];
+
+	protected $rulesNoteAutre = [
 		'noteAutre'  => 'required|integer|between:0,20',
 		'indexAutre' => 'required|exists:users,id',
 	];
@@ -39,7 +42,7 @@ class MonComposant extends Component
 
 	public function noter()
 	{
-		$this->validate();
+		$this->validate($this->rulesNote);
 		$u       = User::find($this->index);
 		$u->note = $this->note;
 		$u->save();
@@ -47,7 +50,7 @@ class MonComposant extends Component
 
 	public function noterAutre($indexAutre = 111)
 	{
-		$this->validate();
+		$this->validate($this->rulesNoteAutre);
 		$user       = User::find($indexAutre);
 		$user->note = $this->noteAutre;
 		$user->save();
