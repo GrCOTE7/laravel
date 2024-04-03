@@ -15,6 +15,7 @@
     <div>
         <input wire:model.defer="note" type="text" />
         <button wire:click="noter"> Noter </button>
+        <p style="color: red">{{ $errors->first('note') }}</p>
     </div>
 
     <hr> Noter un autre utilisateur que celui ci-dessus désigné:
@@ -23,7 +24,7 @@
         <input wire:model.defer="indexAutre" type="text" />
         <p style="color: red">{{ $errors->first('indexAutre') }}</p>
         <label>Noter cet autre utilisateur</label>
-        <input wire:model.defer="noteAutre" type="text" /><br><br>
+        <input wire:model.defer="noteAutre" type="text" />
         <p style="color: red">{{ $errors->first('noteAutre') }}</p>
         <button wire:click="noterAutre({{ $indexAutre }})">
             Noter cet autre utilisateur
