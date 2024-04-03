@@ -7,8 +7,8 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Models\User;
+use Tests\TestCase;
 
 /**
  * @internal
@@ -23,7 +23,8 @@ class ExampleTest extends TestCase
 	public function testTheApplicationReturnsASuccessfulResponse(): void
 	{
 		// Créer un utilisateur de test
-		$user = User::factory()->create();
+		$user       = User::factory()->create();
+		$user->note = 123;
 
 		// Simuler l'authentification de l'utilisateur
 		// $this->actingAs($user);

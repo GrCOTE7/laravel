@@ -1,3 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}
+
 body {
     font-size: 1rem;
     font-family: 'Comic Sans MS', arial, serif;
@@ -40,15 +48,16 @@ mark {
 button {
     cursor: pointer;
 
-    // &,
-    // input {
-    //     font-size: 16px;
-    //     margin: 3px 0;
-    //     padding: 5px 8px;
-    //     border-radius: 4px;
-    //     // transition: .5s;
-    //     transition: ease-in-out 1s;
-    // }
+    &,
+    input {
+        font-size: 16px;
+        margin: 3px 0;
+        padding: 5px 8px;
+        border-radius: 4px;
+        // transition: .5s;
+        transition: ease-in-out 1s;
+        background-color: #ccc;
+    }
 
     &:hover {
         color: white;

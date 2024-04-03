@@ -19,6 +19,13 @@ class UserController extends Controller
 
 	public function index(): View
 	{
+		// $users = User::all()->each(
+		// 	function ($u) {
+		// 		$u->note = $u->id + 1e3;
+		// 		$u->save();
+		// 	}
+		// );
+
 		$users = User::all();
 
 		return view('pages.tuto.user.infos')->with('users', $users);
