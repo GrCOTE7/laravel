@@ -58,6 +58,7 @@ if (1) {
 
 	Route::get('tuto/photo', [PhotoController::class, 'create']);
 	Route::post('tuto/photo', [PhotoController::class, 'store']);
+	Route::get('tuto/limewire', [TutoController::class, 'limewire']);
 }
 // Divers
 if (1) {

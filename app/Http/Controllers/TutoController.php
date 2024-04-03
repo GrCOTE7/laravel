@@ -42,4 +42,9 @@ class TutoController extends Controller
 	{
 		return view('pages.test');
 	}
+
+	public function limewire()
+	{
+		return view('pages.tuto.limewire.index');
+	}
 }

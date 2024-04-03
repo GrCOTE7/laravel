@@ -4,6 +4,14 @@
     W
 @endsection
 
+@section('css')
+    <style>
+        a {
+            color: blue;
+        }
+    </style>
+@endsection
+
 @section('main')
     <h5>Tuto PHP</h5>
     <a href='/tuto/notifs'>Notifications</a> : Show all notifications style (Bootstrap)<br>
@@ -15,6 +23,8 @@
     <a href='/tuto/contact'>Contact</a> : Contact<br>
     <a href='/tuto/mail'>Mail</a> : Envoi email<br>
     <a href='/tuto/photo'>Photo</a> : Download Photos<br>
+    {{ str_repeat('-', 77) }}<br>
+    <a href='/tuto/limewire'>Limewire</a> : Use of limewire<br>
     <hr>
     <h5>Divers</h5>
     <a href='/tuto/welcome'>Page welcome</a> : Page d'origine Welcome de Laravel<br>
