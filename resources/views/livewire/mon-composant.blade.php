@@ -6,10 +6,28 @@
     </div>
 
     {{ $monTest }}
+
     <hr>
 
+    <p>Donne le nom & la note de l'utilisateur d'id n°:</p>
     <input type="text" wire:model.live="index" />
-    <p>{{ $this->user?->name }}: {{ $this->user?->note }}</p>
+    @if ($this->user)
+        <p>{{ $this->user?->name }}: {{ $this->user?->note }}</p>
+    @endif
+    <hr>
+
+    <p>Idem, mais avec message d'erreur si id incorrect:</p>
+    <input type="text" wire:model.live="userVerifiedId" placeholder="Entrez l'ID d'un utilisateur" />
+    @if ($userVerified)
+        <p>{{ $userVerified?->name }}: {{ $userVerified?->note }}</p>
+    @else
+        @if (session()->has('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+    @endif
+
     <hr>
 
     <div>
@@ -18,7 +36,9 @@
         <p style="color: red">{{ $errors->first('note') }}</p>
     </div>
 
-    <hr> Noter un autre utilisateur que celui ci-dessus désigné:
+    <hr>
+
+    <p>Noter un autre utilisateur que celui ci-dessus désigné:</p>
     <div>
         <label>Index de l'autre utilisateur</label>
         <input wire:model.defer="indexAutre" type="text" />

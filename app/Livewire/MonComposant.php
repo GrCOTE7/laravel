@@ -21,6 +21,10 @@ class MonComposant extends Component
 
 	public $indexAutre;
 
+	public $userVerifiedId;
+
+	public $userVerified;
+
 	protected $rulesNote = [
 		'note' => 'required|integer|between:0,20',
 	];
@@ -33,11 +37,18 @@ class MonComposant extends Component
 	protected $messages = [
 		'noteAutre.integer' => 'C\'est quand même mieux un nombre pour une note !',
 	];
-	// public $user;
 
 	public function getUserProperty()
 	{
 		return User::find($this->index);
+	}
+
+	public function updatedUserVerifiedId($id)
+	{
+		$this->userVerified = User::find($id);
+		if ($id && !$this->userVerified) {
+			session()->flash('error', 'Utilisateur non trouvé');
+		}
 	}
 
 	public function noter()
