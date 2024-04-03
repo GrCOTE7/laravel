@@ -23,8 +23,11 @@
     <a href='/tuto/contact'>Contact</a> : Contact<br>
     <a href='/tuto/mail'>Mail</a> : Envoi email<br>
     <a href='/tuto/photo'>Photo</a> : Download Photos<br>
-    {{ str_repeat('-', 77) }}<br>
+    <x-line-separator />
     <a href='/tuto/limewire'>Limewire</a> : Use of limewire<br>
+    <a href='/tuto/user/1'>Imbrication de composants Limewire</a><br>
+    <x-line-separator />
+    <a href='/tuto/todolist'>1<sup><b>ère</b></sup> app</a>: Todolist<br>
     <hr>
     <h5>Divers</h5>
     <a href='/tuto/welcome'>Page welcome</a> : Page d'origine Welcome de Laravel<br>

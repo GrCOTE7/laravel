@@ -32,6 +32,7 @@
         <x-notification />
 
         @yield('main')
+        {{ $slot ?? null }}
     </main>
 
     <hr>
