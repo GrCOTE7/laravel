@@ -4,19 +4,20 @@
  * (ɔ) GrCOTE7 - 1990-2024
  */
 
-use App\Livewire\ShowUser;
 use App\Http\Classes\ExportManager;
-use App\Http\Controllers\MyController;
 use App\Http\Controllers\LbcController;
-use App\Http\Controllers\Tutos\Php\Poo;
+use App\Http\Controllers\MyController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TutoController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Tutos\Divers\GregController;
+use App\Http\Controllers\Tutos\Php\Poo;
+use App\Http\Controllers\Tutos\Sillo\ContactController;
 use App\Http\Controllers\Tutos\Sillo\FilmController;
 use App\Http\Controllers\Tutos\Sillo\MailController;
-use App\Http\Controllers\Tutos\Divers\GregController;
 use App\Http\Controllers\Tutos\Sillo\PhotoController;
-use App\Http\Controllers\Tutos\Sillo\ContactController;
+use App\Http\Controllers\UserController;
+use App\Livewire\ShowUser;
 
 date_default_timezone_set('Europe/Paris');
 
@@ -61,6 +62,8 @@ if (1) {
 	Route::post('tuto/photo', [PhotoController::class, 'store']);
 	Route::get('tuto/limewire', [TutoController::class, 'limewire']);
 	Route::get('tuto/user/{user}', ShowUser::class);
+
+	Route::resource('tuto/todo', TaskController::class)->middleware('auth');
 }
 // Divers
 if (1) {

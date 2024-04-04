@@ -35,8 +35,7 @@
                         @error('nom')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <br>
-                        <input type="submit" value="{{ __('Send') }} !" class="mb-3">
+                        <input type="submit" value="{{ __('Send') }} !" class="bg-red-50 px-2 text-blue-600 mb-3 rounded mt-2">
                 </form>
                 <hr>
                 <table>

@@ -5,17 +5,19 @@
         <a href="/lbc">LBC</a> |
         <a href="/tuto">Tutos</a> |
         <a href="/users">Users</a> |
+        <a href="/tuto/todo">ToDo</a> |
         <a href="/test">Test</a>
     </div>
     <div class="account">
         @auth
-            <span style="text-align:right"><a href="/dashboard">Dashboard <b>{{ auth()->user()->name }}</b></a></span>
+            <span style="text-align:right"><a href="/dashboard">{{ __('Dashboard') }}
+                    <b>{{ auth()->user()->name }}</b></a></span>
         @endauth
 
         @guest
             <a href="/logLionel">LogLionel</a> |
-            <a href="/login">Login</a> |
-            <a href="/register">Register</a>
+            <a href="/login">{{ __('Login') }}</a> |
+            <a href="/register">{{ __('Register') }}</a>
         @endguest
     </div>
 </div>

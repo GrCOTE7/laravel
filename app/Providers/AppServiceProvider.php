@@ -31,7 +31,12 @@ class AppServiceProvider extends ServiceProvider
 	 */
 	public function boot(): void
 	{
-        setlocale(LC_TIME, config('app.locale'));
+		setlocale(LC_TIME, config('app.locale'));
+
+		Route::resourceVerbs([
+            'edit'   => trans('verbs.edit'),
+            'create' => trans('verbs.create'),
+		]);
 
 		View::composer(['pages.tuto.film.index', 'pages.tuto.film.create', 'pages.tuto.film.edit'], function ($view) {
 			$view->with('categories', Category::all())

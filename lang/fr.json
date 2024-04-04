@@ -14,6 +14,7 @@
     "Connection Timed Out": "La connexion a expiré",
     "Continue": "Continuer",
     "Created": "Créé·e",
+    "Dashboard": "Espace",
     "Enter the name you're looking for:": "Entrez le nom recherché:",
     "Expectation Failed": "Échec de l'attente",
     "Failed Dependency": "Dépendance échouée",
@@ -120,6 +121,27 @@
     "Whoops!": "Oups !",
     "You are receiving this email because we received a password reset request for your account.": "Vous recevez cet e-mail car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.",
 
+    "Show": "Voir",
+    "Edit": "Éditer",
+    "Delete": "Effacer",
+
     "Hi, dear friend": "Salut, cher ami",
-    "point|points": "point|points"
+    "point|points": "point|points",
+    "You're logged in!": "Vous êtes connecté(e) !",
+
+    "Create a task": "Créer une tâche",
+    "Edit a task": "Éditer une tâche",
+    "Tasks List": "Liste des tâches",
+    "Title": "Titre",
+    "Detail": "Détail",
+    "Task done": "Tâche accomplie",
+    "Show a task": "Voir une tâche",
+    "State": "État",
+    "Date creation": "Date de création",
+    "Last update": "Dernière modification",
+    "To do": "À faire",
+    "Done": "Accomplie",
+    "Task created!":"La tâche a bien été créée !",
+    "The task has been updated!":"'La tâche a bien été modifiée !",
+    "The task has been deleted!":"'La tâche a bien été effacée !"
 }

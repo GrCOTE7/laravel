@@ -1,1 +1,1 @@
-<div style="text-align:center">{{ str_repeat('-', 97) }}</div>
+<div style="text-align:center">{{ str_repeat('-', 77) }}</div>
