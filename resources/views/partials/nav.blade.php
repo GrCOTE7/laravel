@@ -5,7 +5,7 @@
         <a href="/lbc">LBC</a> |
         <a href="/tuto">Tutos</a> |
         <a href="/users">Users</a> |
-        <a href="/tuto/todo">ToDo</a> |
+        <a href="/tuto/album">Album</a> |
         <a href="/test">Test</a>
     </div>
     <div class="account">
