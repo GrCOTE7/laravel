@@ -30,7 +30,7 @@
     <x-line-separator />
     <h5>Tuto Apps:</h5>
     <a href='/tuto/todo'>1<sup><b>ère</b></sup> app</a>: Todolist (Seulement pour les membres connectés)<br>
-    <a href='/tuto/album'>Album app</a>: App album<br>
+    <a href='/tuto/album'>Album app</a>: App album (With Volt[Livewire compacted] & MaryUI [Tailwind])<br>
     <hr>
     <h5>Divers:</h5>
     <a href='/tuto/welcome'>Page welcome</a> : Page d'origine Welcome de Laravel<br>
