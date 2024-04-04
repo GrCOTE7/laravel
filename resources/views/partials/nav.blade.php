@@ -1,7 +1,6 @@
 <div class="header">
-    <div class="menu">
-        <a href="/">Home</a> |
-        <a href="/films">Films</a> |
+    <div class="gc7_menu">
+        <a href="/">Home</a> | <a href="/films">Films</a> |
         <a href="/lbc">LBC</a> |
         <a href="/tuto">Tutos</a> |
         <a href="/users">Users</a> |
