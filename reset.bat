@@ -1,9 +1,3 @@
-﻿@echo off
-@REM Force CRLF line endings
-@REM (Do not remove the following line)
-
-chcp 65001 > nul
-
 @REM ATTENTION:  Windows & Sqlite UNIQUEMENT
 @REM (Et ne le lancer que tous serveurs arrêtés)
 
@@ -31,6 +25,10 @@ chcp 65001 > nul
 @REM Pour vérifier, dans VSCode, vous pouvez faire CTRL + MAJ + P, et vérifier que le fichier est bien en CRLF en cherchant "seq" (Changer la SEQuence de fin, de ligne).
 
 @REM Pour l'heure, ne peut vous être utile que si vous êtes sous windows, et utilisez sqlite. (Cependant, aisé à adapter pour autres configurations)
+
+
+@echo off
+chcp 65001 > nul
 
 echo.
 echo Nettoyage des fichiers et dossiers...
