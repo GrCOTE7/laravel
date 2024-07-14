@@ -33,7 +33,7 @@ class MyController extends Controller
 		return view('pages.test', compact('data'));
 	}
 
-	public function logLionel()
+	public function logAdmin()
 	{
         event(new Accueil);
 		$user = User::find(15);

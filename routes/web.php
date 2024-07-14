@@ -24,8 +24,8 @@ date_default_timezone_set('Europe/Paris');
 Route::get('/', [MyController::class, 'index'])
 	->name('home');
 
-Route::get('/logLionel', [MyController::class, 'logLionel'])
-	->name('logLionel');
+Route::get('/logAdmin', [MyController::class, 'logAdmin'])
+	->name('logAdmin');
 
 Route::get('tuto', [TutoController::class, 'tutos'])
 	->name('tuto.tutos');

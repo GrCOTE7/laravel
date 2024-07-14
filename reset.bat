@@ -87,24 +87,6 @@ if exist storage\framework\views (
     echo Le dossier storage\framework\views n'existe pas.
 )
 
-echo Nettoyage des fichiers log debugbar...
-if exist storage\debugbar (
-    cd storage\debugbar
-    for %%i in (*) do if not "%%i"==".gitignore" del /f /q "%%i"
-    for /d %%i in (*) do rmdir /s /q "%%i"
-    cd ..\..
-    echo Fichiers log debugbar nettoyés.
-) else (
-    echo Le dossier storage\debugbar n'existe pas.
-)
-
-if exist storage\logs\laravel.log (
-    del /f storage\logs\laravel.log
-    echo storage\logs\laravel.log supprimé.
-) else (
-    echo storage\logs\laravel.log n'existe pas.
-)
-
 
 @REM exit 1
 
@@ -132,18 +114,4 @@ if exist database\database.sqlite (
 )
 echo Tables restaurées avec données.
 
-
-echo.
-echo Nettoyage des divers fichiers cache...
-call php artisan optimize
-call php artisan cache:clear
-call php artisan view:clear
-call php artisan config:clear
-
-
-echo.
-echo Nettoyage et processus terminé.
-
-start /b npm run dev
-start /b php artisan reverb:start
-start /b php artisan serve
+call start.bat

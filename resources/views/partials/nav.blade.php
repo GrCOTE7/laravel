@@ -15,7 +15,7 @@
         @endauth
 
         @guest
-            <a href="/logLionel">LogLionel</a> |
+            <a href="/logAdmin">LogAdmin</a> |
             <a href="/login">{{ __('Login') }}</a> |
             <a href="/register">{{ __('Register') }}</a>
         @endguest
