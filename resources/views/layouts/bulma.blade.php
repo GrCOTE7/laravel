@@ -19,6 +19,7 @@
         'resources/js/app.js',
     ])
     @yield('css')
+    @yield('styles')
     @yield('prescripts')
 </head>
 
@@ -35,12 +36,20 @@
             </div>
         @endif
 
+        {{-- <x-main full-width>
+            <x-slot:content>
+                {{ $slot ?? null }}
+            </x-slot:content>
+        </x-main> --}}
         @yield('main')
     </main>
 
     <hr>
 
     @include('partials/footer')
+
+    {{--  TOAST area --}}
+    <x-toast />
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

@@ -22,7 +22,7 @@ return (new PhpCsFixer\Config())
 	->setRules(
 		[
 			'header_comment' => [
-				'header'       => '(ɔ) LARAVEL.Sillo.org - 2015-' . date('Y'), // . date('Y'),
+				'header'       => '(ɔ) GrCOTE7 - 1990-' . date('Y'), // . date('Y'),
 				'comment_type' => 'PHPDoc',
 				'location'     => 'after_declare_strict',
 			],

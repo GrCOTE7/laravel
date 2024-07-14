@@ -22,6 +22,14 @@
     {{-- Cats: {{  $categories[0] }} --}}
 
     <div class="card">
+        {{-- <x-header class="pb-0 mt-[-10px] mb-[-14px]" title="Basics Livewire counter" shadow separator progress-indicator /> --}}
+        <x-header class="" title="Basics Livewire counter" shadow separator progress-indicator />
+
+        <div class="mt-0 pt-0 mb-3">
+            <livewire:counter />
+        </div>
+
+
         <header class="card-header">
             <p class="card-header-title">Films</p>
             <div class="select">
@@ -29,16 +37,19 @@
                     <option value="{{ route('films.index') }}" @unless ($slug) selected @endunless>
                         Toutes catégories</option>
                     @foreach ($categories as $category)
-                        <option value="{{ route('films.category', $category->slug) }}" {{ $slug == $category->slug ? 'selected' : '' }}>{{ $category->name }}</option>
+                        <option value="{{ route('films.category', $category->slug) }}"
+                            {{ $slug == $category->slug ? 'selected' : '' }}>{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
 
             <div class="select">
                 <select onchange="window.location.href = this.value">
-                    <option value="{{ route('films.index') }}" @unless($slug) selected @endunless>Tous les acteurs</option>
-                    @foreach($actors as $actor)
-                        <option value="{{ route('films.actor', $actor->slug) }}" {{ $slug == $actor->slug ? 'selected' : '' }}>{{ $actor->name }}</option>
+                    <option value="{{ route('films.index') }}" @unless ($slug) selected @endunless>Tous
+                        les acteurs</option>
+                    @foreach ($actors as $actor)
+                        <option value="{{ route('films.actor', $actor->slug) }}"
+                            {{ $slug == $actor->slug ? 'selected' : '' }}>{{ $actor->name }}</option>
                     @endforeach
                 </select>
             </div>

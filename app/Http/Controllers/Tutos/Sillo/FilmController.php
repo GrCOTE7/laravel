@@ -77,6 +77,7 @@ class FilmController extends Controller
 		$film->categories()->sync($filmRequest->cats);
 		$film->actors()->sync($filmRequest->acts);
 
+
 		return redirect()->route('films.index')->with('info', 'Le film a bien été modifié');
 	}
 

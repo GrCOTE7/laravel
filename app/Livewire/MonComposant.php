@@ -12,28 +12,19 @@ use Livewire\Component;
 class MonComposant extends Component
 {
 	public $monTest = 'Gc7Test of Livewire';
-
-	public $index = 15;
-
+	public $index   = 15;
 	public $note;
-
 	public $noteAutre;
-
 	public $indexAutre;
-
 	public $userVerifiedId;
-
 	public $userVerified;
-
 	protected $rulesNote = [
 		'note' => 'required|integer|between:0,20',
 	];
-
 	protected $rulesNoteAutre = [
 		'noteAutre'  => 'required|integer|between:0,20',
 		'indexAutre' => 'required|exists:users,id',
 	];
-
 	protected $messages = [
 		'noteAutre.integer' => 'C\'est quand même mieux un nombre pour une note !',
 	];
