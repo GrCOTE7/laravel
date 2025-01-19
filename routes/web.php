@@ -4,20 +4,21 @@
  * (ɔ) GrCOTE7 - 1990-2024
  */
 
+use App\Livewire\ShowUser;
 use App\Http\Classes\ExportManager;
-use App\Http\Controllers\LbcController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MyController;
+use App\Http\Controllers\LbcController;
+use App\Http\Controllers\Tutos\Php\Poo;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TutoController;
-use App\Http\Controllers\Tutos\Divers\GregController;
-use App\Http\Controllers\Tutos\Php\Poo;
-use App\Http\Controllers\Tutos\Sillo\ContactController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Tutos\Sillo\FilmController;
 use App\Http\Controllers\Tutos\Sillo\MailController;
+use App\Http\Controllers\Tutos\Divers\GregController;
 use App\Http\Controllers\Tutos\Sillo\PhotoController;
-use App\Http\Controllers\UserController;
-use App\Livewire\ShowUser;
+use App\Http\Controllers\Tutos\Sillo\ContactController;
 
 date_default_timezone_set('Europe/Paris');
 
